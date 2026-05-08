@@ -70,6 +70,4 @@ export default defineConfig([
     },
   },
 ])
-
-bbbbbb
 ```
