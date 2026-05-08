@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --green-mid: #639922;
+    --green-dark: #27500A;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --amber-mid: #EF9F27;
+    --amber-light: #FAEEDA;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --text: #1a1a1a;
+    --text-muted: #666;
+    --border: #e2e2d8;
+    --bg: #FAFAF7;
+    --white: #ffffff;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 32px rgba(39,80,10,0.10);
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+
+  /* ── LEFT PANEL ── */
+  .left-panel {
+    background: var(--green-dark);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .left-panel::before {
+    content: '';
+    position: absolute;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(99,153,34,0.18);
+    top: -120px; right: -160px;
+    pointer-events: none;
+  }
+
+  .left-panel::after {
+    content: '';
+    position: absolute;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(29,158,117,0.12);
+    bottom: 60px; left: -80px;
+    pointer-events: none;
+  }
+
+  .left-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    position: relative;
+    z-index: 1;
+  }
+
+  .left-logo-icon {
+    width: 40px; height: 40px;
+    background: var(--green-mid);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  .left-logo span {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #fff;
+  }
+
+  .left-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .left-content h2 {
+    font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 18px;
+  }
+
+  .left-content h2 em {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: #9FE1CB;
+    font-weight: 500;
+  }
+
+  .left-content p {
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+    line-height: 1.75;
+    margin-bottom: 36px;
+    max-width: 380px;
+  }
+
+  .left-features {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .left-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.85);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .left-feature-dot {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+  }
+
+  .left-testimonial {
+    position: relative;
+    z-index: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius);
+    padding: 22px 24px;
+  }
+
+  .left-testimonial p {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  .left-testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .testi-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .testi-name { font-size: 0.85rem; font-weight: 700; color: #fff; }
+  .testi-sub { font-size: 0.78rem; color: rgba(255,255,255,0.55); font-weight: 600; }
+
+  /* ── RIGHT PANEL ── */
+  .right-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 48px;
+    background: var(--white);
+  }
+
+  .auth-box {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .auth-top {
+    margin-bottom: 32px;
+  }
+
+  .auth-top h1 {
+    font-size: 1.9rem;
+    font-weight: 900;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  .auth-top p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  /* Toggle */
+  .auth-toggle {
+    display: flex;
+    background: var(--bg);
+    border-radius: 50px;
+    padding: 4px;
+    margin-bottom: 28px;
+    border: 1.5px solid var(--border);
+  }
+
+  .toggle-btn {
+    flex: 1;
+    padding: 9px 16px;
+    border-radius: 50px;
+    border: none;
+    background: transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.22s;
+  }
+
+  .toggle-btn.active {
+    background: var(--white);
+    color: var(--green-dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  /* Google btn */
+  .google-btn {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.18s, border-color 0.18s;
+    margin-bottom: 22px;
+  }
+
+  .google-btn:hover { background: var(--bg); border-color: #aaa; }
+
+  .google-icon {
+    width: 20px; height: 20px;
+    flex-shrink: 0;
+  }
+
+  /* Divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .divider-line { flex: 1; height: 1px; background: var(--border); }
+  .divider span { font-size: 0.82rem; color: var(--text-muted); font-weight: 700; white-space: nowrap; }
+
+  /* Form */
+  .auth-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+
+  .form-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .form-input {
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--bg);
+    transition: border-color 0.18s, background 0.18s;
+    outline: none;
+    width: 100%;
+  }
+
+  .form-input:focus {
+    border-color: var(--green-mid);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(99,153,34,0.12);
+  }
+
+  .form-input::placeholder { color: #bbb; font-weight: 600; }
+
+  .form-input.error { border-color: #E24B4A; }
+  .form-input.error:focus { box-shadow: 0 0 0 3px rgba(226,75,74,0.12); }
+
+  .form-error {
+    font-size: 0.8rem;
+    color: #A32D2D;
+    font-weight: 700;
+    display: none;
+  }
+
+  .form-error.show { display: block; }
+
+  /* Password wrapper */
+  .password-wrapper { position: relative; }
+
+  .password-wrapper .form-input { padding-right: 46px; }
+
+  .toggle-pass {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    padding: 2px;
+    line-height: 1;
+  }
+
+  .toggle-pass:hover { color: var(--text); }
+
+  /* Forgot */
+  .forgot-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -8px;
+  }
+
+  .forgot-link {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--green);
+    text-decoration: none;
+  }
+
+  .forgot-link:hover { text-decoration: underline; }
+
+  /* Password strength */
+  .pw-strength {
+    margin-top: -8px;
+    display: none;
+  }
+
+  .pw-strength.show { display: block; }
+
+  .pw-strength-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 50px;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
+
+  .pw-strength-fill {
+    height: 100%;
+    border-radius: 50px;
+    transition: width 0.3s, background 0.3s;
+    width: 0%;
+  }
+
+  .pw-strength-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  /* Terms */
+  .terms-text {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  .terms-text a { color: var(--green); text-decoration: none; font-weight: 700; }
+  .terms-text a:hover { text-decoration: underline; }
+
+  /* Submit btn */
+  .submit-btn {
+    width: 100%;
+    padding: 13px 24px;
+    border-radius: 50px;
+    border: none;
+    background: var(--green-mid);
+    color: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .submit-btn:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .submit-btn:active { transform: scale(0.98); }
+
+  /* Success state */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+  }
+
+  .success-screen.show { display: block; }
+  .success-screen .check-circle {
+    width: 72px; height: 72px;
+    background: var(--green-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    margin: 0 auto 20px;
+    animation: popIn 0.4s ease;
+  }
+
+  @keyframes popIn {
+    0% { transform: scale(0.5); opacity: 0; }
+    70% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .success-screen h3 { font-size: 1.4rem; font-weight: 900; margin-bottom: 8px; }
+  .success-screen p { color: var(--text-muted); font-size: 0.95rem; font-weight: 600; margin-bottom: 24px; }
+
+  .go-btn {
+    display: inline-block;
+    background: var(--green-mid);
+    color: #fff;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.97rem;
+    text-decoration: none;
+    transition: background 0.18s;
+  }
+
+  .go-btn:hover { background: var(--green-dark); }
+
+  /* Form slide animation */
+  .form-slide {
+    animation: slideIn 0.28s ease;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateX(16px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Back to home */
+  .back-home {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .back-home a { color: var(--green); text-decoration: none; }
+  .back-home a:hover { text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    body { grid-template-columns: 1fr; }
+    .left-panel { display: none; }
+    .right-panel { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LEFT PANEL -->
+<div class="left-panel">
+  <a href="index.html" class="left-logo">
+    <div class="left-logo-icon">📚</div>
+    <span>GEDReady</span>
+  </a>
+
+  <div class="left-content">
+    <h2>Your GED journey starts <em>here.</em></h2>
+    <p>Join thousands of students already preparing smarter with quizzes, mock tests, and flashcards — all in one place.</p>
+    <div class="left-features">
+      <div class="left-feature">
+        <div class="left-feature-dot" style="background:rgba(99,153,34,0.25);">📐</div>
+        All 4 GED subjects covered
+      </div>
+      <div class="left-feature">
+        <div class="left-feature-dot" style="background:rgba(29,158,117,0.25);">📊</div>
+        Track your progress & streaks
+      </div>
+      <div class="left-feature">
+        <div class="left-feature-dot" style="background:rgba(239,159,39,0.25);">📝</div>
+        Full mock tests & score reports
+      </div>
+      <div class="left-feature">
+        <div class="left-feature-dot" style="background:rgba(83,74,183,0.25);">🗂️</div>
+        Smart flashcard decks
+      </div>
+    </div>
+  </div>
+
+  <div class="left-testimonial">
+    <p>"I studied for 6 weeks using GEDReady and passed all 4 subjects on my first attempt. The streak system kept me going every single day."</p>
+    <div class="left-testimonial-author">
+      <div class="testi-avatar">MR</div>
+      <div>
+        <div class="testi-name">Maria R.</div>
+        <div class="testi-sub">GED certified ✅ — all 4 subjects</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="right-panel">
+  <div class="auth-box">
+
+    <div class="auth-top">
+      <h1 id="auth-heading">Welcome back 👋</h1>
+      <p id="auth-subheading">Sign in to continue your study streak.</p>
+    </div>
+
+    <!-- Toggle -->
+    <div class="auth-toggle">
+      <button class="toggle-btn active" id="btn-login" onclick="switchTab('login')">Log In</button>
+      <button class="toggle-btn" id="btn-signup" onclick="switchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Success Screen (hidden by default) -->
+    <div class="success-screen" id="success-screen">
+      <div class="check-circle">✅</div>
+      <h3 id="success-title">You're in!</h3>
+      <p id="success-msg">Welcome back. Let's pick up where you left off.</p>
+      <a href="index.html" class="go-btn">Go to Dashboard →</a>
+    </div>
+
+    <!-- Google Button -->
+    <button class="google-btn" id="google-btn" onclick="handleGoogle()">
+      <svg class="google-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      <span id="google-btn-text">Continue with Google</span>
+    </button>
+
+    <div class="divider">
+      <div class="divider-line"></div>
+      <span>or continue with email</span>
+      <div class="divider-line"></div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form class="auth-form form-slide" id="login-form" onsubmit="handleSubmit(event, 'login')">
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email address</label>
+        <input class="form-input" type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
+        <span class="form-error" id="login-email-err">Please enter a valid email address.</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">Password</label>
+        <div class="password-wrapper">
+          <input class="form-input" type="password" id="login-password" placeholder="Your password" autocomplete="current-password">
+          <button type="button" class="toggle-pass" onclick="togglePass('login-password', this)" aria-label="Show password">👁️</button>
+        </div>
+        <span class="form-error" id="login-pass-err">Please enter your password.</span>
+      </div>
+      <div class="forgot-row">
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
+      <button type="submit" class="submit-btn">
+        <span>Log In</span> <span>→</span>
+      </button>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form class="auth-form form-slide" id="signup-form" style="display:none;" onsubmit="handleSubmit(event, 'signup')">
+      <div class="form-group">
+        <label class="form-label" for="signup-email">Email address</label>
+        <input class="form-input" type="email" id="signup-email" placeholder="you@example.com" autocomplete="email">
+        <span class="form-error" id="signup-email-err">Please enter a valid email address.</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="signup-password">Create a password</label>
+        <div class="password-wrapper">
+          <input class="form-input" type="password" id="signup-password" placeholder="Min. 8 characters" autocomplete="new-password" oninput="checkStrength(this.value)">
+          <button type="button" class="toggle-pass" onclick="togglePass('signup-password', this)" aria-label="Show password">👁️</button>
+        </div>
+        <span class="form-error" id="signup-pass-err">Password must be at least 8 characters.</span>
+        <div class="pw-strength" id="pw-strength">
+          <div class="pw-strength-bar"><div class="pw-strength-fill" id="pw-fill"></div></div>
+          <span class="pw-strength-label" id="pw-label"></span>
+        </div>
+      </div>
+      <div class="terms-text">
+        By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+      </div>
+      <button type="submit" class="submit-btn">
+        <span>Create Free Account</span> <span>→</span>
+      </button>
+    </form>
+
+    <div class="back-home">
+      <a href="index.html">← Back to GEDReady home</a>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function switchTab(tab) {
+    const isLogin = tab === 'login';
+
+    document.getElementById('btn-login').classList.toggle('active', isLogin);
+    document.getElementById('btn-signup').classList.toggle('active', !isLogin);
+
+    const loginForm = document.getElementById('login-form');
+    const signupForm = document.getElementById('signup-form');
+
+    if (isLogin) {
+      loginForm.style.display = 'flex';
+      loginForm.classList.remove('form-slide');
+      void loginForm.offsetWidth;
+      loginForm.classList.add('form-slide');
+      signupForm.style.display = 'none';
+      document.getElementById('auth-heading').textContent = 'Welcome back 👋';
+      document.getElementById('auth-subheading').textContent = 'Sign in to continue your study streak.';
+      document.getElementById('google-btn-text').textContent = 'Continue with Google';
+    } else {
+      signupForm.style.display = 'flex';
+      signupForm.classList.remove('form-slide');
+      void signupForm.offsetWidth;
+      signupForm.classList.add('form-slide');
+      loginForm.style.display = 'none';
+      document.getElementById('auth-heading').textContent = 'Create your account ✨';
+      document.getElementById('auth-subheading').textContent = 'Free forever. No credit card needed.';
+      document.getElementById('google-btn-text').textContent = 'Sign up with Google';
+    }
+  }
+
+  function togglePass(inputId, btn) {
+    const input = document.getElementById(inputId);
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    btn.textContent = isHidden ? '🙈' : '👁️';
+  }
+
+  function checkStrength(val) {
+    const bar = document.getElementById('pw-fill');
+    const label = document.getElementById('pw-strength-label') || document.getElementById('pw-label');
+    const wrap = document.getElementById('pw-strength');
+
+    if (!val) { wrap.classList.remove('show'); return; }
+    wrap.classList.add('show');
+
+    let score = 0;
+    if (val.length >= 8) score++;
+    if (val.length >= 12) score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+
+    const levels = [
+      { pct: '20%', color: '#E24B4A', text: 'Too weak' },
+      { pct: '40%', color: '#EF9F27', text: 'Weak' },
+      { pct: '60%', color: '#EF9F27', text: 'Fair' },
+      { pct: '80%', color: '#639922', text: 'Good' },
+      { pct: '100%', color: '#27500A', text: 'Strong 💪' },
+    ];
+
+    const lvl = levels[Math.min(score, 4)];
+    bar.style.width = lvl.pct;
+    bar.style.background = lvl.color;
+    label.textContent = lvl.text;
+    label.style.color = lvl.color;
+  }
+
+  function handleSubmit(e, type) {
+    e.preventDefault();
+    let valid = true;
+
+    if (type === 'login') {
+      const email = document.getElementById('login-email');
+      const pass = document.getElementById('login-password');
+      const emailErr = document.getElementById('login-email-err');
+      const passErr = document.getElementById('login-pass-err');
+
+      emailErr.classList.remove('show'); email.classList.remove('error');
+      passErr.classList.remove('show'); pass.classList.remove('error');
+
+      if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+        email.classList.add('error'); emailErr.classList.add('show'); valid = false;
+      }
+      if (!pass.value) {
+        pass.classList.add('error'); passErr.classList.add('show'); valid = false;
+      }
+
+      if (valid) showSuccess('login');
+
+    } else {
+      const email = document.getElementById('signup-email');
+      const pass = document.getElementById('signup-password');
+      const emailErr = document.getElementById('signup-email-err');
+      const passErr = document.getElementById('signup-pass-err');
+
+      emailErr.classList.remove('show'); email.classList.remove('error');
+      passErr.classList.remove('show'); pass.classList.remove('error');
+
+      if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+        email.classList.add('error'); emailErr.classList.add('show'); valid = false;
+      }
+      if (!pass.value || pass.value.length < 8) {
+        pass.classList.add('error'); passErr.classList.add('show'); valid = false;
+      }
+
+      if (valid) showSuccess('signup');
+    }
+  }
+
+  function handleGoogle() {
+    showSuccess('google');
+  }
+
+  function showSuccess(type) {
+    const successScreen = document.getElementById('success-screen');
+    const title = document.getElementById('success-title');
+    const msg = document.getElementById('success-msg');
+
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('signup-form').style.display = 'none';
+    document.getElementById('google-btn').style.display = 'none';
+    document.querySelector('.divider').style.display = 'none';
+    document.querySelector('.auth-toggle').style.display = 'none';
+    document.querySelector('.back-home').style.display = 'none';
+
+    if (type === 'signup' || type === 'google') {
+      document.getElementById('auth-heading').textContent = 'Account created! 🎉';
+      document.getElementById('auth-subheading').textContent = 'You\'re all set to start studying.';
+      title.textContent = 'Welcome to GEDReady!';
+      msg.textContent = 'Your free account is ready. Let\'s start your first quiz.';
+    } else {
+      document.getElementById('auth-heading').textContent = 'You\'re back! 🎉';
+      document.getElementById('auth-subheading').textContent = 'Great to see you again.';
+      title.textContent = 'You\'re in!';
+      msg.textContent = 'Welcome back. Let\'s pick up where you left off.';
+    }
+
+    successScreen.classList.add('show');
+  }
+</script>
+</body>
+</html>

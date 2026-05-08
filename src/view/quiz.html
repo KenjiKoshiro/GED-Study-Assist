@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --green-mid: #639922;
+    --green-dark: #27500A;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --amber-mid: #EF9F27;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --red: #A32D2D;
+    --red-light: #FCEBEB;
+    --text: #1a1a1a;
+    --text-muted: #666;
+    --border: #e4e4da;
+    --bg: #F4F4EF;
+    --white: #ffffff;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  html, body { min-height: 100vh; font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* ── TOP NAV ── */
+  .topnav {
+    height: 60px;
+    background: var(--white);
+    border-bottom: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 28px;
+    position: sticky; top: 0; z-index: 50;
+  }
+
+  .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; font-size: 1.2rem; font-weight: 900; color: var(--green-dark); }
+  .logo-icon { width: 32px; height: 32px; background: var(--green-mid); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; }
+
+  .nav-meta { display: flex; align-items: center; gap: 14px; }
+  .nav-subject-tag { font-size: 0.82rem; font-weight: 700; padding: 5px 12px; border-radius: 50px; }
+  .nav-quit { font-size: 0.85rem; font-weight: 700; color: var(--text-muted); text-decoration: none; padding: 6px 14px; border-radius: 50px; border: 1.5px solid var(--border); transition: all 0.15s; }
+  .nav-quit:hover { background: var(--red-light); color: var(--red); border-color: #F09595; }
+
+  /* ── QUIZ WRAPPER ── */
+  .quiz-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 36px 20px 80px;
+  }
+
+  /* ── PROGRESS BAR ── */
+  .progress-header {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .progress-track {
+    flex: 1; height: 8px; background: var(--border); border-radius: 50px; overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%; background: var(--green-mid); border-radius: 50px;
+    transition: width 0.4s ease;
+  }
+
+  .progress-label { font-size: 0.85rem; font-weight: 800; color: var(--text-muted); white-space: nowrap; }
+
+  /* ── QUESTION CARD ── */
+  .question-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    padding: 32px 36px;
+    margin-bottom: 20px;
+    animation: slideQ 0.3s ease;
+  }
+
+  @keyframes slideQ {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  .q-type-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 4px 12px; border-radius: 50px; margin-bottom: 16px;
+  }
+
+  .q-context {
+    background: var(--bg);
+    border-left: 3px solid var(--green-mid);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 14px 16px;
+    margin-bottom: 20px;
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  .q-text {
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+
+  /* ── MULTIPLE CHOICE ── */
+  .options-list { display: flex; flex-direction: column; gap: 10px; }
+
+  .option-btn {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+    width: 100%;
+  }
+
+  .option-btn:hover:not(:disabled) { border-color: var(--green-mid); background: var(--green-light); }
+
+  .option-btn.selected { border-color: var(--green-mid); background: var(--green-light); }
+  .option-btn.correct  { border-color: var(--green-mid); background: var(--green-light); color: var(--green-dark); }
+  .option-btn.wrong    { border-color: #E24B4A; background: var(--red-light); color: var(--red); }
+  .option-btn:disabled { cursor: default; }
+
+  .opt-letter {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.82rem; font-weight: 900;
+    background: var(--border); color: var(--text-muted);
+    flex-shrink: 0; transition: all 0.15s;
+  }
+
+  .option-btn.selected .opt-letter { background: var(--green-mid); color: #fff; }
+  .option-btn.correct  .opt-letter { background: var(--green-mid); color: #fff; }
+  .option-btn.wrong    .opt-letter { background: #E24B4A; color: #fff; }
+
+  /* ── DROPDOWN QUESTION ── */
+  .dropdown-sentence {
+    font-size: 1.05rem; font-weight: 700; line-height: 1.9;
+    margin-bottom: 10px;
+  }
+
+  .inline-select {
+    display: inline-block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 2px solid var(--green-mid);
+    background: var(--green-light);
+    color: var(--green-dark);
+    cursor: pointer;
+    outline: none;
+    transition: all 0.15s;
+    margin: 0 4px;
+  }
+
+  .inline-select:focus { box-shadow: 0 0 0 3px rgba(99,153,34,0.18); }
+  .inline-select.answered { background: var(--green-light); border-color: var(--green-mid); }
+
+  /* ── FILL IN THE BLANK ── */
+  .fitb-sentence {
+    font-size: 1.05rem; font-weight: 700; line-height: 2.2;
+    margin-bottom: 10px;
+  }
+
+  .blank-input {
+    display: inline-block;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.97rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 2px solid var(--green-mid);
+    background: var(--white);
+    color: var(--text);
+    outline: none;
+    width: 140px;
+    text-align: center;
+    transition: all 0.15s;
+    margin: 0 4px;
+  }
+
+  .blank-input:focus { box-shadow: 0 0 0 3px rgba(99,153,34,0.18); background: var(--green-light); }
+  .blank-input.correct-input { background: var(--green-light); border-color: var(--green-mid); color: var(--green-dark); }
+  .blank-input.wrong-input   { background: var(--red-light); border-color: #E24B4A; color: var(--red); }
+
+  /* ── FEEDBACK ── */
+  .feedback-box {
+    display: none;
+    margin-top: 16px;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 0.93rem;
+    font-weight: 700;
+    line-height: 1.6;
+    animation: fadeIn 0.25s ease;
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  .feedback-box.correct-fb { background: var(--green-light); color: var(--green-dark); border: 1.5px solid #C0DD97; }
+  .feedback-box.wrong-fb   { background: var(--red-light);   color: var(--red);        border: 1.5px solid #F7C1C1; }
+  .feedback-box.show { display: block; }
+
+  .fb-icon { font-size: 1.1rem; margin-right: 6px; }
+
+  /* ── NAVIGATION BUTTONS ── */
+  .quiz-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px;
+  }
+
+  .btn-next {
+    background: var(--green-mid); color: #fff;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    padding: 13px 30px; border-radius: 50px; border: none;
+    cursor: pointer; transition: all 0.18s; margin-left: auto;
+    display: none;
+  }
+
+  .btn-next:hover { background: var(--green-dark); transform: translateY(-1px); }
+  .btn-next.show  { display: block; }
+
+  .btn-submit {
+    background: var(--green-dark); color: #fff;
+    font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    padding: 13px 30px; border-radius: 50px; border: none;
+    cursor: pointer; transition: all 0.18s; margin-left: auto;
+    display: none;
+  }
+
+  .btn-submit:hover { background: #173404; transform: translateY(-1px); }
+  .btn-submit.show  { display: block; }
+
+  .q-counter { font-size: 0.88rem; font-weight: 700; color: var(--text-muted); }
+
+  /* ── RESULTS SCREEN (blurred gate) ── */
+  .results-screen {
+    display: none;
+    animation: fadeIn 0.4s ease;
+  }
+
+  .results-screen.show { display: block; }
+
+  .results-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1.5px solid var(--border);
+    padding: 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .results-top { margin-bottom: 28px; }
+  .results-top h2 { font-size: 1.5rem; font-weight: 900; margin-bottom: 6px; }
+  .results-top p  { color: var(--text-muted); font-size: 0.95rem; font-weight: 600; }
+
+  /* blurred score section */
+  .score-blur-wrap {
+    position: relative;
+    margin: 0 auto 28px;
+    max-width: 380px;
+  }
+
+  .score-content {
+    filter: blur(8px);
+    user-select: none;
+    pointer-events: none;
+  }
+
+  .score-circle {
+    width: 130px; height: 130px; border-radius: 50%;
+    background: var(--green-light); border: 4px solid var(--green-mid);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  .score-pct   { font-size: 2.4rem; font-weight: 900; color: var(--green-dark); line-height: 1; }
+  .score-label { font-size: 0.78rem; font-weight: 700; color: var(--green); }
+
+  .score-breakdown {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .score-stat {
+    background: var(--bg); border-radius: var(--radius-sm); padding: 12px 8px;
+  }
+
+  .score-stat-num   { font-size: 1.4rem; font-weight: 900; }
+  .score-stat-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); }
+
+  /* lock overlay */
+  .lock-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px;
+    background: rgba(250,250,247,0.55);
+    backdrop-filter: blur(2px);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+  }
+
+  .lock-icon { font-size: 2.2rem; }
+  .lock-title { font-size: 1.05rem; font-weight: 900; color: var(--text); }
+  .lock-sub   { font-size: 0.88rem; font-weight: 600; color: var(--text-muted); max-width: 260px; line-height: 1.5; }
+
+  /* auth mini form inside results */
+  .auth-gate {
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border);
+    padding: 24px 28px;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .auth-gate h3 { font-size: 1.1rem; font-weight: 900; margin-bottom: 4px; }
+  .auth-gate p  { font-size: 0.88rem; color: var(--text-muted); font-weight: 600; margin-bottom: 18px; }
+
+  .gate-toggle {
+    display: flex; background: var(--white); border-radius: 50px;
+    padding: 3px; margin-bottom: 16px; border: 1.5px solid var(--border);
+  }
+
+  .gate-tab {
+    flex: 1; padding: 7px; border-radius: 50px; border: none;
+    font-family: 'Nunito', sans-serif; font-size: 0.85rem; font-weight: 700;
+    cursor: pointer; color: var(--text-muted); background: transparent; transition: all 0.2s;
+  }
+
+  .gate-tab.active { background: var(--white); color: var(--green-dark); box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+
+  .gate-input {
+    width: 100%; padding: 11px 14px; border-radius: var(--radius-sm);
+    border: 1.5px solid var(--border); background: var(--white);
+    font-family: 'Nunito', sans-serif; font-size: 0.93rem; font-weight: 600;
+    color: var(--text); outline: none; margin-bottom: 10px; transition: border-color 0.15s;
+  }
+
+  .gate-input:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(99,153,34,0.12); }
+  .gate-input::placeholder { color: #bbb; }
+
+  .gate-submit {
+    width: 100%; padding: 12px; border-radius: 50px; border: none;
+    background: var(--green-mid); color: #fff;
+    font-family: 'Nunito', sans-serif; font-size: 0.97rem; font-weight: 800;
+    cursor: pointer; transition: background 0.18s; margin-bottom: 12px;
+  }
+
+  .gate-submit:hover { background: var(--green-dark); }
+
+  .gate-google {
+    width: 100%; padding: 10px; border-radius: 50px;
+    border: 1.5px solid var(--border); background: var(--white);
+    font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700;
+    cursor: pointer; color: var(--text); display: flex; align-items: center;
+    justify-content: center; gap: 8px; transition: background 0.15s;
+  }
+
+  .gate-google:hover { background: var(--bg); }
+
+  .gate-divider { display: flex; align-items: center; gap: 10px; margin: 10px 0; }
+  .gate-divider-line { flex: 1; height: 1px; background: var(--border); }
+  .gate-divider span { font-size: 0.78rem; font-weight: 700; color: var(--text-muted); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .question-card { padding: 22px 18px; }
+    .quiz-wrap { padding: 20px 12px 60px; }
+    .topnav { padding: 0 14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon">📚</div>
+    GEDReady
+  </a>
+  <div class="nav-meta">
+    <span class="nav-subject-tag" id="subject-tag" style="background:var(--purple-light);color:#26215C;">📐 Math</span>
+    <a href="index.html" class="nav-quit">✕ Quit Quiz</a>
+  </div>
+</nav>
+
+<!-- QUIZ WRAPPER -->
+<div class="quiz-wrap">
+
+  <!-- PROGRESS -->
+  <div class="progress-header" id="progress-header">
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="progress-label">1 of 5</div>
+  </div>
+
+  <!-- QUESTION AREA -->
+  <div id="quiz-area">
+    <div class="question-card" id="question-card">
+      <!-- injected by JS -->
+    </div>
+    <div class="quiz-nav">
+      <span class="q-counter" id="q-counter"></span>
+      <button class="btn-next" id="btn-next" onclick="nextQuestion()">Next →</button>
+      <button class="btn-submit" id="btn-submit" onclick="showResults()">Submit Quiz →</button>
+    </div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div class="results-screen" id="results-screen">
+    <div class="results-card">
+      <div class="results-top">
+        <h2>Quiz Complete! 🎉</h2>
+        <p>Sign in to unlock your score and save your progress.</p>
+      </div>
+
+      <!-- BLURRED SCORE -->
+      <div class="score-blur-wrap">
+        <div class="score-content" id="score-content">
+          <div class="score-circle">
+            <div class="score-pct" id="result-pct">—</div>
+            <div class="score-label">Score</div>
+          </div>
+          <div class="score-breakdown">
+            <div class="score-stat">
+              <div class="score-stat-num" id="result-correct" style="color:var(--green-mid);">—</div>
+              <div class="score-stat-label">Correct</div>
+            </div>
+            <div class="score-stat">
+              <div class="score-stat-num" id="result-wrong" style="color:var(--coral);">—</div>
+              <div class="score-stat-label">Wrong</div>
+            </div>
+            <div class="score-stat">
+              <div class="score-stat-num" style="color:var(--purple);">5</div>
+              <div class="score-stat-label">Questions</div>
+            </div>
+          </div>
+        </div>
+        <div class="lock-overlay">
+          <div class="lock-icon">🔒</div>
+          <div class="lock-title">Your results are ready!</div>
+          <div class="lock-sub">Create a free account to see your score and track your progress.</div>
+        </div>
+      </div>
+
+      <!-- AUTH GATE -->
+      <div class="auth-gate">
+        <h3>Unlock your results</h3>
+        <p>Free forever — no credit card needed.</p>
+
+        <div class="gate-toggle">
+          <button class="gate-tab active" id="gtab-signup" onclick="gateTab('signup')">Sign Up Free</button>
+          <button class="gate-tab" id="gtab-login" onclick="gateTab('login')">Log In</button>
+        </div>
+
+        <input class="gate-input" type="email" placeholder="Email address" id="gate-email">
+        <input class="gate-input" type="password" placeholder="Password (min. 8 characters)" id="gate-pass">
+
+        <button class="gate-submit" onclick="gateSubmit()">
+          <span id="gate-submit-label">Create Free Account & See Results</span>
+        </button>
+
+        <div class="gate-divider">
+          <div class="gate-divider-line"></div>
+          <span>or</span>
+          <div class="gate-divider-line"></div>
+        </div>
+
+        <button class="gate-google" onclick="gateGoogle()">
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Continue with Google
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /quiz-wrap -->
+
+<script>
+  // ── QUIZ DATA (dummy GED-style questions) ──
+  const questions = [
+    {
+      type: 'multiple-choice',
+      subject: 'Math',
+      subjectStyle: 'background:var(--purple-light);color:#26215C;',
+      tag: '📐 Math · Algebra',
+      tagStyle: 'background:var(--purple-light);color:#26215C;',
+      text: 'If 4x − 8 = 20, what is the value of x?',
+      options: ['A) 3', 'B) 5', 'C) 7', 'D) 12'],
+      correct: 2,
+      explanation: 'Correct! Add 8 to both sides: 4x = 28, then divide by 4: x = 7.'
+    },
+    {
+      type: 'dropdown',
+      subject: 'RLA',
+      subjectStyle: 'background:var(--coral-light);color:#4A1B0C;',
+      tag: '📖 RLA · Grammar',
+      tagStyle: 'background:var(--coral-light);color:#4A1B0C;',
+      context: 'Read the sentence below and choose the correct word to complete it.',
+      textBefore: 'Neither the students nor the teacher',
+      blank: ['was', 'were', 'are', 'have been'],
+      correctBlank: 'was',
+      textAfter: 'prepared for the fire drill.',
+      explanation: 'Correct! With "neither...nor", the verb agrees with the closest subject (teacher = singular), so "was" is correct.'
+    },
+    {
+      type: 'multiple-choice',
+      subject: 'Science',
+      subjectStyle: 'background:var(--teal-light);color:#04342C;',
+      tag: '🔬 Science · Life Science',
+      tagStyle: 'background:var(--teal-light);color:#04342C;',
+      context: 'Use the information below to answer the question.\n"Photosynthesis is the process by which plants convert sunlight, water, and carbon dioxide into glucose and oxygen."',
+      text: 'Which of the following is a PRODUCT of photosynthesis?',
+      options: ['A) Carbon dioxide', 'B) Water', 'C) Oxygen', 'D) Sunlight'],
+      correct: 2,
+      explanation: 'Correct! Oxygen is a product of photosynthesis, released as plants convert CO₂ and water into glucose.'
+    },
+    {
+      type: 'fill-in-the-blank',
+      subject: 'Social Studies',
+      subjectStyle: 'background:var(--amber-light);color:#412402;',
+      tag: '🌍 Social Studies · Civics',
+      tagStyle: 'background:var(--amber-light);color:#412402;',
+      context: 'Answer the question based on your knowledge of US civics.',
+      textBefore: 'The US Constitution was signed in the year',
+      correctAnswer: '1787',
+      textAfter: ', making it one of the oldest written national constitutions still in use.',
+      hint: 'Enter a 4-digit year',
+      explanation: 'Correct! The US Constitution was signed on September 17, 1787 in Philadelphia.'
+    },
+    {
+      type: 'multiple-choice',
+      subject: 'Math',
+      subjectStyle: 'background:var(--purple-light);color:#26215C;',
+      tag: '📐 Math · Data Analysis',
+      tagStyle: 'background:var(--purple-light);color:#26215C;',
+      context: 'A student scored 72, 85, 90, 68, and 75 on five tests.',
+      text: 'What is the mean (average) score?',
+      options: ['A) 76', 'B) 78', 'C) 80', 'D) 82'],
+      correct: 1,
+      explanation: 'Correct! Add all scores: 72+85+90+68+75 = 390. Divide by 5: 390 ÷ 5 = 78.'
+    }
+  ];
+
+  let current = 0;
+  let answers = new Array(questions.length).fill(null);
+  let answered = false;
+
+  function renderQuestion(idx) {
+    const q = questions[idx];
+    answered = false;
+
+    // Update nav tag
+    document.getElementById('subject-tag').textContent = q.tag.split('·')[0].trim();
+    document.getElementById('subject-tag').style.cssText = 'padding:5px 12px;border-radius:50px;font-size:0.82rem;font-weight:700;' + q.subjectStyle;
+
+    // Progress
+    const pct = Math.round((idx / questions.length) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = (idx + 1) + ' of ' + questions.length;
+    document.getElementById('q-counter').textContent = 'Question ' + (idx + 1) + ' of ' + questions.length;
+
+    // Buttons
+    document.getElementById('btn-next').classList.remove('show');
+    document.getElementById('btn-submit').classList.remove('show');
+
+    let html = `<div class="q-type-tag" style="${q.tagStyle}">${q.tag}</div>`;
+
+    if (q.context) {
+      html += `<div class="q-context">${q.context.replace(/\n/g, '<br>')}</div>`;
+    }
+
+    if (q.type === 'multiple-choice') {
+      html += `<div class="q-text">${q.text}</div>`;
+      html += `<div class="options-list">`;
+      q.options.forEach((opt, i) => {
+        const letter = ['A','B','C','D'][i];
+        html += `<button class="option-btn" id="opt-${i}" onclick="selectOption(${i})">`
+          + `<span class="opt-letter">${letter}</span>${opt.substring(3)}</button>`;
+      });
+      html += `</div>`;
+    }
+
+    else if (q.type === 'dropdown') {
+      html += `<div class="dropdown-sentence">`;
+      html += `${q.textBefore} <select class="inline-select" id="dropdown-blank" onchange="checkDropdown(this)">`;
+      html += `<option value="">— choose —</option>`;
+      q.blank.forEach(opt => { html += `<option value="${opt}">${opt}</option>`; });
+      html += `</select> ${q.textAfter}</div>`;
+    }
+
+    else if (q.type === 'fill-in-the-blank') {
+      html += `<div class="fitb-sentence">${q.textBefore} <input class="blank-input" id="fitb-input" type="text" placeholder="${q.hint}" maxlength="10"> ${q.textAfter}</div>`;
+      html += `<div style="margin-top:12px;">
+        <button class="btn-next show" id="btn-check-fitb" onclick="checkFITB()" style="display:inline-block;background:var(--green-mid);">Check Answer →</button>
+      </div>`;
+    }
+
+    html += `<div class="feedback-box" id="feedback-box"></div>`;
+
+    document.getElementById('question-card').innerHTML = html;
+    document.getElementById('question-card').style.animation = 'none';
+    void document.getElementById('question-card').offsetWidth;
+    document.getElementById('question-card').style.animation = '';
+  }
+
+  function selectOption(idx) {
+    if (answered) return;
+    answered = true;
+    const q = questions[current];
+    const opts = document.querySelectorAll('.option-btn');
+
+    opts.forEach(o => o.disabled = true);
+    opts[idx].classList.add(idx === q.correct ? 'correct' : 'wrong');
+    if (idx !== q.correct) opts[q.correct].classList.add('correct');
+
+    answers[current] = idx === q.correct;
+
+    const fb = document.getElementById('feedback-box');
+    if (idx === q.correct) {
+      fb.className = 'feedback-box correct-fb show';
+      fb.innerHTML = `<span class="fb-icon">✅</span> ${q.explanation}`;
+    } else {
+      fb.className = 'feedback-box wrong-fb show';
+      fb.innerHTML = `<span class="fb-icon">❌</span> Not quite. The correct answer is <strong>${q.options[q.correct].substring(3)}</strong>. ${q.explanation}`;
+    }
+
+    showNavBtn();
+  }
+
+  function checkDropdown(sel) {
+    if (answered) return;
+    if (!sel.value) return;
+    answered = true;
+    const q = questions[current];
+    sel.disabled = true;
+
+    const isCorrect = sel.value === q.correctBlank;
+    answers[current] = isCorrect;
+    sel.classList.add('answered');
+    sel.style.borderColor = isCorrect ? 'var(--green-mid)' : '#E24B4A';
+    sel.style.background = isCorrect ? 'var(--green-light)' : 'var(--red-light)';
+
+    const fb = document.getElementById('feedback-box');
+    if (isCorrect) {
+      fb.className = 'feedback-box correct-fb show';
+      fb.innerHTML = `<span class="fb-icon">✅</span> ${q.explanation}`;
+    } else {
+      fb.className = 'feedback-box wrong-fb show';
+      fb.innerHTML = `<span class="fb-icon">❌</span> Not quite. The correct answer is <strong>"${q.correctBlank}"</strong>. ${q.explanation}`;
+    }
+    showNavBtn();
+  }
+
+  function checkFITB() {
+    if (answered) return;
+    const input = document.getElementById('fitb-input');
+    const val = input.value.trim();
+    if (!val) { input.focus(); return; }
+    answered = true;
+    const q = questions[current];
+    const isCorrect = val === q.correctAnswer;
+    answers[current] = isCorrect;
+
+    input.disabled = true;
+    input.classList.add(isCorrect ? 'correct-input' : 'wrong-input');
+    document.getElementById('btn-check-fitb').style.display = 'none';
+
+    const fb = document.getElementById('feedback-box');
+    if (isCorrect) {
+      fb.className = 'feedback-box correct-fb show';
+      fb.innerHTML = `<span class="fb-icon">✅</span> ${q.explanation}`;
+    } else {
+      fb.className = 'feedback-box wrong-fb show';
+      fb.innerHTML = `<span class="fb-icon">❌</span> Not quite. The correct answer is <strong>${q.correctAnswer}</strong>. ${q.explanation}`;
+    }
+    showNavBtn();
+  }
+
+  function showNavBtn() {
+    if (current < questions.length - 1) {
+      document.getElementById('btn-next').classList.add('show');
+    } else {
+      document.getElementById('btn-submit').classList.add('show');
+    }
+  }
+
+  function nextQuestion() {
+    current++;
+    renderQuestion(current);
+  }
+
+  function showResults() {
+    const correct = answers.filter(a => a === true).length;
+    const wrong   = answers.filter(a => a === false).length;
+    const pct     = Math.round((correct / questions.length) * 100);
+
+    document.getElementById('result-pct').textContent = pct + '%';
+    document.getElementById('result-correct').textContent = correct;
+    document.getElementById('result-wrong').textContent = wrong;
+
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('progress-label').textContent = 'Complete!';
+
+    document.getElementById('quiz-area').style.display = 'none';
+    document.getElementById('results-screen').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── AUTH GATE ──
+  function gateTab(tab) {
+    const isSignup = tab === 'signup';
+    document.getElementById('gtab-signup').classList.toggle('active', isSignup);
+    document.getElementById('gtab-login').classList.toggle('active', !isSignup);
+    document.getElementById('gate-submit-label').textContent = isSignup
+      ? 'Create Free Account & See Results'
+      : 'Log In & See Results';
+  }
+
+  function gateSubmit() {
+    const email = document.getElementById('gate-email').value.trim();
+    const pass  = document.getElementById('gate-pass').value.trim();
+    if (!email || !pass) { alert('Please fill in both fields.'); return; }
+    unlockResults();
+  }
+
+  function gateGoogle() { unlockResults(); }
+
+  function unlockResults() {
+    // Remove blur, remove overlay
+    document.getElementById('score-content').style.filter = 'none';
+    document.getElementById('score-content').style.userSelect = 'auto';
+    document.querySelector('.lock-overlay').style.display = 'none';
+    document.querySelector('.auth-gate').innerHTML = `
+      <div style="text-align:center;padding:12px 0;">
+        <div style="font-size:2rem;margin-bottom:8px;">🎉</div>
+        <div style="font-size:1rem;font-weight:900;margin-bottom:6px;color:var(--green-dark);">Account created!</div>
+        <div style="font-size:0.88rem;color:var(--text-muted);font-weight:600;margin-bottom:16px;">Your results are now saved to your account.</div>
+        <a href="dashboard.html" style="display:inline-block;background:var(--green-mid);color:#fff;padding:11px 26px;border-radius:50px;font-weight:800;font-size:0.95rem;text-decoration:none;">Go to Dashboard →</a>
+      </div>`;
+  }
+
+  // ── INIT ──
+  renderQuestion(0);
+</script>
+</body>
+</html>

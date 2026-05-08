@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — Your Path to GED Success</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --green-mid: #639922;
+    --green-dark: #27500A;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --amber-mid: #EF9F27;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --coral: #D85A30;
+    --coral-light: #FAECE7;
+    --text: #1a1a1a;
+    --text-muted: #555;
+    --bg: #FAFAF7;
+    --white: #fff;
+    --radius: 16px;
+    --radius-sm: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250,250,247,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1.5px solid #e8e8e0;
+    padding: 0 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--green-dark);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: var(--green-mid);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--green); }
+
+  .nav-cta {
+    background: var(--green-mid);
+    color: #fff !important;
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 700 !important;
+    transition: background 0.2s !important;
+  }
+
+  .nav-cta:hover { background: var(--green-dark) !important; color: #fff !important; }
+
+  .hamburger { display: none; cursor: pointer; font-size: 1.5rem; background: none; border: none; color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 5% 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--green-light);
+    color: var(--green-dark);
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 6px 14px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.4rem, 4vw, 3.4rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .hero h1 em {
+    font-family: 'Lora', serif;
+    font-style: italic;
+    color: var(--green-mid);
+    font-weight: 600;
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 36px;
+    max-width: 480px;
+    line-height: 1.75;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+  }
+
+  .btn-primary {
+    background: var(--green-mid);
+    color: #fff;
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+  .btn-secondary {
+    background: var(--white);
+    color: var(--green-dark);
+    padding: 14px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 2px solid var(--green-mid);
+    transition: all 0.2s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { background: var(--green-light); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--green-dark);
+  }
+
+  .stat-label {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  /* Hero visual */
+  .hero-visual {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hero-card-stack {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .hcard {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 2px solid #e8e8e0;
+    padding: 22px 24px;
+    position: relative;
+  }
+
+  .hcard-back {
+    position: absolute;
+    width: 90%;
+    left: 5%;
+    top: -18px;
+    background: var(--green-light);
+    border-color: #c5dda8;
+    z-index: 0;
+    padding: 18px 24px;
+    height: 60px;
+  }
+
+  .hcard-back2 {
+    position: absolute;
+    width: 80%;
+    left: 10%;
+    top: -32px;
+    background: var(--teal-light);
+    border-color: #9FE1CB;
+    z-index: 0;
+    padding: 18px 24px;
+    height: 60px;
+  }
+
+  .hcard-main { z-index: 1; }
+
+  .hcard-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--green);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hcard-question {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+
+  .hcard-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .hcard-opt {
+    padding: 10px 14px;
+    border-radius: 10px;
+    border: 1.5px solid #e8e8e0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--bg);
+    text-align: left;
+  }
+
+  .hcard-opt:hover { border-color: var(--green-mid); background: var(--green-light); }
+  .hcard-opt.correct { background: var(--green-light); border-color: var(--green-mid); color: var(--green-dark); }
+  .hcard-opt.wrong { background: #FCEBEB; border-color: #E24B4A; color: #501313; }
+
+  .hcard-streak {
+    position: absolute;
+    top: -14px;
+    right: 20px;
+    background: var(--amber-mid);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 2;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .section-tag {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    padding: 5px 14px;
+    border-radius: 50px;
+    margin-bottom: 14px;
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 14px;
+  }
+
+  .section-header p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ── SUBJECTS ── */
+  .subjects-section {
+    padding: 80px 5%;
+    background: var(--white);
+  }
+
+  .subjects-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 20px;
+  }
+
+  .subject-card {
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+
+  .subject-card:hover { transform: translateY(-4px); }
+
+  .subject-card.math { background: var(--purple-light); border: 2px solid #AFA9EC; }
+  .subject-card.science { background: var(--teal-light); border: 2px solid #5DCAA5; }
+  .subject-card.social { background: var(--amber-light); border: 2px solid #FAC775; }
+  .subject-card.rla { background: var(--coral-light); border: 2px solid #F0997B; }
+
+  .subject-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+
+  .math .subject-icon { background: #AFA9EC; }
+  .science .subject-icon { background: #5DCAA5; }
+  .social .subject-icon { background: #FAC775; }
+  .rla .subject-icon { background: #F0997B; }
+
+  .subject-card h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .math h3 { color: #26215C; }
+  .science h3 { color: #04342C; }
+  .social h3 { color: #412402; }
+  .rla h3 { color: #4A1B0C; }
+
+  .subject-card p {
+    font-size: 0.88rem;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-bottom: 16px;
+  }
+
+  .subject-pill {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 50px;
+  }
+
+  .math .subject-pill { background: #CECBF6; color: #26215C; }
+  .science .subject-pill { background: #9FE1CB; color: #04342C; }
+  .social .subject-pill { background: #FAC775; color: #412402; }
+  .rla .subject-pill { background: #F5C4B3; color: #4A1B0C; }
+
+  /* ── FEATURES ── */
+  .features-section {
+    padding: 80px 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .feature-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 2px solid #e8e8e0;
+    padding: 30px 26px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .feature-card:hover { border-color: var(--green-mid); transform: translateY(-3px); }
+
+  .feature-icon {
+    width: 54px; height: 54px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 18px;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 0.93rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+
+  .feature-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 50px;
+    margin-top: 14px;
+  }
+
+  .badge-free { background: var(--green-light); color: var(--green-dark); }
+  .badge-premium { background: var(--amber-light); color: #412402; }
+
+  /* ── PRICING ── */
+  .pricing-section {
+    padding: 80px 5%;
+    background: var(--white);
+  }
+
+  .pricing-grid {
+    max-width: 860px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .pricing-card {
+    border-radius: var(--radius);
+    padding: 36px 30px;
+    border: 2px solid #e8e8e0;
+    background: var(--bg);
+  }
+
+  .pricing-card.featured {
+    background: var(--green-dark);
+    border-color: var(--green-dark);
+    position: relative;
+  }
+
+  .pricing-card.featured * { color: #fff !important; }
+  .pricing-card.featured .pricing-item { border-color: rgba(255,255,255,0.15); }
+
+  .pricing-popular {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--amber-mid);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 4px 16px;
+    border-radius: 50px;
+    white-space: nowrap;
+  }
+
+  .pricing-tier {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .pricing-price {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .pricing-price span {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .pricing-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .pricing-items {
+    list-style: none;
+    margin-bottom: 28px;
+  }
+
+  .pricing-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e0;
+    font-size: 0.92rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+  }
+
+  .pricing-item:last-child { border-bottom: none; }
+
+  .check { color: var(--green-mid); font-size: 1.1rem; }
+  .cross { color: #aaa; font-size: 1.1rem; }
+
+  .pricing-card.featured .check { color: #9FE1CB; }
+
+  .btn-pricing {
+    display: block;
+    text-align: center;
+    padding: 13px 24px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 0.97rem;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-pricing-free {
+    background: var(--bg);
+    color: var(--green-dark);
+    border: 2px solid var(--green-mid);
+  }
+
+  .btn-pricing-free:hover { background: var(--green-light); }
+
+  .btn-pricing-premium {
+    background: var(--amber-mid);
+    color: #fff;
+    border: none;
+  }
+
+  .btn-pricing-premium:hover { background: var(--amber); transform: translateY(-2px); }
+
+  /* ── PROGRESS DEMO ── */
+  .progress-section {
+    padding: 80px 5%;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .progress-demo {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 2px solid #e8e8e0;
+    padding: 28px;
+  }
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .progress-name { font-weight: 800; font-size: 1rem; }
+  .streak-badge {
+    background: var(--amber-light);
+    color: #412402;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 50px;
+  }
+
+  .progress-subject {
+    margin-bottom: 16px;
+  }
+
+  .progress-subj-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .progress-bar {
+    height: 10px;
+    background: #e8e8e0;
+    border-radius: 50px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 50px;
+    transition: width 1s ease;
+  }
+
+  .fill-purple { background: var(--purple); }
+  .fill-teal { background: var(--teal); }
+  .fill-amber { background: var(--amber-mid); }
+  .fill-coral { background: var(--coral); }
+
+  .progress-stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .mini-stat {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .mini-stat-num { font-size: 1.3rem; font-weight: 900; color: var(--green-dark); }
+  .mini-stat-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section {
+    padding: 80px 5%;
+    background: var(--white);
+  }
+
+  .testimonials-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    background: var(--bg);
+    border-radius: var(--radius);
+    padding: 26px;
+    border: 2px solid #e8e8e0;
+  }
+
+  .testimonial-stars {
+    font-size: 1rem;
+    color: var(--amber-mid);
+    margin-bottom: 12px;
+  }
+
+  .testimonial-text {
+    font-size: 0.97rem;
+    font-style: italic;
+    color: var(--text);
+    font-family: 'Lora', serif;
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #fff;
+  }
+
+  .author-info strong { font-size: 0.9rem; font-weight: 800; display: block; }
+  .author-info span { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--green-dark);
+    color: rgba(255,255,255,0.85);
+    padding: 50px 5% 28px;
+  }
+
+  .footer-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+
+  .footer-brand .logo { color: #fff; margin-bottom: 12px; display: flex; }
+  .footer-brand p { font-size: 0.9rem; line-height: 1.65; }
+
+  .footer-col h4 { color: #fff; font-size: 0.88rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
+
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 8px; }
+  .footer-col ul li a { text-decoration: none; color: rgba(255,255,255,0.7); font-size: 0.9rem; font-weight: 600; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: #fff; }
+
+  .footer-bottom {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /* ── BANNER ── */
+  .top-banner {
+    background: var(--green-mid);
+    color: #fff;
+    text-align: center;
+    padding: 10px 5%;
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  .top-banner a { color: #fff; font-weight: 800; text-decoration: underline; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 40px; padding: 50px 5% 40px; }
+    .hero-visual { order: -1; }
+    .progress-section { grid-template-columns: 1fr; gap: 40px; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 460px; }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 2rem; }
+    .hero-stats { gap: 18px; }
+    .hcard-back2 { display: none; }
+  }
+
+  /* Scroll reveal */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<div class="top-banner">
+  🎉 Launch offer — Start for free, no credit card needed. <a href="#">Get started today →</a>
+</div>
+
+<nav>
+  <a href="#" class="logo">
+    <div class="logo-icon">📚</div>
+    GEDReady
+  </a>
+  <ul class="nav-links">
+    <li><a href="#subjects">Subjects</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#">Log In</a></li>
+    <li><a href="#" class="nav-cta">Start Free</a></li>
+  </ul>
+  <button class="hamburger" aria-label="Menu">☰</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">✅ Trusted GED Preparation</div>
+    <h1>Pass Your GED with <em>Confidence</em></h1>
+    <p class="hero-desc">Practice quizzes, mock tests, and smart flashcards across all 4 GED subjects. Track your streak, watch your scores rise, and get certified — at your own pace.</p>
+    <div class="hero-btns">
+      <a href="#" class="btn-primary">Start for Free →</a>
+      <a href="#features" class="btn-secondary">See How It Works</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">4</span>
+        <span class="stat-label">GED Subjects</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Practice Questions</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Self-Paced</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-card-stack">
+      <div class="hcard hcard-back2"></div>
+      <div class="hcard hcard-back"></div>
+      <div class="hcard hcard-main">
+        <div class="hcard-streak">🔥 7-day streak</div>
+        <div class="hcard-tag">📐 Math · Algebra</div>
+        <div class="hcard-question">If 3x + 6 = 21, what is the value of x?</div>
+        <div class="hcard-options">
+          <button class="hcard-opt" onclick="answerQ(this, false)">A) 3</button>
+          <button class="hcard-opt correct" onclick="answerQ(this, true)">B) 5 ✓</button>
+          <button class="hcard-opt" onclick="answerQ(this, false)">C) 7</button>
+          <button class="hcard-opt" onclick="answerQ(this, false)">D) 9</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECTS -->
+<section class="subjects-section" id="subjects">
+  <div class="section-header reveal">
+    <div class="section-tag" style="background:var(--green-light);color:var(--green-dark);">All 4 GED Subjects</div>
+    <h2>Everything You Need to Pass</h2>
+    <p>Full coverage of every GED subject with targeted lessons, practice questions, and expert tips.</p>
+  </div>
+  <div class="subjects-grid">
+    <a href="#" class="subject-card math reveal">
+      <div class="subject-icon">📐</div>
+      <h3>Mathematical Reasoning</h3>
+      <p>Algebra, geometry, data analysis & more</p>
+      <span class="subject-pill">120+ Questions</span>
+    </a>
+    <a href="#" class="subject-card science reveal">
+      <div class="subject-icon">🔬</div>
+      <h3>Science</h3>
+      <p>Life science, physical science & earth science</p>
+      <span class="subject-pill">100+ Questions</span>
+    </a>
+    <a href="#" class="subject-card social reveal">
+      <div class="subject-icon">🌍</div>
+      <h3>Social Studies</h3>
+      <p>History, civics, geography & economics</p>
+      <span class="subject-pill">110+ Questions</span>
+    </a>
+    <a href="#" class="subject-card rla reveal">
+      <div class="subject-icon">📖</div>
+      <h3>Reasoning Through Language Arts</h3>
+      <p>Reading comprehension, grammar & writing</p>
+      <span class="subject-pill">130+ Questions</span>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="section-header reveal">
+    <div class="section-tag" style="background:var(--teal-light);color:#04342C;">Built to Help You Succeed</div>
+    <h2>Every Tool You Need</h2>
+    <p>From daily quizzes to full mock tests — we have the resources to get you GED ready.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:var(--purple-light);">🧩</div>
+      <h3>Practice Quizzes</h3>
+      <p>Short, focused quizzes to sharpen your skills one topic at a time. Immediate feedback on every answer.</p>
+      <span class="feature-badge badge-free">✓ Free (limited)</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:var(--amber-light);">📝</div>
+      <h3>Full Mock Tests</h3>
+      <p>Simulate the real GED experience with timed, full-length tests. Know exactly where you stand before exam day.</p>
+      <span class="feature-badge badge-premium">⭐ Premium</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:var(--teal-light);">🗂️</div>
+      <h3>Smart Flashcards</h3>
+      <p>Master key concepts and vocabulary with our flashcard decks for every subject. Perfect for on-the-go studying.</p>
+      <span class="feature-badge badge-premium">⭐ Premium</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:var(--coral-light);">📊</div>
+      <h3>Progress Tracking</h3>
+      <p>See your scores improve over time. Visual progress bars keep you motivated on every subject.</p>
+      <span class="feature-badge badge-free">✓ Free</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:var(--green-light);">🔥</div>
+      <h3>Daily Streaks</h3>
+      <p>Build a study habit with daily streaks. A little bit every day adds up to big results by exam day.</p>
+      <span class="feature-badge badge-free">✓ Free</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-icon" style="background:#EEEDFE;">🏆</div>
+      <h3>Score Reports</h3>
+      <p>Detailed breakdowns of your mock test results so you can focus on your weakest areas first.</p>
+      <span class="feature-badge badge-premium">⭐ Premium</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS DEMO -->
+<section class="progress-section">
+  <div class="reveal">
+    <div class="section-tag" style="background:var(--green-light);color:var(--green-dark);display:inline-block;font-size:0.78rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;padding:5px 14px;border-radius:50px;margin-bottom:14px;">Track Your Journey</div>
+    <h2 style="font-size:clamp(1.8rem,3vw,2.4rem);font-weight:900;line-height:1.2;margin-bottom:16px;">Watch Your Scores <em style="font-family:'Lora',serif;font-style:italic;color:var(--green-mid);">Climb</em></h2>
+    <p style="color:var(--text-muted);line-height:1.75;font-size:1rem;margin-bottom:24px;">Your personal dashboard shows progress across all 4 subjects, your daily streak, and how ready you are for the real exam.</p>
+    <a href="#" class="btn-primary" style="display:inline-block;">Create Free Account →</a>
+  </div>
+
+  <div class="progress-demo reveal">
+    <div class="progress-header">
+      <span class="progress-name">Your Dashboard</span>
+      <span class="streak-badge">🔥 12-day streak!</span>
+    </div>
+    <div class="progress-subject">
+      <div class="progress-subj-label"><span>📐 Math</span><span style="color:var(--purple)">72%</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-purple" style="width:72%"></div></div>
+    </div>
+    <div class="progress-subject">
+      <div class="progress-subj-label"><span>🔬 Science</span><span style="color:var(--teal)">58%</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-teal" style="width:58%"></div></div>
+    </div>
+    <div class="progress-subject">
+      <div class="progress-subj-label"><span>🌍 Social Studies</span><span style="color:var(--amber)">84%</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-amber" style="width:84%"></div></div>
+    </div>
+    <div class="progress-subject" style="margin-bottom:0">
+      <div class="progress-subj-label"><span>📖 RLA</span><span style="color:var(--coral)">65%</span></div>
+      <div class="progress-bar"><div class="progress-fill fill-coral" style="width:65%"></div></div>
+    </div>
+    <div class="progress-stats-row">
+      <div class="mini-stat"><div class="mini-stat-num">47</div><div class="mini-stat-label">Quizzes Done</div></div>
+      <div class="mini-stat"><div class="mini-stat-num">3</div><div class="mini-stat-label">Mock Tests</div></div>
+      <div class="mini-stat"><div class="mini-stat-num">82%</div><div class="mini-stat-label">Avg Score</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-header reveal">
+    <div class="section-tag" style="background:var(--amber-light);color:#412402;">Simple Pricing</div>
+    <h2>Start Free, Unlock More When Ready</h2>
+    <p>No tricks, no hidden fees. Get started at zero cost and upgrade when you want the full experience.</p>
+  </div>
+  <div class="pricing-grid">
+    <div class="pricing-card reveal">
+      <div class="pricing-tier">Free</div>
+      <div class="pricing-price">$0<span>/forever</span></div>
+      <div class="pricing-desc">A great way to get started and see if GEDReady is right for you.</div>
+      <ul class="pricing-items">
+        <li class="pricing-item"><span class="check">✓</span> 5 practice quizzes per subject</li>
+        <li class="pricing-item"><span class="check">✓</span> Progress tracking & streaks</li>
+        <li class="pricing-item"><span class="check">✓</span> Account & dashboard</li>
+        <li class="pricing-item"><span class="cross">✗</span> Full quiz library</li>
+        <li class="pricing-item"><span class="cross">✗</span> Mock tests</li>
+        <li class="pricing-item"><span class="cross">✗</span> Flashcard decks</li>
+        <li class="pricing-item"><span class="cross">✗</span> Score reports</li>
+      </ul>
+      <a href="#" class="btn-pricing btn-pricing-free">Get Started Free</a>
+    </div>
+    <div class="pricing-card featured reveal" style="position:relative;">
+      <div class="pricing-popular">⭐ Most Popular</div>
+      <div class="pricing-tier">Premium</div>
+      <div class="pricing-price">$9<span>/month</span></div>
+      <div class="pricing-desc">Everything you need to walk into your GED exam ready and confident.</div>
+      <ul class="pricing-items">
+        <li class="pricing-item"><span class="check">✓</span> Unlimited practice quizzes</li>
+        <li class="pricing-item"><span class="check">✓</span> Progress tracking & streaks</li>
+        <li class="pricing-item"><span class="check">✓</span> Account & dashboard</li>
+        <li class="pricing-item"><span class="check">✓</span> Full quiz library (500+ Qs)</li>
+        <li class="pricing-item"><span class="check">✓</span> Full mock tests (timed)</li>
+        <li class="pricing-item"><span class="check">✓</span> All flashcard decks</li>
+        <li class="pricing-item"><span class="check">✓</span> Detailed score reports</li>
+      </ul>
+      <a href="#" class="btn-pricing btn-pricing-premium">Start Premium →</a>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-header reveal">
+    <div class="section-tag" style="background:var(--coral-light);color:#4A1B0C;">Student Stories</div>
+    <h2>Real People, Real Results</h2>
+    <p>See what students are saying after using GEDReady to prepare for their exam.</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"I failed the math section twice before. After two months with GEDReady's quizzes and flashcards, I finally passed with an 82%. The streak feature kept me coming back every single day."</p>
+      <div class="testimonial-author">
+        <div class="avatar" style="background:var(--purple);">JM</div>
+        <div class="author-info"><strong>James M.</strong><span>Passed Math & Science ✅</span></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"As a mom studying while working full-time, I needed something I could do in 20 minutes a day. The progress bars showed me exactly where to focus and I passed all 4 subjects on my first try."</p>
+      <div class="testimonial-author">
+        <div class="avatar" style="background:var(--teal);">SR</div>
+        <div class="author-info"><strong>Sandra R.</strong><span>Passed all 4 subjects ✅</span></div>
+      </div>
+    </div>
+    <div class="testimonial-card reveal">
+      <div class="testimonial-stars">★★★★★</div>
+      <p class="testimonial-text">"The mock tests were almost identical to the real thing. I felt so prepared walking in. GEDReady is the best investment I made for my future — worth every penny of the premium plan."</p>
+      <div class="testimonial-author">
+        <div class="avatar" style="background:var(--coral);">DK</div>
+        <div class="author-info"><strong>Darius K.</strong><span>GED certified, age 17 ✅</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA SECTION -->
+<section style="padding:80px 5%;text-align:center;background:var(--green-dark);">
+  <div class="reveal">
+    <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:900;color:#fff;margin-bottom:16px;">Ready to Start Your GED Journey?</h2>
+    <p style="color:rgba(255,255,255,0.75);font-size:1.05rem;max-width:500px;margin:0 auto 32px;line-height:1.7;">Join thousands of students already studying smarter. It's free to start — no credit card needed.</p>
+    <a href="#" class="btn-primary" style="font-size:1.1rem;padding:16px 38px;background:var(--amber-mid);">Create Your Free Account →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">📚 GEDReady</a>
+      <p>The friendliest way to prepare for your GED. Study smarter, not harder — and pass with confidence.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Study</h4>
+      <ul>
+        <li><a href="#">Math</a></li>
+        <li><a href="#">Science</a></li>
+        <li><a href="#">Social Studies</a></li>
+        <li><a href="#">RLA</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#">Practice Quizzes</a></li>
+        <li><a href="#">Mock Tests</a></li>
+        <li><a href="#">Flashcards</a></li>
+        <li><a href="#">Study Tips</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 GEDReady. All rights reserved.</span>
+    <span>Made with ❤️ for GED students everywhere</span>
+  </div>
+</footer>
+
+<script>
+  function answerQ(btn, isCorrect) {
+    const opts = document.querySelectorAll('.hcard-opt');
+    opts.forEach(o => { o.onclick = null; });
+    if (!isCorrect) {
+      btn.classList.add('wrong');
+      opts[1].classList.add('correct');
+    }
+  }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+
+  document.querySelectorAll('a[href="#"]').forEach(a => a.addEventListener('click', e => e.preventDefault()));
+</script>
+</body>
+</html>
