@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — Choose a Subject</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green-mid: #639922; --green-dark: #27500A; --green-light: #EAF3DE;
+    --purple: #534AB7; --purple-light: #EEEDFE; --purple-dark: #26215C;
+    --teal: #1D9E75; --teal-light: #E1F5EE; --teal-dark: #04342C;
+    --amber-mid: #EF9F27; --amber-light: #FAEEDA; --amber-dark: #412402;
+    --coral: #D85A30; --coral-light: #FAECE7; --coral-dark: #4A1B0C;
+    --text: #1a1a1a; --text-muted: #666; --border: #e4e4da; --bg: #F4F4EF; --white: #fff;
+    --radius: 20px; --nav-h: 64px;
+  }
+  html, body { min-height: 100vh; font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); }
+
+  /* NAV */
+  nav {
+    height: var(--nav-h); background: var(--white); border-bottom: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px; position: sticky; top: 0; z-index: 50;
+  }
+  .logo { display: flex; align-items: center; gap: 9px; text-decoration: none; font-size: 1.25rem; font-weight: 900; color: var(--green-dark); }
+  .logo-icon { width: 34px; height: 34px; background: var(--green-mid); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+  .nav-right { display: flex; align-items: center; gap: 10px; }
+  .nav-link { font-size: 0.88rem; font-weight: 700; color: var(--text-muted); text-decoration: none; padding: 7px 14px; border-radius: 50px; transition: all 0.15s; }
+  .nav-link:hover { background: var(--bg); color: var(--text); }
+  .nav-cta { background: var(--green-mid); color: #fff !important; border-radius: 50px; }
+  .nav-cta:hover { background: var(--green-dark) !important; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 56px 20px 40px; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--green-light); color: var(--green-dark); font-size: 0.78rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; padding: 5px 14px; border-radius: 50px; margin-bottom: 16px; }
+  .hero h1 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 900; line-height: 1.18; margin-bottom: 12px; }
+  .hero h1 em { font-family: 'Lora', serif; font-style: italic; color: var(--green-mid); font-weight: 600; }
+  .hero p { font-size: 1rem; color: var(--text-muted); font-weight: 600; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+  /* SUBJECT GRID */
+  .subjects-wrap { max-width: 1000px; margin: 0 auto; padding: 0 20px 80px; }
+
+  .subject-card {
+    border-radius: var(--radius);
+    border: 2px solid transparent;
+    padding: 32px 28px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 24px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 16px;
+    animation: fadeUp 0.5s ease both;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .subject-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .subject-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.10); }
+  .subject-card:hover::before { opacity: 1; }
+
+  .subject-card.math    { background: var(--purple-light); border-color: #C5C2F0; }
+  .subject-card.science { background: var(--teal-light);   border-color: #8FDEC4; }
+  .subject-card.social  { background: var(--amber-light);  border-color: #F7C87A; }
+  .subject-card.rla     { background: var(--coral-light);  border-color: #F0A98A; }
+
+  .subject-card:nth-child(1) { animation-delay: 0.08s; }
+  .subject-card:nth-child(2) { animation-delay: 0.15s; }
+  .subject-card:nth-child(3) { animation-delay: 0.22s; }
+  .subject-card:nth-child(4) { animation-delay: 0.29s; }
+
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+  .subj-icon-wrap {
+    width: 68px; height: 68px; border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.8rem; flex-shrink: 0;
+  }
+  .math    .subj-icon-wrap { background: #C5C2F0; }
+  .science .subj-icon-wrap { background: #8FDEC4; }
+  .social  .subj-icon-wrap { background: #F7C87A; }
+  .rla     .subj-icon-wrap { background: #F0A98A; }
+
+  .subj-body { min-width: 0; }
+  .subj-name { font-size: 1.2rem; font-weight: 900; margin-bottom: 5px; }
+  .math    .subj-name { color: var(--purple-dark); }
+  .science .subj-name { color: var(--teal-dark); }
+  .social  .subj-name { color: var(--amber-dark); }
+  .rla     .subj-name { color: var(--coral-dark); }
+
+  .subj-desc { font-size: 0.9rem; font-weight: 600; opacity: 0.75; margin-bottom: 12px; line-height: 1.5; }
+  .math    .subj-desc { color: var(--purple-dark); }
+  .science .subj-desc { color: var(--teal-dark); }
+  .social  .subj-desc { color: var(--amber-dark); }
+  .rla     .subj-desc { color: var(--coral-dark); }
+
+  .subj-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { font-size: 0.72rem; font-weight: 800; padding: 3px 10px; border-radius: 50px; }
+  .math    .pill { background: #C5C2F0; color: var(--purple-dark); }
+  .science .pill { background: #8FDEC4; color: var(--teal-dark); }
+  .social  .pill { background: #F7C87A; color: var(--amber-dark); }
+  .rla     .pill { background: #F0A98A; color: var(--coral-dark); }
+
+  .subj-cta {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .start-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 800;
+    padding: 11px 22px; border-radius: 50px; border: none; cursor: pointer;
+    transition: all 0.18s; white-space: nowrap;
+  }
+
+  .math    .start-btn { background: var(--purple); color: #fff; }
+  .science .start-btn { background: var(--teal);   color: #fff; }
+  .social  .start-btn { background: var(--amber-mid); color: #fff; }
+  .rla     .start-btn { background: var(--coral);  color: #fff; }
+
+  .start-btn:hover { opacity: 0.88; transform: scale(1.03); }
+
+  .q-count { font-size: 0.78rem; font-weight: 700; opacity: 0.65; }
+  .math    .q-count { color: var(--purple-dark); }
+  .science .q-count { color: var(--teal-dark); }
+  .social  .q-count { color: var(--amber-dark); }
+  .rla     .q-count { color: var(--coral-dark); }
+
+  /* INFO ROW */
+  .info-row {
+    display: flex; align-items: center; justify-content: center; gap: 28px;
+    background: var(--white); border-radius: var(--radius); border: 1.5px solid var(--border);
+    padding: 20px 28px; margin-bottom: 28px; flex-wrap: wrap;
+  }
+  .info-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 700; color: var(--text-muted); }
+  .info-item span:first-child { font-size: 1.1rem; }
+
+  @media (max-width: 640px) {
+    .subject-card { grid-template-columns: auto 1fr; gap: 16px; }
+    .subj-cta { display: none; }
+    .subject-card { padding: 22px 18px; }
+    nav { padding: 0 16px; }
+    .nav-link:not(.nav-cta) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo"><div class="logo-icon">📚</div>GEDReady</a>
+  <div class="nav-right">
+    <a href="dashboard.html" class="nav-link">Dashboard</a>
+    <a href="auth.html" class="nav-link nav-cta">Sign Up Free</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">🧩 Practice Quizzes</div>
+  <h1>Choose a <em>Subject</em> to Practice</h1>
+  <p>Each quiz has 10 questions in official GED format. Pick a subject and start building your confidence.</p>
+</div>
+
+<div class="subjects-wrap">
+  <div class="info-row">
+    <div class="info-item"><span>📋</span><span>10 questions per quiz</span></div>
+    <div class="info-item"><span>🎯</span><span>Official GED question types</span></div>
+    <div class="info-item"><span>⚡</span><span>Instant feedback</span></div>
+    <div class="info-item"><span>🔒</span><span>Free to try — sign in to save score</span></div>
+  </div>
+
+  <a href="quiz-math.html" class="subject-card math">
+    <div class="subj-icon-wrap">📐</div>
+    <div class="subj-body">
+      <div class="subj-name">Mathematical Reasoning</div>
+      <div class="subj-desc">Algebra, geometry, data analysis, and quantitative problem solving.</div>
+      <div class="subj-pills">
+        <span class="pill">Algebra</span>
+        <span class="pill">Geometry</span>
+        <span class="pill">Data Analysis</span>
+        <span class="pill">Problem Solving</span>
+      </div>
+    </div>
+    <div class="subj-cta">
+      <button class="start-btn">Start Quiz →</button>
+      <span class="q-count">10 questions</span>
+    </div>
+  </a>
+
+  <a href="quiz-science.html" class="subject-card science">
+    <div class="subj-icon-wrap">🔬</div>
+    <div class="subj-body">
+      <div class="subj-name">Science</div>
+      <div class="subj-desc">Life science, physical science, earth and space science concepts.</div>
+      <div class="subj-pills">
+        <span class="pill">Life Science</span>
+        <span class="pill">Physical Science</span>
+        <span class="pill">Earth Science</span>
+      </div>
+    </div>
+    <div class="subj-cta">
+      <button class="start-btn">Start Quiz →</button>
+      <span class="q-count">10 questions</span>
+    </div>
+  </a>
+
+  <a href="quiz-social.html" class="subject-card social">
+    <div class="subj-icon-wrap">🌍</div>
+    <div class="subj-body">
+      <div class="subj-name">Social Studies</div>
+      <div class="subj-desc">US history, civics, geography, and economics.</div>
+      <div class="subj-pills">
+        <span class="pill">US History</span>
+        <span class="pill">Civics</span>
+        <span class="pill">Geography</span>
+        <span class="pill">Economics</span>
+      </div>
+    </div>
+    <div class="subj-cta">
+      <button class="start-btn">Start Quiz →</button>
+      <span class="q-count">10 questions</span>
+    </div>
+  </a>
+
+  <a href="quiz-rla.html" class="subject-card rla">
+    <div class="subj-icon-wrap">📖</div>
+    <div class="subj-body">
+      <div class="subj-name">Reasoning Through Language Arts</div>
+      <div class="subj-desc">Reading comprehension, grammar, vocabulary, and writing skills.</div>
+      <div class="subj-pills">
+        <span class="pill">Reading</span>
+        <span class="pill">Grammar</span>
+        <span class="pill">Vocabulary</span>
+        <span class="pill">Writing</span>
+      </div>
+    </div>
+    <div class="subj-cta">
+      <button class="start-btn">Start Quiz →</button>
+      <span class="q-count">10 questions</span>
+    </div>
+  </a>
+</div>
+
+</body>
+</html>
