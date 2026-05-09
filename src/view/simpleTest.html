@@ -3,976 +3,577 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GED Social Studies — Presidential Speech Practice Test</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<title>Academic Kinetic – GED Social Studies</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  :root {
-    --navy: #1a2332;
-    --navy2: #243040;
-    --navy3: #2e3d52;
-    --gold: #c9a84c;
-    --gold2: #e8c97a;
-    --cream: #f7f3ec;
-    --cream2: #efe9de;
-    --cream3: #e5ddd0;
-    --text: #1a2332;
-    --text2: #4a5568;
-    --text3: #7a8898;
-    --green: #2d6a4f;
-    --green-bg: #d8f3dc;
-    --red: #9b2226;
-    --red-bg: #fde8e8;
-    --amber: #92400e;
-    --amber-bg: #fef3c7;
-    --blue: #1e40af;
-    --blue-bg: #dbeafe;
-    --radius: 10px;
-    --radius-lg: 16px;
-    --shadow: 0 2px 16px rgba(26,35,50,0.10);
-    --shadow-lg: 0 8px 32px rgba(26,35,50,0.15);
-  }
-
-  body {
-    font-family: 'Source Serif 4', Georgia, serif;
-    background: var(--cream);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 16px;
-    line-height: 1.7;
-  }
-
-  #highlight-color-picker{
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  outline: none;
-  cursor: pointer;
+:root{
+  --ink:#18182b;
+  --ink2:#44446a;
+  --muted:#8888aa;
+  --bg:#f2f1f8;
+  --surface:#ffffff;
+  --border:#e0dfed;
+  --primary:#4338ca;
+  --primary-light:#eef2ff;
+  --primary-glow:rgba(67,56,202,0.18);
+  --amber:#f59e0b;
+  --green:#16a34a;
+  --green-light:#f0fdf4;
+  --red:#dc2626;
+  --red-light:#fef2f2;
+  --radius:14px;
+  --shadow:0 2px 20px rgba(67,56,202,0.09);
 }
 
-#highlight-color-picker option{
-  color:black;
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── HEADER ── */
+header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  height:58px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(67,56,202,0.07);flex-shrink:0;
+}
+.logo{font-family:'Lora',serif;font-size:1.15rem;color:var(--primary);font-weight:600;letter-spacing:-.02em}
+.test-label{font-size:.78rem;font-weight:500;color:var(--muted);border-left:1px solid var(--border);margin-left:14px;padding-left:14px}
+.h-left{display:flex;align-items:center}
+.h-right{display:flex;align-items:center;gap:10px}
+.timer-pill{
+  background:var(--primary);color:#fff;padding:7px 16px;border-radius:50px;
+  font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:6px;
+  transition:background .3s;
+}
+.timer-pill.urgent{background:#dc2626}
+.btn-exit{background:none;border:1.5px solid var(--border);border-radius:50px;padding:6px 16px;font-size:.8rem;font-weight:500;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}
+.btn-exit:hover{border-color:#dc2626;color:#dc2626}
+
+/* ── TEST OVERVIEW BUTTON ── */
+.btn-overview{
+  background:none;border:1.5px solid var(--border);border-radius:50px;padding:6px 14px;
+  font-size:.8rem;font-weight:600;color:var(--ink);cursor:pointer;
+  display:flex;align-items:center;gap:7px;transition:all .15s;position:relative;
+}
+.btn-overview:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.btn-overview.active{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.overview-badge{
+  background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;
+  min-width:17px;height:17px;border-radius:50px;padding:0 4px;
+  display:flex;align-items:center;justify-content:center;
 }
 
-.passage-text mark.hl{
-  color: inherit;
-  border-radius: 3px;
-  padding: 0 2px;
+/* ── OVERVIEW DROPDOWN PANEL ── */
+.overview-overlay{
+  position:fixed;inset:0;z-index:150;display:none;
+}
+.overview-overlay.open{display:block}
+.overview-panel{
+  position:fixed;top:66px;left:50%;transform:translateX(-50%);
+  background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  box-shadow:0 8px 40px rgba(67,56,202,0.18);
+  width:420px;max-width:calc(100vw - 32px);
+  z-index:160;overflow:hidden;
+  animation:dropIn .2s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes dropIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.op-header{
+  padding:14px 18px 12px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(135deg,#f5f3ff,#fff);
+}
+.op-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.op-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;line-height:1;padding:2px 6px;border-radius:6px;transition:background .12s,color .12s}
+.op-close:hover{background:var(--bg);color:var(--ink)}
+.op-stats{display:flex;gap:0;border-bottom:1px solid var(--border)}
+.op-stat{flex:1;padding:10px;text-align:center;border-right:1px solid var(--border)}
+.op-stat:last-child{border-right:none}
+.op-stat-num{font-size:1.1rem;font-weight:700;font-family:'Lora',serif}
+.op-stat-lbl{font-size:.67rem;color:var(--muted);margin-top:1px}
+.op-stat.os-done .op-stat-num{color:var(--primary)}
+.op-stat.os-blank .op-stat-num{color:var(--muted)}
+.op-stat.os-mark .op-stat-num{color:var(--amber)}
+.q-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 16px}
+.qb{
+  aspect-ratio:1;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);
+  color:var(--muted);background:var(--bg);transition:all .15s;
+}
+.qb:hover{border-color:var(--primary);color:var(--primary)}
+.qb.current{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 2px 8px var(--primary-glow)}
+.qb.answered{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
+.qb.marked{background:#fff7ed;color:var(--amber);border-color:var(--amber)}
+.qb.marked.answered{background:#fff7ed;color:var(--amber);border-color:var(--amber)}
+.op-legend{display:flex;gap:14px;padding:10px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:.69rem;color:var(--muted)}
+.leg-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
+.ld-current{background:var(--primary)}
+.ld-answered{background:var(--primary-light);border:1.5px solid var(--primary)}
+.ld-marked{background:#fff7ed;border:1.5px solid var(--amber)}
+.ld-unanswered{background:var(--bg);border:1.5px solid var(--border)}
+.op-footer{padding:12px 16px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+.btn-submit-early{padding:9px 20px;background:var(--primary);color:#fff;border:none;border-radius:50px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s;font-family:'Outfit',sans-serif}
+.btn-submit-early:hover{background:#3730a3}
+
+/* ── BODY LAYOUT ── */
+.app-body{display:flex;flex:1;height:calc(100vh - 58px);overflow:hidden}
+
+/* ── MAIN AREA ── */
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.split{display:flex;flex:1;overflow:hidden;gap:0;padding:16px;gap:14px}
+
+/* ── PASSAGE ── */
+.passage-panel{
+  flex:0 0 42%;background:var(--surface);border-radius:var(--radius);
+  border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
+}
+.passage-head{
+  padding:14px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0;
+  background:linear-gradient(135deg,#f5f3ff,#fff);
+}
+.p-tag{display:inline-block;background:var(--primary-light);color:var(--primary);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:50px;margin-bottom:6px}
+.passage-num{font-family:'Lora',serif;font-size:1rem;font-weight:600;color:var(--ink)}
+.passage-scroll{flex:1;overflow-y:auto;padding:18px 20px 22px;scroll-behavior:smooth}
+.passage-scroll::-webkit-scrollbar{width:5px}
+.passage-scroll::-webkit-scrollbar-track{background:transparent}
+.passage-scroll::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:8px}
+.passage-scroll::-webkit-scrollbar-thumb:hover{background:#a5b4fc}
+.passage-text{
+  font-family:'Lora',serif;font-size:.91rem;line-height:1.9;color:#2e2e50;
 }
 
-  /* ── LAYOUT ── */
-  .screen { display: none; }
-  .screen.active { display: block; }
+/* ── QUESTION ── */
+.question-panel{
+  flex:1;background:var(--surface);border-radius:var(--radius);
+  border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
+}
+.q-head{
+  padding:14px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0;
+  background:linear-gradient(135deg,#f5f3ff,#fff);
+  display:flex;justify-content:space-between;align-items:flex-start;
+}
+.q-meta{flex:1}
+.q-number-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:5px}
+.q-text{font-size:.93rem;line-height:1.55;color:var(--ink);font-weight:400}
+.btn-mark{
+  background:none;border:1.5px solid var(--border);border-radius:8px;padding:5px 11px;
+  font-size:.73rem;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;
+  margin-left:12px;flex-shrink:0;transition:all .15s;display:flex;align-items:center;gap:5px;
+}
+.btn-mark:hover,.btn-mark.marked{border-color:var(--amber);color:var(--amber);background:#fff7ed}
+.options-area{padding:16px 18px;display:flex;flex-direction:column;gap:9px;overflow-y:auto;flex:1}
+.options-area::-webkit-scrollbar{width:4px}
+.options-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.opt{
+  display:flex;align-items:center;gap:12px;padding:13px 16px;
+  border:1.5px solid var(--border);border-radius:11px;cursor:pointer;
+  transition:border-color .15s,background .15s,transform .1s;user-select:none;
+}
+.opt:hover{border-color:var(--primary);background:var(--primary-light);transform:translateX(2px)}
+.opt.selected{border-color:var(--primary);background:var(--primary-light)}
+.opt-radio{
+  width:19px;height:19px;border-radius:50%;border:2px solid var(--border);
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;
+}
+.opt.selected .opt-radio{border-color:var(--primary);background:var(--primary)}
+.opt.selected .opt-radio::after{content:'';width:7px;height:7px;border-radius:50%;background:#fff}
+.opt-letter{font-size:.78rem;font-weight:700;color:var(--muted);width:18px;flex-shrink:0}
+.opt.selected .opt-letter{color:var(--primary)}
+.opt-text{font-size:.88rem;color:var(--ink);line-height:1.4}
+.opt.selected .opt-text{color:var(--primary);font-weight:500}
 
-  .container {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 2rem 1.25rem 4rem;
-  }
+/* ── NAV BAR ── */
+.nav-bar{
+  background:var(--surface);border-top:1px solid var(--border);padding:11px 20px;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.nav-stats{display:flex;gap:18px}
+.ns{font-size:.77rem;color:var(--muted);display:flex;align-items:center;gap:5px}
+.ndot{width:8px;height:8px;border-radius:50%}
+.nd-done{background:var(--primary)}
+.nd-left{background:#c8c8e0}
+.nd-mark{background:var(--amber)}
+.nav-btns{display:flex;gap:9px}
+.btn-prev{background:none;border:1.5px solid var(--border);border-radius:50px;padding:9px 20px;font-size:.85rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;font-family:'Outfit',sans-serif}
+.btn-prev:hover{border-color:var(--primary);color:var(--primary)}
+.btn-prev:disabled{opacity:.35;cursor:not-allowed}
+.btn-next{background:var(--primary);border:none;border-radius:50px;padding:9px 22px;font-size:.85rem;font-weight:600;color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 3px 12px var(--primary-glow);font-family:'Outfit',sans-serif}
+.btn-next:hover{background:#3730a3;transform:translateY(-1px)}
 
-  /* ── HEADER BAR ── */
-  .top-bar {
-    background: var(--navy);
-    padding: 0.75rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
-  .top-bar-brand {
-    font-family: 'Playfair Display', serif;
-    color: var(--gold);
-    font-size: 15px;
-    letter-spacing: 0.04em;
-  }
-  .top-bar-right { display: flex; align-items: center; gap: 12px; }
-  
-  .timer-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(201,168,76,0.3);
-    color: var(--gold2);
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 600;
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.05em;
-    transition: background 0.3s, color 0.3s;
-  }
-  .timer-pill.urgent {
-    background: rgba(155,34,38,0.25);
-    border-color: #e74c3c;
-    color: #f87171;
-    animation: pulse-timer 1s infinite;
-  }
-  @keyframes pulse-timer { 0%,100%{opacity:1} 50%{opacity:0.7} }
+/* ── REVIEW SCREEN ── */
+.review-screen{display:none;flex:1;overflow-y:auto;padding:0;}
+.review-screen::-webkit-scrollbar{width:6px}
+.review-screen::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px}
+.review-inner{max-width:860px;margin:0 auto;padding:28px 28px 40px;}
+.review-title{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px}
+.review-sub{font-size:.84rem;color:var(--muted);margin-bottom:22px}
+.review-stats-row{display:flex;gap:12px;margin-bottom:24px}
+.stat-card{flex:1;background:var(--surface);border-radius:12px;border:1px solid var(--border);padding:14px 16px;text-align:center}
+.stat-num{font-size:1.5rem;font-weight:700;font-family:'Lora',serif}
+.stat-lbl{font-size:.73rem;color:var(--muted);margin-top:2px}
+.stat-card.sc-done .stat-num{color:var(--primary)}
+.stat-card.sc-blank .stat-num{color:var(--muted)}
+.stat-card.sc-mark .stat-num{color:var(--amber)}
+.review-list{display:flex;flex-direction:column;gap:12px}
+.review-item{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:14px;
+  overflow:hidden;transition:border-color .15s,box-shadow .15s;
+}
+.review-item:hover{border-color:var(--primary);box-shadow:0 2px 14px var(--primary-glow)}
+.ri-top{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;cursor:pointer;}
+.ri-num{width:34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ri-num.blank{background:var(--bg);color:var(--muted);border:1.5px solid var(--border)}
+.ri-num.marked-q{background:#fff7ed;color:var(--amber);border:1.5px solid var(--amber)}
+.ri-info{flex:1}
+.ri-passage{font-size:.7rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.ri-question{font-size:.88rem;color:var(--ink);line-height:1.45;font-weight:500;margin-bottom:5px}
+.ri-opts{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.ri-opt{
+  font-size:.76rem;padding:4px 10px;border-radius:50px;border:1.5px solid var(--border);
+  color:var(--muted);background:var(--bg);
+}
+.ri-opt.selected{border-color:var(--primary);color:var(--primary);background:var(--primary-light);font-weight:600}
+.ri-opt.unanswered-opt{border-color:#c8c8e0;color:var(--muted);font-style:italic}
+.ri-go{font-size:.75rem;color:var(--primary);font-weight:600;white-space:nowrap;padding-top:2px}
+.review-actions{margin-top:24px;display:flex;justify-content:flex-end;gap:10px;padding-top:4px}
+.btn-back-test{background:none;border:1.5px solid var(--border);border-radius:50px;padding:11px 24px;font-size:.88rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;font-family:'Outfit',sans-serif}
+.btn-back-test:hover{border-color:var(--primary);color:var(--primary)}
+.btn-confirm-submit{background:var(--green);border:none;border-radius:50px;padding:11px 28px;font-size:.88rem;font-weight:700;color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 3px 14px rgba(22,163,74,.22);font-family:'Outfit',sans-serif}
+.btn-confirm-submit:hover{background:#15803d;transform:translateY(-1px)}
 
-  .overview-btn {
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: #cbd5e1;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'Source Serif 4', serif;
-    transition: background 0.2s;
-  }
-  .overview-btn:hover { background: rgba(255,255,255,0.15); }
+/* ── RESULTS SCREEN ── */
+.results-screen{display:none;flex:1;overflow-y:auto;padding:0;}
+.results-screen::-webkit-scrollbar{width:6px}
+.results-screen::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px}
+.results-inner{max-width:860px;margin:0 auto;padding:32px 28px 50px;}
+/* Score header */
+.score-hero{display:flex;align-items:center;gap:28px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px 32px;margin-bottom:22px;box-shadow:var(--shadow)}
+.trophy{font-size:3.2rem;flex-shrink:0}
+.score-hero-text{flex:1}
+.results-title{font-family:'Lora',serif;font-size:1.6rem;font-weight:600;margin-bottom:4px}
+.results-sub{font-size:.86rem;color:var(--muted);line-height:1.5}
+.score-circle{
+  width:100px;height:100px;border-radius:50%;border:5px solid var(--primary);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 0 10px var(--primary-light);flex-shrink:0;
+}
+.score-big{font-family:'Lora',serif;font-size:2rem;font-weight:700;color:var(--primary);line-height:1}
+.score-denom{font-size:.72rem;color:var(--muted);margin-top:2px}
+/* Breakdown row */
+.result-breakdown{display:flex;gap:12px;margin-bottom:28px}
+.rb-card{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+.rb-num{font-size:1.4rem;font-weight:700;font-family:'Lora',serif}
+.rb-lbl{font-size:.72rem;color:var(--muted);margin-top:2px}
+.rb-card.rc{border-color:var(--green);background:var(--green-light)}
+.rb-card.rc .rb-num{color:var(--green)}
+.rb-card.rw{border-color:var(--red);background:var(--red-light)}
+.rb-card.rw .rb-num{color:var(--red)}
+.rb-card.rs .rb-num{color:var(--muted)}
+/* Section heading */
+.section-heading{font-family:'Lora',serif;font-size:1.05rem;font-weight:600;margin-bottom:14px;color:var(--ink)}
+/* Result detail cards */
+.results-detail{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.rd-item{background:var(--surface);border:2px solid var(--border);border-radius:14px;overflow:hidden;}
+.rd-item.correct{border-color:var(--green)}
+.rd-item.wrong{border-color:var(--red)}
+.rd-item.skipped{border-color:#c8c8e0}
+.rd-header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.rd-badge{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.rd-item.correct .rd-badge{background:var(--green);color:#fff}
+.rd-item.wrong .rd-badge{background:var(--red);color:#fff}
+.rd-item.skipped .rd-badge{background:var(--bg);color:var(--muted);border:1.5px solid #c8c8e0}
+.rd-header-text{flex:1}
+.rd-passage-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px}
+.rd-q{font-size:.9rem;font-weight:600;color:var(--ink);line-height:1.4}
+.rd-status-badge{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:50px;white-space:nowrap;flex-shrink:0}
+.rd-item.correct .rd-status-badge{background:var(--green-light);color:var(--green)}
+.rd-item.wrong .rd-status-badge{background:var(--red-light);color:var(--red)}
+.rd-item.skipped .rd-status-badge{background:var(--bg);color:var(--muted)}
+.rd-body{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
+.rd-options-grid{display:flex;flex-direction:column;gap:6px}
+.rd-opt-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:9px;border:1.5px solid var(--border);font-size:.83rem}
+.rd-opt-letter{font-weight:700;width:18px;flex-shrink:0;color:var(--muted)}
+.rd-opt-text{flex:1;color:var(--ink)}
+.rd-opt-row.user-ans{border-color:var(--red);background:var(--red-light)}
+.rd-opt-row.user-ans .rd-opt-letter{color:var(--red)}
+.rd-opt-row.correct-ans{border-color:var(--green);background:var(--green-light)}
+.rd-opt-row.correct-ans .rd-opt-letter{color:var(--green)}
+.rd-opt-row.user-correct{border-color:var(--green);background:var(--green-light)}
+.rd-opt-row.user-correct .rd-opt-letter{color:var(--green)}
+.rd-opt-icon{margin-left:auto;font-size:.85rem}
+.rd-explanation{background:linear-gradient(135deg,#f5f3ff,#eef2ff);border:1px solid #c7d2fe;border-radius:10px;padding:12px 14px}
+.rd-exp-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--primary);margin-bottom:5px}
+.rd-exp-text{font-size:.83rem;color:#3730a3;line-height:1.55}
+.btn-restart{background:var(--primary);border:none;border-radius:50px;padding:12px 32px;font-size:.9rem;font-weight:700;color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 3px 14px var(--primary-glow);font-family:'Outfit',sans-serif}
+.btn-restart:hover{background:#3730a3;transform:translateY(-1px)}
+.results-footer{display:flex;justify-content:center;padding-top:8px}
 
-  /* ── START SCREEN ── */
-  .start-wrap {
-    text-align: center;
-    padding: 3rem 1rem 2rem;
-  }
-  .start-seal {
-    width: 72px;
-    height: 72px;
-    background: var(--navy);
-    border-radius: 50%;
-    margin: 0 auto 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 3px solid var(--gold);
-  }
-  .start-seal svg { width: 36px; height: 36px; fill: var(--gold); }
-  .start-eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.5rem;
-  }
-  .start-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 34px;
-    font-weight: 600;
-    color: var(--navy);
-    line-height: 1.25;
-    margin-bottom: 0.75rem;
-  }
-  .start-sub {
-    font-size: 15px;
-    color: var(--text2);
-    max-width: 440px;
-    margin: 0 auto 2.5rem;
-    font-weight: 300;
-    font-style: italic;
-  }
-  .info-cards {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 14px;
-    max-width: 500px;
-    margin: 0 auto 2.5rem;
-  }
-  .info-card {
-    background: white;
-    border: 1px solid var(--cream3);
-    border-radius: var(--radius);
-    padding: 1.25rem 0.75rem;
-    box-shadow: var(--shadow);
-  }
-  .info-card-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 30px;
-    font-weight: 600;
-    color: var(--navy);
-  }
-  .info-card-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--text3);
-    margin-top: 2px;
-  }
-  .info-gold { color: var(--gold); }
-  .rules-list {
-    background: white;
-    border: 1px solid var(--cream3);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem 1.75rem;
-    text-align: left;
-    max-width: 500px;
-    margin: 0 auto 2rem;
-    box-shadow: var(--shadow);
-  }
-  .rules-list h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    color: var(--navy);
-    margin-bottom: 0.75rem;
-  }
-  .rules-list li {
-    font-size: 14px;
-    color: var(--text2);
-    padding: 4px 0 4px 1.25rem;
-    position: relative;
-    font-weight: 300;
-  }
-  .rules-list li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--gold);
-    font-weight: 600;
-  }
-  .btn-start {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    background: var(--navy);
-    color: var(--gold2);
-    border: none;
-    padding: 16px 40px;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: 600;
-    font-family: 'Playfair Display', serif;
-    cursor: pointer;
-    box-shadow: var(--shadow-lg);
-    transition: transform 0.2s, opacity 0.2s;
-    letter-spacing: 0.03em;
-  }
-  .btn-start:hover { transform: translateY(-2px); opacity: 0.92; }
-  .btn-start:active { transform: scale(0.98); }
+.qb.answered.marked{
+  background:#fff7ed;
+  border-color:var(--amber);
+  color:var(--amber);
+}
 
-  /* ── TEST SCREEN ── */
-  .test-progress-bar-outer {
-    height: 3px;
-    background: var(--cream3);
-  }
-  .test-progress-bar-inner {
-    height: 100%;
-    background: linear-gradient(90deg, var(--navy), var(--gold));
-    transition: width 0.4s ease;
-  }
-
-  .test-body { padding: 1.75rem 1.25rem 2rem; max-width: 780px; margin: 0 auto; }
-
-  .q-meta-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1.25rem;
-  }
-  .q-counter {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--text3);
-  }
-  .flag-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: transparent;
-    border: 1px solid var(--cream3);
-    color: var(--text3);
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    font-family: 'Source Serif 4', serif;
-    transition: all 0.2s;
-  }
-  .flag-btn:hover { border-color: var(--amber); color: var(--amber); background: var(--amber-bg); }
-  .flag-btn.flagged { background: var(--amber-bg); color: var(--amber); border-color: #f59e0b; }
-  .flag-icon { font-size: 14px; }
-
-  .passage-card {
-    background: white;
-    border: 1px solid var(--cream3);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 1.5rem;
-    box-shadow: var(--shadow);
-    position: relative;
-  }
-  .passage-label {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.75rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .passage-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--cream3);
-  }
-  .passage-text {
-    font-size: 15px;
-    line-height: 1.8;
-    color: var(--text);
-    font-style: italic;
-    font-weight: 300;
-  }
-  .passage-text mark.hl {
-    background: #fde68a;
-    color: inherit;
-    border-radius: 2px;
-    padding: 0 2px;
-    font-style: italic;
-  }
-  .hl-hint {
-    font-size: 11px;
-    color: var(--text3);
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-style: normal;
-  }
-
-  .question-card {
-    background: white;
-    border: 1px solid var(--cream3);
-    border-radius: var(--radius-lg);
-    padding: 1.5rem 1.75rem;
-    margin-bottom: 1.25rem;
-    box-shadow: var(--shadow);
-  }
-  .question-heading {
-    font-family: 'Playfair Display', serif;
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--navy);
-    margin-bottom: 1.25rem;
-    line-height: 1.5;
-  }
-  .options { display: flex; flex-direction: column; gap: 10px; }
-  .option {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 14px;
-    border: 1.5px solid var(--cream3);
-    border-radius: var(--radius);
-    cursor: pointer;
-    background: var(--cream);
-    transition: all 0.18s;
-    font-family: 'Source Serif 4', serif;
-    font-size: 14.5px;
-    color: var(--text);
-    text-align: left;
-    width: 100%;
-  }
-  .option:hover { background: white; border-color: var(--navy3); }
-  .option.selected {
-    background: var(--navy);
-    border-color: var(--navy);
-    color: white;
-  }
-  .option-letter {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
-    min-width: 22px;
-    opacity: 0.6;
-    font-size: 14px;
-    padding-top: 1px;
-  }
-  .option.selected .option-letter { opacity: 1; color: var(--gold2); }
-
-  .nav-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 0 0 1rem;
-  }
-  .btn-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 22px;
-    border: 1.5px solid var(--cream3);
-    background: white;
-    color: var(--text);
-    border-radius: 50px;
-    font-size: 14px;
-    cursor: pointer;
-    font-family: 'Source Serif 4', serif;
-    transition: all 0.18s;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-  }
-  .btn-nav:hover:not(:disabled) { background: var(--navy); color: var(--gold2); border-color: var(--navy); }
-  .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
-  .btn-submit-now {
-    padding: 10px 22px;
-    background: var(--navy);
-    color: var(--gold2);
-    border: none;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: 'Playfair Display', serif;
-    box-shadow: var(--shadow);
-    transition: opacity 0.2s;
-  }
-  .btn-submit-now:hover { opacity: 0.88; }
-
-  /* ── OVERVIEW MODAL ── */
-  .modal-backdrop {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(26,35,50,0.6);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-  }
-  .modal-backdrop.open { display: flex; }
-  .modal {
-    background: white;
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 520px;
-    box-shadow: var(--shadow-lg);
-    overflow: hidden;
-    animation: slide-up 0.25s ease;
-  }
-  @keyframes slide-up { from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1} }
-  .modal-header {
-    background: var(--navy);
-    padding: 1.25rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .modal-title { font-family: 'Playfair Display', serif; color: var(--gold2); font-size: 18px; }
-  .modal-close {
-    background: none;
-    border: none;
-    color: #94a3b8;
-    font-size: 22px;
-    cursor: pointer;
-    line-height: 1;
-    padding: 2px 6px;
-  }
-  .modal-close:hover { color: white; }
-  .modal-body { padding: 1.25rem 1.5rem; }
-  .modal-sub {
-    font-size: 12px;
-    color: var(--text3);
-    margin-bottom: 1rem;
-  }
-  .q-grid {
-    display: grid;
-    grid-template-columns: repeat(5,1fr);
-    gap: 8px;
-    margin-bottom: 1.25rem;
-  }
-  .q-dot {
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1.5px solid var(--cream3);
-    color: var(--text3);
-    background: var(--cream);
-    transition: all 0.15s;
-    font-family: 'Playfair Display', serif;
-  }
-  .q-dot:hover { border-color: var(--navy); color: var(--navy); }
-  .q-dot.answered { background: var(--navy); color: var(--gold2); border-color: var(--navy); }
-  .q-dot.flagged { background: var(--amber-bg); color: var(--amber); border-color: #f59e0b; }
-  .q-dot.current { box-shadow: 0 0 0 3px var(--gold); }
-  .legend {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    margin-bottom: 1.25rem;
-    font-size: 12px;
-    color: var(--text2);
-  }
-  .legend-item { display: flex; align-items: center; gap: 6px; }
-  .legend-dot { width: 14px; height: 14px; border-radius: 4px; }
-  .modal-footer {
-    border-top: 1px solid var(--cream3);
-    padding: 1rem 1.5rem;
-    display: flex;
-    gap: 10px;
-  }
-  .btn-continue {
-    flex: 1;
-    padding: 11px;
-    border: 1.5px solid var(--cream3);
-    background: white;
-    border-radius: 50px;
-    font-size: 14px;
-    cursor: pointer;
-    color: var(--text);
-    font-family: 'Source Serif 4', serif;
-    transition: background 0.18s;
-  }
-  .btn-continue:hover { background: var(--cream); }
-  .btn-submit-modal {
-    flex: 1;
-    padding: 11px;
-    background: var(--navy);
-    color: var(--gold2);
-    border: none;
-    border-radius: 50px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    font-family: 'Playfair Display', serif;
-    transition: opacity 0.2s;
-  }
-  .btn-submit-modal:hover { opacity: 0.88; }
-
-  /* ── RESULTS ── */
-  .results-hero {
-    background: var(--navy);
-    padding: 2.5rem 1.25rem 2rem;
-    text-align: center;
-  }
-  .score-ring {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    margin: 0 auto 1.25rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 4px solid;
-  }
-  .score-ring.pass { border-color: #4ade80; background: rgba(74,222,128,0.1); }
-  .score-ring.fail { border-color: #f87171; background: rgba(248,113,113,0.1); }
-  .score-ring-pct { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 600; }
-  .score-ring.pass .score-ring-pct { color: #4ade80; }
-  .score-ring.fail .score-ring-pct { color: #f87171; }
-  .score-ring-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; }
-  .score-ring.pass .score-ring-label { color: #86efac; }
-  .score-ring.fail .score-ring-label { color: #fca5a5; }
-  .results-heading {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    color: white;
-    margin-bottom: 0.35rem;
-  }
-  .results-desc { font-size: 14px; color: #94a3b8; font-weight: 300; font-style: italic; }
-  .results-stats {
-    display: grid;
-    grid-template-columns: repeat(3,1fr);
-    gap: 0;
-    border-top: 1px solid rgba(255,255,255,0.08);
-    margin-top: 1.5rem;
-  }
-  .res-stat {
-    padding: 1rem;
-    text-align: center;
-    border-right: 1px solid rgba(255,255,255,0.08);
-  }
-  .res-stat:last-child { border-right: none; }
-  .res-stat-num { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 600; }
-  .res-stat-num.c { color: #4ade80; }
-  .res-stat-num.w { color: #f87171; }
-  .res-stat-num.s { color: #94a3b8; }
-  .res-stat-label { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #64748b; margin-top: 2px; }
-
-  .results-body { padding: 1.5rem 1.25rem 3rem; max-width: 780px; margin: 0 auto; }
-  .results-section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: var(--navy);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--cream3);
-  }
-  .review-cards { display: flex; flex-direction: column; gap: 12px; margin-bottom: 2rem; }
-  .review-card {
-    background: white;
-    border: 1px solid var(--cream3);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.04);
-  }
-  .review-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 18px;
-    cursor: pointer;
-    transition: background 0.15s;
-    gap: 12px;
-  }
-  .review-card-header:hover { background: var(--cream); }
-  .review-card-header.open { background: var(--cream); }
-  .review-card-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-  .review-card-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text3);
-    min-width: 28px;
-  }
-  .review-card-q {
-    font-size: 14px;
-    color: var(--text);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .badge {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    padding: 3px 12px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
-  .badge.correct { background: var(--green-bg); color: var(--green); }
-  .badge.wrong { background: var(--red-bg); color: var(--red); }
-  .badge.skipped { background: var(--cream2); color: var(--text3); border: 1px solid var(--cream3); }
-  .review-card-body { display: none; padding: 0 18px 18px; }
-  .review-card-body.open { display: block; }
-  .review-passage-mini {
-    background: var(--cream);
-    border-left: 3px solid var(--gold);
-    padding: 10px 14px;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--text2);
-    border-radius: 0 8px 8px 0;
-    margin-bottom: 14px;
-    font-style: italic;
-    font-weight: 300;
-  }
-  .review-q-text {
-    font-family: 'Playfair Display', serif;
-    font-size: 15px;
-    color: var(--navy);
-    margin-bottom: 12px;
-    line-height: 1.5;
-  }
-  .review-options { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-  .review-option {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    padding: 9px 12px;
-    border-radius: 8px;
-    font-size: 13.5px;
-  }
-  .review-option.neutral { background: var(--cream); color: var(--text2); }
-  .review-option.correct-ans { background: var(--green-bg); color: var(--green); font-weight: 600; }
-  .review-option.wrong-ans { background: var(--red-bg); color: var(--red); }
-  .review-opt-letter { font-weight: 700; min-width: 18px; }
-  .explanation {
-    background: var(--blue-bg);
-    color: var(--blue);
-    padding: 12px 14px;
-    border-radius: 8px;
-    font-size: 13px;
-    line-height: 1.65;
-  }
-  .explanation strong { font-weight: 700; }
-  .chevron {
-    font-size: 16px;
-    color: var(--text3);
-    transition: transform 0.2s;
-    flex-shrink: 0;
-  }
-  .chevron.open { transform: rotate(180deg); }
-
-  .btn-retake {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 16px;
-    background: var(--navy);
-    color: var(--gold2);
-    border: none;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: 700;
-    font-family: 'Playfair Display', serif;
-    cursor: pointer;
-    box-shadow: var(--shadow-lg);
-    transition: opacity 0.2s, transform 0.2s;
-    letter-spacing: 0.03em;
-  }
-  .btn-retake:hover { opacity: 0.88; transform: translateY(-1px); }
-
-  @media(max-width:520px){
-    .info-cards{grid-template-columns:repeat(3,1fr);}
-    .start-title{font-size:26px;}
-    .results-stats{grid-template-columns:repeat(3,1fr);}
-    .top-bar{padding:0.6rem 1rem;}
-    .overview-btn{display:none;}
-  }
+/* animations */
+@keyframes fadeSlideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.anim{animation:fadeSlideIn .25s ease forwards}
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="top-bar" id="top-bar" style="display:none;">
-  <span class="top-bar-brand">GED Social Studies</span>
-  <div class="top-bar-right">
-    <button class="overview-btn" onclick="toggleOverview()">&#9783; Overview</button>
-    <div class="timer-pill" id="timer-pill">&#9201; <span id="timer-display">20:00</span></div>
+<header>
+  <div class="h-left">
+    <span class="logo">Academic Kinetic</span>
+    <span class="test-label">GED Social Studies — Presidential Speech MCQ</span>
   </div>
-  <select id="highlight-color-picker" onchange="changeHighlightColor(this.value)">
-  <option value="#fde68a">Yellow</option>
-  <option value="#fca5a5">Red</option>
-  <option value="#93c5fd">Blue</option>
-  <option value="#86efac">Green</option>
-  <option value="#d8b4fe">Purple</option>
-</select>
+  <div class="h-right">
+    <button class="btn-overview" id="btnOverview" onclick="toggleOverview()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Test Overview
+      <span class="overview-badge" id="overviewBadge">0</span>
+    </button>
+    <div class="timer-pill" id="timerPill">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span id="timerTxt">45:00</span>
+    </div>
+    <button class="btn-exit" onclick="goToReview()">✕ Exit Test</button>
+  </div>
+</header>
+
+<!-- OVERVIEW DROPDOWN -->
+<div class="overview-overlay" id="overviewOverlay" onclick="closeOverview()">
+  <div class="overview-panel" onclick="event.stopPropagation()">
+    <div class="op-header">
+      <div class="op-title">Test Overview</div>
+      <button class="op-close" onclick="closeOverview()">✕</button>
+    </div>
+    <div class="op-stats">
+      <div class="op-stat os-done"><div class="op-stat-num" id="opDone">0</div><div class="op-stat-lbl">Answered</div></div>
+      <div class="op-stat os-blank"><div class="op-stat-num" id="opBlank">15</div><div class="op-stat-lbl">Remaining</div></div>
+      <div class="op-stat os-mark"><div class="op-stat-num" id="opMark">0</div><div class="op-stat-lbl">Marked</div></div>
+    </div>
+    <div class="q-grid" id="qGrid"></div>
+    <div class="op-legend">
+      <div class="leg"><div class="leg-dot ld-current"></div>Current</div>
+      <div class="leg"><div class="leg-dot ld-answered"></div>Answered</div>
+      <div class="leg"><div class="leg-dot ld-marked"></div>Marked</div>
+      <div class="leg"><div class="leg-dot ld-unanswered"></div>Unanswered</div>
+    </div>
+    <div class="op-footer">
+      <button class="btn-submit-early" onclick="closeOverview(); goToReview()">Review &amp; Submit →</button>
+    </div>
+  </div>
 </div>
 
-<!-- PROGRESS BAR -->
-<div class="test-progress-bar-outer" id="progress-bar-outer" style="display:none;">
-  <div class="test-progress-bar-inner" id="progress-bar-inner" style="width:6.67%"></div>
-</div>
+<div class="app-body">
+  <!-- MAIN -->
+  <div class="main-area">
 
-<!-- ═══════════════════ START ═══════════════════ -->
-<div id="screen-start" class="screen active">
-  <div class="container">
-    <div class="start-wrap">
-      <div class="start-seal">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L9.19 8.63L2 9.24L7 13.47L5.82 20.16L12 16.56L18.18 20.16L17 13.47L22 9.24L14.81 8.63L12 2Z"/></svg>
-      </div>
-      <div class="start-eyebrow">Hard Mode — Set 1</div>
-      <h1 class="start-title">Presidential Speech<br>Practice Test</h1>
-      <p class="start-sub">Read each passage carefully and select the best answer. Text highlighting is available during the exam.</p>
-      <div class="info-cards">
-        <div class="info-card">
-          <div class="info-card-num info-gold">15</div>
-          <div class="info-card-label">Questions</div>
+    <!-- TEST VIEW -->
+    <div class="split" id="testView">
+      <!-- Passage -->
+      <div class="passage-panel">
+        <div class="passage-head">
+          <div class="p-tag">Reading Passage</div>
+          <div class="passage-num" id="passageNum">Passage 1</div>
         </div>
-        <div class="info-card">
-          <div class="info-card-num info-gold">20</div>
-          <div class="info-card-label">Minutes</div>
-        </div>
-        <div class="info-card">
-          <div class="info-card-num info-gold">70%</div>
-          <div class="info-card-label">To Pass</div>
+        <div class="passage-scroll">
+          <div class="passage-text" id="passageText"></div>
         </div>
       </div>
-      <div class="rules-list">
-        <h3>Before you begin</h3>
-        <ul style="list-style:none;">
-          <li>Select any text in the passage to highlight it</li>
-          <li>Flag questions to return to them later</li>
-          <li>Use the Overview panel to navigate freely</li>
-          <li>Timer starts immediately when you click Begin</li>
-          <li>Submit when finished or the test auto-submits</li>
-        </ul>
-      </div>
-      <button class="btn-start" onclick="startTest()">&#9654; Begin Practice Test</button>
-    </div>
-  </div>
-</div>
-
-<!-- ═══════════════════ TEST ═══════════════════ -->
-<div id="screen-test" class="screen">
-  <div class="test-body">
-
-    <div class="q-meta-row">
-      <span class="q-counter" id="q-counter">Question 1 of 15</span>
-      <button class="flag-btn" id="flag-btn" onclick="toggleFlag()">
-        <span class="flag-icon">&#9873;</span>
-        <span id="flag-text">Flag for review</span>
-      </button>
-    </div>
-
-    <div class="passage-card" id="passage-card">
-      <div class="passage-label">Passage</div>
-      <div class="passage-text" id="passage-text"></div>
-      <div class="hl-hint">&#9999; Select text in the passage above to highlight it</div>
-    </div>
-
-    <div class="question-card">
-      <div class="question-heading" id="question-heading"></div>
-      <div class="options" id="options-container"></div>
-    </div>
-
-    <div class="nav-row">
-      <button class="btn-nav" id="btn-prev" onclick="goTo(currentQ-1)">&#8592; Previous</button>
-      <button class="btn-submit-now" onclick="toggleOverview()">&#9783; <span id="answered-count">0/15</span></button>
-      <button class="btn-nav" id="btn-next" onclick="goTo(currentQ+1)">Next &#8594;</button>
-    </div>
-
-  </div>
-</div>
-
-<!-- ═══════════════════ RESULTS ═══════════════════ -->
-<div id="screen-results" class="screen">
-  <div class="results-hero">
-    <div class="score-ring" id="score-ring">
-      <div class="score-ring-pct" id="score-pct-text"></div>
-      <div class="score-ring-label" id="score-badge-text"></div>
-    </div>
-    <div class="results-heading" id="results-heading"></div>
-    <div class="results-desc" id="results-desc"></div>
-    <div class="results-stats">
-      <div class="res-stat"><div class="res-stat-num c" id="r-correct">—</div><div class="res-stat-label">Correct</div></div>
-      <div class="res-stat"><div class="res-stat-num w" id="r-wrong">—</div><div class="res-stat-label">Wrong</div></div>
-      <div class="res-stat"><div class="res-stat-num s" id="r-skipped">—</div><div class="res-stat-label">Skipped</div></div>
-    </div>
-  </div>
-  <div class="results-body">
-    <div class="results-section-title">Review All Questions</div>
-    <div class="review-cards" id="review-cards"></div>
-    <button class="btn-retake" onclick="retakeTest()">&#8635; Retake Practice Test</button>
-  </div>
-</div>
-
-<!-- ═══════════════════ OVERVIEW MODAL ═══════════════════ -->
-<div class="modal-backdrop" id="modal-backdrop" onclick="handleBackdropClick(event)">
-  <div class="modal">
-    <div class="modal-header">
-      <span class="modal-title">Test Overview</span>
-      <button class="modal-close" onclick="toggleOverview()">&#10005;</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-sub" id="modal-sub">Tap any question to jump to it.</div>
-      <div class="q-grid" id="q-grid"></div>
-      <div class="legend">
-        <div class="legend-item"><div class="legend-dot" style="background:var(--cream);border:1.5px solid var(--cream3);"></div> Not answered</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--navy);"></div> Answered</div>
-        <div class="legend-item"><div class="legend-dot" style="background:var(--amber-bg);border:1.5px solid #f59e0b;"></div> Flagged</div>
+      <!-- Question -->
+      <div class="question-panel">
+        <div class="q-head">
+          <div class="q-meta">
+            <div class="q-number-label" id="qNumLabel">Question 1 of 15</div>
+            <div class="q-text" id="qText"></div>
+          </div>
+          <button class="btn-mark" id="btnMark" onclick="toggleMark()">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+            Mark
+          </button>
+        </div>
+        <div class="options-area" id="optionsArea"></div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-continue" onclick="toggleOverview()">Continue Test</button>
-      <button class="btn-submit-modal" onclick="submitTest()">Submit Test &#10003;</button>
+
+    <!-- REVIEW SCREEN -->
+    <div class="review-screen" id="reviewScreen">
+      <div class="review-inner">
+        <div class="review-title">Test Review</div>
+        <div class="review-sub">Review all 15 questions below. Click any question to go back and change your answer. When ready, submit the test.</div>
+        <div class="review-stats-row">
+          <div class="stat-card sc-done"><div class="stat-num" id="rsDone">0</div><div class="stat-lbl">Answered</div></div>
+          <div class="stat-card sc-blank"><div class="stat-num" id="rsBlank">0</div><div class="stat-lbl">Unanswered</div></div>
+          <div class="stat-card sc-mark"><div class="stat-num" id="rsMark">0</div><div class="stat-lbl">Marked</div></div>
+        </div>
+        <div class="review-list" id="reviewList"></div>
+        <div class="review-actions">
+          <button class="btn-back-test" onclick="backToTest()">← Back to Test</button>
+          <button class="btn-confirm-submit" onclick="submitTest()">Submit Test ✓</button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+
+    <!-- RESULTS SCREEN -->
+    <div class="results-screen" id="resultsScreen">
+      <div class="results-inner">
+        <div class="score-hero">
+          <div class="trophy" id="trophyEmoji">🏆</div>
+          <div class="score-hero-text">
+            <div class="results-title" id="resultsTitle">Test Complete!</div>
+            <div class="results-sub" id="resultsSub"></div>
+          </div>
+          <div class="score-circle">
+            <div class="score-big" id="scoreBig">0</div>
+            <div class="score-denom" id="scoreDenom">/ 15</div>
+          </div>
+        </div>
+        <div class="result-breakdown">
+          <div class="rb-card rc"><div class="rb-num" id="rbCorrect">0</div><div class="rb-lbl">✓ Correct</div></div>
+          <div class="rb-card rw"><div class="rb-num" id="rbWrong">0</div><div class="rb-lbl">✗ Wrong</div></div>
+          <div class="rb-card rs"><div class="rb-num" id="rbSkip">0</div><div class="rb-lbl">— Skipped</div></div>
+        </div>
+        <div class="section-heading">All Questions &amp; Answers</div>
+        <div class="results-detail" id="resultsDetail"></div>
+        <div class="results-footer">
+          <button class="btn-restart" onclick="restartTest()">↺ Try Again</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAV BAR -->
+    <div class="nav-bar" id="navBar">
+      <div class="nav-stats">
+        <div class="ns"><span class="ndot nd-done"></span><span id="nsDone">0</span> Answered</div>
+        <div class="ns"><span class="ndot nd-left"></span><span id="nsLeft">15</span> Remaining</div>
+        <div class="ns"><span class="ndot nd-mark"></span><span id="nsMark">0</span> Marked</div>
+      </div>
+      <div class="nav-btns">
+        <button class="btn-prev" id="btnPrev" onclick="navigate(-1)">← Previous</button>
+        <button class="btn-next" id="btnNext" onclick="navigate(1)">Next →</button>
+      </div>
+    </div>
+
+  </div><!-- /main-area -->
+</div><!-- /app-body -->
 
 <script>
-const questions = [
+const QUESTIONS = [
   {
-    passage: '"My fellow Americans, our economy faces serious challenges as families across the nation struggle with rising prices and job uncertainty. Small businesses are working hard to survive during this difficult period, while workers worry about supporting their families in an economy that continues to change rapidly. Although these problems are serious, I remain confident in the resilience and determination of the American people. Throughout history, Americans overcame economic crises through innovation, sacrifice, and unity. By investing in education, supporting workers, and strengthening local businesses, we can rebuild a stronger economy for future generations."',
+    passage: "Passage 1",
+    passageText: `"My fellow Americans, our economy faces serious challenges as families across the nation struggle with rising prices and job uncertainty. Small businesses are working hard to survive during this difficult period, while workers worry about supporting their families in an economy that continues to change rapidly. Although these problems are serious, I remain confident in the resilience and determination of the American people. Throughout history, Americans overcame economic crises through innovation, sacrifice, and unity. By investing in education, supporting workers, and strengthening local businesses, we can rebuild a stronger economy for future generations."`,
     question: "What is the main purpose of the speech?",
     options: ["To entertain citizens with historical stories","To encourage hope during economic difficulties","To announce military action","To criticize workers and businesses"],
     correct: 1,
     explanation: "The president discusses economic struggles but mainly focuses on hope, resilience, and rebuilding the economy together."
   },
   {
-    passage: '"Democracy depends on citizens who remain informed and actively participate in public life. Voting is not simply a right but also a responsibility that protects freedom and ensures every citizen has a voice in government. Throughout American history, many courageous individuals fought to expand voting rights and guarantee equal participation in elections. When citizens stop participating in democracy, the nation grows weaker. Our country remains strongest when people stay engaged and committed to the democratic process."',
+    passage: "Passage 2",
+    passageText: `"Democracy depends on citizens who remain informed and actively participate in public life. Voting is not simply a right but also a responsibility that protects freedom and ensures every citizen has a voice in government. Throughout American history, many courageous individuals fought to expand voting rights and guarantee equal participation in elections. When citizens stop participating in democracy, the nation grows weaker. Our country remains strongest when people stay engaged and committed to the democratic process."`,
     question: "According to the speech, why is voting important?",
     options: ["It guarantees economic success","It protects participation in democracy","It eliminates political disagreement","It reduces government responsibility"],
     correct: 1,
     explanation: "The president explains that voting protects freedom and allows citizens to participate in democracy."
   },
   {
-    passage: '"Our schools carry the responsibility of preparing students for a rapidly changing world. Students today need more than memorization skills; they must develop creativity, critical thinking, and technological knowledge in order to compete successfully in modern industries. Teachers, schools, and communities all play important roles in helping students succeed. By investing in education and expanding opportunities for learning, we strengthen not only individual futures but also the future of our nation."',
+    passage: "Passage 3",
+    passageText: `"Our schools carry the responsibility of preparing students for a rapidly changing world. Students today need more than memorization skills; they must develop creativity, critical thinking, and technological knowledge in order to compete successfully in modern industries. Teachers, schools, and communities all play important roles in helping students succeed. By investing in education and expanding opportunities for learning, we strengthen not only individual futures but also the future of our nation."`,
     question: "Which issue is mainly discussed in the speech?",
     options: ["Environmental protection","Military spending","Education and workforce preparation","International tourism"],
     correct: 2,
     explanation: "The speech focuses on education, student preparation, and workforce skills needed for the future."
   },
   {
-    passage: '"Climate change continues to threaten communities across our nation and around the world. Rising temperatures, stronger storms, and increasing droughts are already affecting agriculture, public health, and local economies. Scientists warn these environmental challenges may become even more severe if countries fail to take action soon. Although solving this issue will require international cooperation and scientific innovation, our nation must lead responsibly by investing in clean energy and protecting natural resources."',
+    passage: "Passage 4",
+    passageText: `"Climate change continues to threaten communities across our nation and around the world. Rising temperatures, stronger storms, and increasing droughts are already affecting agriculture, public health, and local economies. Scientists warn these environmental challenges may become even more severe if countries fail to take action soon. Although solving this issue will require international cooperation and scientific innovation, our nation must lead responsibly by investing in clean energy and protecting natural resources."`,
     question: "Which detail supports the idea that climate change is dangerous?",
     options: ["Scientists oppose environmental research","Stronger storms and droughts affect communities","Agriculture no longer matters to the economy","Clean energy increases pollution"],
     correct: 1,
     explanation: "The passage directly explains that storms and droughts are harming communities and economies."
   },
   {
-    passage: '"Throughout our history, immigrants have played an important role in strengthening this nation. They have contributed to economic growth by opening businesses, creating jobs, and introducing new ideas that support industries across the country. Immigrants have also enriched American society through cultural traditions and diverse perspectives that shaped communities for generations. At the same time, our nation must maintain fair immigration laws and secure borders while respecting human dignity."',
+    passage: "Passage 5",
+    passageText: `"Throughout our history, immigrants have played an important role in strengthening this nation. They have contributed to economic growth by opening businesses, creating jobs, and introducing new ideas that support industries across the country. Immigrants have also enriched American society through cultural traditions and diverse perspectives that shaped communities for generations. At the same time, our nation must maintain fair immigration laws and secure borders while respecting human dignity."`,
     question: "According to the speech, immigrants contribute by _____.",
-    options: ["Weakening communities","Reducing innovation","Supporting economic and cultural growth","Limiting industrial development"],
+    options: ["weakening communities","reducing innovation","supporting economic and cultural growth","limiting industrial development"],
     correct: 2,
     explanation: "The speech explains that immigrants strengthen both the economy and culture."
   },
   {
-    passage: '"Our democracy functions best when citizens remain informed about national issues and participate responsibly in public life. Political disagreements are natural in a free society, but division and distrust should never weaken our shared commitment to democracy. Citizens must learn to debate respectfully, listen carefully to opposing viewpoints, and work together to solve national challenges."',
+    passage: "Passage 6",
+    passageText: `"Our democracy functions best when citizens remain informed about national issues and participate responsibly in public life. Political disagreements are natural in a free society, but division and distrust should never weaken our shared commitment to democracy. Citizens must learn to debate respectfully, listen carefully to opposing viewpoints, and work together to solve national challenges."`,
     question: "What idea is mainly emphasized in the speech?",
     options: ["Democracy requires cooperation despite disagreements","Political disagreements should end completely","Citizens should ignore opposing opinions","National unity is impossible in democracy"],
     correct: 0,
     explanation: "The president explains that disagreements are normal, but cooperation is necessary for democracy to succeed."
   },
   {
-    passage: '"Our nation\'s infrastructure forms the foundation of economic growth and public safety. Roads, bridges, airports, and transportation systems allow businesses to operate efficiently and connect communities across the country. However, many of these systems are aging and require major repairs or modernization. Investing in infrastructure will create jobs, improve transportation, and strengthen economic development."',
+    passage: "Passage 7",
+    passageText: `"Our nation's infrastructure forms the foundation of economic growth and public safety. Roads, bridges, airports, and transportation systems allow businesses to operate efficiently and connect communities across the country. However, many of these systems are aging and require major repairs or modernization. Investing in infrastructure will create jobs, improve transportation, and strengthen economic development."`,
     question: "What solution does the president support?",
     options: ["Closing transportation systems","Reducing construction projects","Investing in infrastructure improvements","Limiting economic growth"],
     correct: 2,
     explanation: "The speech directly supports repairing and modernizing infrastructure systems."
   },
   {
-    passage: '"Technological innovation has transformed communication, business, and education more rapidly than ever before. Advances in technology allow people to access information instantly and connect with others around the world within seconds. At the same time, rapid technological growth has created concerns about privacy, misinformation, and employment in certain industries. Our responsibility is to encourage innovation while protecting citizens from the negative effects technology may create."',
+    passage: "Passage 8",
+    passageText: `"Technological innovation has transformed communication, business, and education more rapidly than ever before. Advances in technology allow people to access information instantly and connect with others around the world within seconds. At the same time, rapid technological growth has created concerns about privacy, misinformation, and employment in certain industries. Our responsibility is to encourage innovation while protecting citizens from the negative effects technology may create."`,
     question: "What is the main idea of the speech?",
     options: ["Technology creates only positive effects","Technological progress brings both benefits and challenges","Communication technology should be eliminated","Innovation weakens society completely"],
     correct: 1,
     explanation: "The speech discusses both the positive and negative effects of technology."
   },
   {
-    passage: '"Small businesses remain one of the most important parts of the American economy. Across the nation, local businesses create jobs, support families, and strengthen communities by providing opportunities for workers. During difficult economic periods, many small business owners face financial uncertainty and increasing competition. Our government must continue supporting entrepreneurship and creating conditions that allow small businesses to grow and succeed."',
+    passage: "Passage 9",
+    passageText: `"Small businesses remain one of the most important parts of the American economy. Across the nation, local businesses create jobs, support families, and strengthen communities by providing opportunities for workers. During difficult economic periods, many small business owners face financial uncertainty and increasing competition. Our government must continue supporting entrepreneurship and creating conditions that allow small businesses to grow and succeed."`,
     question: "According to the speech, why are small businesses important?",
     options: ["They increase unemployment","They weaken local economies","They create jobs and support communities","They reduce economic competition"],
     correct: 2,
     explanation: "The passage directly explains that small businesses create jobs and strengthen communities."
   },
   {
-    passage: '"Future generations will judge our nation not only by the success we achieve today but also by the responsibilities we fulfill for tomorrow. The decisions we make regarding education, the environment, economic opportunity, and democratic values will shape the future of millions of people. Although progress may require sacrifice and patience, we must remain committed to building a society that is fairer and stronger for future generations."',
+    passage: "Passage 10",
+    passageText: `"Future generations will judge our nation not only by the success we achieve today but also by the responsibilities we fulfill for tomorrow. The decisions we make regarding education, the environment, economic opportunity, and democratic values will shape the future of millions of people. Although progress may require sacrifice and patience, we must remain committed to building a society that is fairer and stronger for future generations."`,
     question: "What can the reader infer from the speech?",
     options: ["Progress requires long-term effort and responsibility","Future generations will ignore national decisions","Sacrifice weakens society completely","Current challenges are unimportant"],
     correct: 0,
     explanation: "The speech emphasizes patience, responsibility, and commitment, showing that meaningful progress takes time and effort."
   },
   {
-    passage: '"Our military members have sacrificed greatly to protect the freedoms and security of this nation. These brave individuals serve far from their families, often under dangerous conditions, to defend democratic values and maintain peace. As citizens, we must honor their service not only through words but also by ensuring veterans receive healthcare, education, and opportunities after returning home."',
+    passage: "Passage 11",
+    passageText: `"Our military members have sacrificed greatly to protect the freedoms and security of this nation. These brave individuals serve far from their families, often under dangerous conditions, to defend democratic values and maintain peace. As citizens, we must honor their service not only through words but also by ensuring veterans receive healthcare, education, and opportunities after returning home."`,
     question: "What is the main purpose of the speech?",
     options: ["To criticize military service","To honor military members and support veterans","To encourage foreign conflict","To reduce healthcare programs"],
     correct: 1,
     explanation: "The speech honors military service and emphasizes supporting veterans after service."
   },
   {
-    passage: '"Healthcare remains one of the most important issues facing our nation today. Millions of families struggle with rising medical costs and limited access to care, especially in rural communities. Every citizen deserves the opportunity to receive affordable and reliable healthcare. By improving hospitals, supporting medical professionals, and expanding healthcare access, we can create a healthier and stronger nation."',
+    passage: "Passage 12",
+    passageText: `"Healthcare remains one of the most important issues facing our nation today. Millions of families struggle with rising medical costs and limited access to care, especially in rural communities. Every citizen deserves the opportunity to receive affordable and reliable healthcare. By improving hospitals, supporting medical professionals, and expanding healthcare access, we can create a healthier and stronger nation."`,
     question: "According to the speech, what healthcare problem is mentioned?",
     options: ["Excess hospitals in cities","Rising medical costs and limited access","Too many healthcare workers","Declining interest in medicine"],
     correct: 1,
     explanation: "The passage directly states that families struggle with rising medical costs and limited healthcare access."
   },
   {
-    passage: '"Our environment provides the natural resources that support agriculture, industry, and public health. Protecting forests, rivers, and wildlife is not only an environmental responsibility but also an economic necessity. Future generations depend on the decisions we make today regarding conservation and sustainability."',
+    passage: "Passage 13",
+    passageText: `"Our environment provides the natural resources that support agriculture, industry, and public health. Protecting forests, rivers, and wildlife is not only an environmental responsibility but also an economic necessity. Future generations depend on the decisions we make today regarding conservation and sustainability."`,
     question: "What idea is emphasized in the speech?",
     options: ["Environmental protection supports both nature and the economy","Conservation weakens industries","Wildlife protection is unimportant","Natural resources are unlimited"],
     correct: 0,
     explanation: "The speech explains that environmental protection benefits both the economy and future generations."
   },
   {
-    passage: '"International cooperation remains essential in an increasingly connected world. Nations must work together to address global challenges such as climate change, economic instability, and public health crises. Although countries may have political differences, cooperation and diplomacy remain necessary for maintaining peace and stability."',
+    passage: "Passage 14",
+    passageText: `"International cooperation remains essential in an increasingly connected world. Nations must work together to address global challenges such as climate change, economic instability, and public health crises. Although countries may have political differences, cooperation and diplomacy remain necessary for maintaining peace and stability."`,
     question: "According to the speech, why is international cooperation important?",
     options: ["It increases political conflict","It helps nations solve global challenges","It removes the need for diplomacy","It weakens public health systems"],
     correct: 1,
     explanation: "The speech explains that cooperation helps nations address worldwide problems together."
   },
   {
-    passage: '"Our nation has always moved forward through the strength and determination of ordinary citizens. Teachers, workers, healthcare professionals, farmers, and business owners contribute daily to the progress of our society. Although challenges will continue to arise, I remain confident that unity, responsibility, and hard work will guide our nation toward a brighter future."',
+    passage: "Passage 15",
+    passageText: `"Our nation has always moved forward through the strength and determination of ordinary citizens. Teachers, workers, healthcare professionals, farmers, and business owners contribute daily to the progress of our society. Although challenges will continue to arise, I remain confident that unity, responsibility, and hard work will guide our nation toward a brighter future."`,
     question: "Which value is mainly promoted in the speech?",
     options: ["Isolation","Division","Unity and hard work","Political conflict"],
     correct: 2,
@@ -980,283 +581,394 @@ const questions = [
   }
 ];
 
-const TOTAL = 15;
-const TOTAL_TIME = 20 * 60;
 const LETTERS = ['A','B','C','D'];
+const TOTAL = QUESTIONS.length;
 
-let currentQ = 0;
-let answers = new Array(TOTAL).fill(null);
-let flags = new Array(TOTAL).fill(false);
-let highlights = new Array(TOTAL).fill('');
-let timeLeft = TOTAL_TIME;
-let timerInterval = null;
+let current = 0;
+let answers = new Array(TOTAL).fill(-1);
+let marked = new Array(TOTAL).fill(false);
+let timerSec = 45 * 60;
+let timerInterval;
 
-/* ─── HELPERS ─── */
-function esc(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function show(id) { document.getElementById(id).classList.add('active'); }
-function hide(id) { document.getElementById(id).classList.remove('active'); }
-
-/* ─── START ─── */
-function startTest() {
-  hide('screen-start');
-  show('screen-test');
-  document.getElementById('top-bar').style.display = '';
-  document.getElementById('progress-bar-outer').style.display = '';
-  renderQ(0);
+// ── INIT ──
+function init(){
+  buildGrid();
+  renderQuestion(0);
   startTimer();
 }
 
-/* ─── TIMER ─── */
-function startTimer() {
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-    if (timeLeft <= 0) { clearInterval(timerInterval); submitTest(); }
-  }, 1000);
-}
-function updateTimerDisplay() {
-  const m = Math.floor(timeLeft / 60);
-  const s = timeLeft % 60;
-  document.getElementById('timer-display').textContent = m + ':' + String(s).padStart(2,'0');
-  const pill = document.getElementById('timer-pill');
-  if (timeLeft <= 120) pill.classList.add('urgent'); else pill.classList.remove('urgent');
+function buildGrid(){
+  const g = document.getElementById('qGrid');
+  g.innerHTML = '';
+  for(let i=0;i<TOTAL;i++){
+    const b = document.createElement('div');
+    b.className='qb';
+    b.textContent = i+1;
+    b.onclick = ()=>{ current=i; renderQuestion(i); closeOverview(); };
+    g.appendChild(b);
+  }
 }
 
-/* ─── RENDER QUESTION ─── */
-function renderQ(idx) {
-  currentQ = idx;
-  const q = questions[idx];
+function updateGrid(){
+  const btns = document.querySelectorAll('.qb');
 
-  document.getElementById('q-counter').textContent = 'Question ' + (idx+1) + ' of ' + TOTAL;
-  document.getElementById('progress-bar-inner').style.width = (((idx+1)/TOTAL)*100) + '%';
+  btns.forEach((b,i)=>{
 
-  // passage
-  const ptEl = document.getElementById('passage-text');
-  ptEl.innerHTML = highlights[idx] || esc(q.passage);
+    b.className = 'qb';
 
-  // question
-  document.getElementById('question-heading').textContent = q.question;
+    // answered
+    if(answers[i] !== -1){
+      b.classList.add('answered');
+    }
 
-  // options
-  const cont = document.getElementById('options-container');
-  cont.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option' + (answers[idx] === i ? ' selected' : '');
-    btn.innerHTML = '<span class="option-letter">' + LETTERS[i] + '</span><span>' + esc(opt) + '</span>';
-    btn.onclick = () => selectAnswer(idx, i);
-    cont.appendChild(btn);
+    // marked
+    if(marked[i]){
+      b.classList.add('marked');
+    }
+
+    // current question
+    if(i === current){
+      b.classList.add('current');
+    }
+
+  });
+}
+
+function updateNavStats(){
+  const done = answers.filter(a=>a!==-1).length;
+  const markCount = marked.filter(Boolean).length;
+  document.getElementById('nsDone').textContent = done;
+  document.getElementById('nsLeft').textContent = TOTAL - done;
+  document.getElementById('nsMark').textContent = markCount;
+  // update dropdown panel stats
+  document.getElementById('opDone').textContent = done;
+  document.getElementById('opBlank').textContent = TOTAL - done;
+  document.getElementById('opMark').textContent = markCount;
+  // badge shows answered count
+  document.getElementById('overviewBadge').textContent = done;
+}
+
+function renderQuestion(idx){
+  const q = QUESTIONS[idx];
+  document.getElementById('passageNum').textContent = q.passage;
+  document.getElementById('passageText').innerHTML = q.passageText.replace(/\n/g,'<br>');
+  document.getElementById('qNumLabel').textContent = `Question ${idx+1} of ${TOTAL}`;
+  document.getElementById('qText').textContent = q.question;
+
+  const mark = document.getElementById('btnMark');
+  mark.className = 'btn-mark' + (marked[idx]?' marked':'');
+  mark.innerHTML = marked[idx]
+    ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Marked`
+    : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Mark`;
+
+  const area = document.getElementById('optionsArea');
+  area.innerHTML = '';
+  q.options.forEach((opt,i)=>{
+    const div = document.createElement('div');
+    div.className = 'opt anim' + (answers[idx]===i?' selected':'');
+    div.style.animationDelay = (i*0.04)+'s';
+    div.innerHTML = `
+      <div class="opt-radio"></div>
+      <span class="opt-letter">${LETTERS[i]}</span>
+      <span class="opt-text">${opt}</span>`;
+    div.onclick = ()=>{ selectAnswer(idx, i); };
+    area.appendChild(div);
   });
 
-  // flag
-  const fb = document.getElementById('flag-btn');
-  const ft = document.getElementById('flag-text');
-  if (flags[idx]) { fb.classList.add('flagged'); ft.textContent = 'Flagged'; }
-  else { fb.classList.remove('flagged'); ft.textContent = 'Flag for review'; }
+  document.getElementById('btnPrev').disabled = idx===0;
+  document.getElementById('btnNext').textContent = idx===TOTAL-1 ? 'Review & Submit →' : 'Next →';
 
-  // nav
-  document.getElementById('btn-prev').disabled = idx === 0;
-const nextBtn = document.getElementById('btn-next');
-
-if(idx === TOTAL - 1 && !reviewMode){
-  nextBtn.innerHTML = 'Check Review &#10003;';
-}
-else if(idx === TOTAL - 1 && reviewMode){
-  nextBtn.innerHTML = 'Submit &#10003;';
-}
-else{
-  nextBtn.innerHTML = 'Next &#8594;';
+  updateGrid();
+  updateNavStats();
 }
 
-nextBtn.disabled = false;
-
-  updateAnsweredCount();
-}
-
-function selectAnswer(qIdx, optIdx) {
+function selectAnswer(qIdx, optIdx){
   answers[qIdx] = optIdx;
-  renderQ(qIdx);
-}
-
-function toggleFlag() {
-  flags[currentQ] = !flags[currentQ];
-  renderQ(currentQ);
-}
-
-function goTo(idx) {
-
-  // LAST QUESTION
-  if(currentQ === TOTAL - 1){
-
-    // first stage → review
-    if(!reviewMode && idx > TOTAL - 1){
-      reviewMode = true;
-      toggleOverview();
-      return;
-    }
-
-    // second stage → submit
-    if(reviewMode && idx > TOTAL - 1){
-      submitTest();
-      return;
-    }
-  }
-
-  if (idx < 0 || idx >= TOTAL) return;
-
-  renderQ(idx);
-}
-
-function updateAnsweredCount() {
-  document.getElementById('answered-count').textContent = answers.filter(a => a !== null).length + '/' + TOTAL;
-}
-
-/* ─── OVERVIEW ─── */
-function toggleOverview() {
-  const bd = document.getElementById('modal-backdrop');
-  const isOpen = bd.classList.contains('open');
-  if (!isOpen) {
-    renderQGrid();
-    const answered = answers.filter(a => a !== null).length;
-    const flagged = flags.filter(Boolean).length;
-    document.getElementById('modal-sub').textContent =
-      answered + ' answered · ' + (TOTAL - answered) + ' remaining · ' + flagged + ' flagged';
-  }
-  bd.classList.toggle('open');
-}
-function handleBackdropClick(e) {
-  if (e.target === document.getElementById('modal-backdrop')) toggleOverview();
-}
-function renderQGrid() {
-  const grid = document.getElementById('q-grid');
-  grid.innerHTML = '';
-  for (let i = 0; i < TOTAL; i++) {
-    const dot = document.createElement('div');
-    let cls = 'q-dot';
-    if (flags[i]) cls += ' flagged';
-    else if (answers[i] !== null) cls += ' answered';
-    if (i === currentQ) cls += ' current';
-    dot.className = cls;
-    dot.textContent = i + 1;
-    dot.onclick = () => { toggleOverview(); goTo(i); };
-    grid.appendChild(dot);
-  }
-}
-
-/* ─── SUBMIT ─── */
-function submitTest() {
-  clearInterval(timerInterval);
-  document.getElementById('modal-backdrop').classList.remove('open');
-  hide('screen-test');
-  document.getElementById('top-bar').style.display = 'none';
-  document.getElementById('progress-bar-outer').style.display = 'none';
-  show('screen-results');
-  renderResults();
-}
-
-/* ─── RESULTS ─── */
-function renderResults() {
-  let correct = 0, wrong = 0, skipped = 0;
-  answers.forEach((a, i) => {
-    if (a === null) skipped++;
-    else if (a === questions[i].correct) correct++;
-    else wrong++;
+  document.querySelectorAll('.opt').forEach((el,i)=>{
+    el.classList.toggle('selected', i===optIdx);
   });
+  updateGrid();
+  updateNavStats();
+}
+
+function toggleMark(){
+  marked[current] = !marked[current];
+  const mark = document.getElementById('btnMark');
+  mark.className = 'btn-mark' + (marked[current]?' marked':'');
+  mark.innerHTML = marked[current]
+    ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Marked`
+    : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Mark`;
+  updateGrid();
+  updateNavStats();
+}
+
+function navigate(dir){
+  if(dir===1 && current===TOTAL-1){ goToReview(); return; }
+  current = Math.max(0, Math.min(TOTAL-1, current+dir));
+  renderQuestion(current);
+}
+
+// ── TIMER ──
+function startTimer(){
+  timerInterval = setInterval(()=>{
+    if(timerSec<=0){ clearInterval(timerInterval); goToReview(); return; }
+    timerSec--;
+    const m = String(Math.floor(timerSec/60)).padStart(2,'0');
+    const s = String(timerSec%60).padStart(2,'0');
+    document.getElementById('timerTxt').textContent = `${m}:${s}`;
+    document.getElementById('timerPill').className = 'timer-pill'+(timerSec<300?' urgent':'');
+  },1000);
+}
+
+// ── REVIEW ──
+function goToReview(){
+  document.getElementById('testView').style.display='none';
+  document.getElementById('navBar').style.display='none';
+  document.getElementById('reviewScreen').style.display='block';
+  document.getElementById('resultsScreen').style.display='none';
+  document.getElementById('reviewScreen').scrollTop = 0;
+
+  const done = answers.filter(a=>a!==-1).length;
+  const blank = TOTAL - done;
+  const markCount = marked.filter(Boolean).length;
+  document.getElementById('rsDone').textContent = done;
+  document.getElementById('rsBlank').textContent = blank;
+  document.getElementById('rsMark').textContent = markCount;
+
+  const list = document.getElementById('reviewList');
+  list.innerHTML = '';
+  QUESTIONS.forEach((q,i)=>{
+    const hasAns = answers[i]!==-1;
+    const isMark = marked[i];
+    let numClass = '';
+
+if(!hasAns){
+  numClass = 'blank';
+}
+
+if(isMark){
+  numClass += ' marked-q';
+}
+
+    // Build option pills
+    const optPills = q.options.map((opt, oi)=>{
+      const isSel = answers[i]===oi;
+      return `<span class="ri-opt${isSel?' selected':''}">${LETTERS[oi]}. ${opt}</span>`;
+    }).join('');
+
+    const item = document.createElement('div');
+    item.className = 'review-item anim';
+    item.style.animationDelay = (i*0.04)+'s';
+    item.innerHTML = `
+      <div class="ri-top">
+        <div class="ri-num ${numClass}">${i+1}</div>
+        <div class="ri-info">
+          <div class="ri-passage">${isMark?'⚑ Marked — ':''} ${q.passage}</div>
+          <div class="ri-question">${q.question}</div>
+          <div class="ri-opts">${optPills}</div>
+        </div>
+        <div class="ri-go">Edit →</div>
+      </div>`;
+    item.querySelector('.ri-top').onclick = ()=>{ backToTest(i); };
+    list.appendChild(item);
+  });
+}
+
+function backToTest(idx){
+  if(typeof idx === 'number') current = idx;
+  document.getElementById('testView').style.display='flex';
+  document.getElementById('navBar').style.display='flex';
+  document.getElementById('reviewScreen').style.display='none';
+  document.getElementById('resultsScreen').style.display='none';
+  renderQuestion(current);
+}
+
+// ── SUBMIT ──
+function submitTest(){
+  clearInterval(timerInterval);
+
+  document.getElementById('reviewScreen').style.display='none';
+  document.getElementById('testView').style.display='none';
+  document.getElementById('navBar').style.display='none';
+
+  const rs = document.getElementById('resultsScreen');
+  rs.style.display='flex';
+
+  let correct = 0;
+  let wrong = 0;
+  let skip = 0;
+
+  QUESTIONS.forEach((q,i)=>{
+    if(answers[i] === -1){
+      skip++;
+    }else if(answers[i] === q.correct){
+      correct++;
+    }else{
+      wrong++;
+    }
+  });
+
   const pct = Math.round((correct / TOTAL) * 100);
-  const pass = pct >= 70;
 
-  const ring = document.getElementById('score-ring');
-  ring.className = 'score-ring ' + (pass ? 'pass' : 'fail');
-  document.getElementById('score-pct-text').textContent = pct + '%';
-  document.getElementById('score-badge-text').textContent = pass ? 'PASS' : 'FAIL';
-  document.getElementById('results-heading').textContent = pass ? 'Excellent work!' : 'Keep practicing!';
-  document.getElementById('results-desc').textContent =
-    'You answered ' + correct + ' out of ' + TOTAL + ' questions correctly.';
-  document.getElementById('r-correct').textContent = correct;
-  document.getElementById('r-wrong').textContent = wrong;
-  document.getElementById('r-skipped').textContent = skipped;
+  document.getElementById('scoreBig').textContent = correct;
+  document.getElementById('scoreDenom').textContent = `/ ${TOTAL}`;
 
-  const container = document.getElementById('review-cards');
-  container.innerHTML = '';
+  document.getElementById('rbCorrect').textContent = correct;
+  document.getElementById('rbWrong').textContent = wrong;
+  document.getElementById('rbSkip').textContent = skip;
 
-  questions.forEach((q, i) => {
-    const ua = answers[i];
-    const status = ua === null ? 'skipped' : (ua === q.correct ? 'correct' : 'wrong');
-    const badgeLabel = status === 'correct' ? 'Correct ✓' : status === 'wrong' ? 'Wrong ✗' : 'Skipped';
+  const emoji =
+    pct >= 80 ? '🏆' :
+    pct >= 60 ? '👍' :
+    '📚';
+
+  const title =
+    pct >= 80 ? 'Excellent Work!' :
+    pct >= 60 ? 'Good Effort!' :
+    'Keep Studying!';
+
+  const sub =
+    `You scored ${correct} out of ${TOTAL} (${pct}%).`;
+
+  document.getElementById('trophyEmoji').textContent = emoji;
+  document.getElementById('resultsTitle').textContent = title;
+  document.getElementById('resultsSub').textContent = sub;
+
+  const detail = document.getElementById('resultsDetail');
+  detail.innerHTML = '';
+
+  QUESTIONS.forEach((q,i)=>{
+
+    const userAns = answers[i];
+
+    let cls = '';
+    let badge = '';
+    let status = '';
+
+    if(userAns === -1){
+      cls = 'skipped';
+      badge = '—';
+      status = 'Skipped';
+    }
+    else if(userAns === q.correct){
+      cls = 'correct';
+      badge = '✓';
+      status = 'Correct';
+    }
+    else{
+      cls = 'wrong';
+      badge = '✗';
+      status = 'Wrong';
+    }
+
+    const optionsHTML = q.options.map((opt,oi)=>{
+
+      let rowClass = '';
+
+      if(oi === q.correct && oi === userAns){
+        rowClass = 'user-correct';
+      }
+      else if(oi === q.correct){
+        rowClass = 'correct-ans';
+      }
+      else if(oi === userAns){
+        rowClass = 'user-ans';
+      }
+
+      let icon = '';
+
+      if(oi === q.correct){
+        icon = '✓';
+      }
+
+      if(oi === userAns && oi !== q.correct){
+        icon = '✗';
+      }
+
+      return `
+        <div class="rd-opt-row ${rowClass}">
+          <div class="rd-opt-letter">${LETTERS[oi]}</div>
+          <div class="rd-opt-text">${opt}</div>
+          <div class="rd-opt-icon">${icon}</div>
+        </div>
+      `;
+
+    }).join('');
 
     const card = document.createElement('div');
-    card.className = 'review-card';
 
-    const shortQ = q.question.length > 60 ? q.question.slice(0, 60) + '…' : q.question;
+    card.className = `rd-item ${cls} anim`;
 
     card.innerHTML = `
-      <div class="review-card-header" id="rch-${i}" onclick="toggleReview(${i})">
-        <div class="review-card-left">
-          <span class="review-card-num">Q${i+1}</span>
-          <span class="review-card-q">${esc(shortQ)}</span>
+      <div class="rd-header">
+        <div class="rd-badge">${badge}</div>
+
+        <div class="rd-header-text">
+          <div class="rd-passage-lbl">${q.passage}</div>
+
+          <div class="rd-q">
+            Question ${i+1}: ${q.question}
+          </div>
         </div>
-        <span class="badge ${status}">${badgeLabel}</span>
-        <span class="chevron" id="chev-${i}">&#9660;</span>
+
+        <div class="rd-status-badge">
+          ${status}
+        </div>
       </div>
-      <div class="review-card-body" id="rcb-${i}">
-        <div class="review-passage-mini">${esc(q.passage)}</div>
-        <div class="review-q-text">${esc(q.question)}</div>
-        <div class="review-options">
-          ${q.options.map((opt, j) => {
-            let cls = 'neutral';
-            if (j === q.correct) cls = 'correct-ans';
-            else if (j === ua) cls = 'wrong-ans';
-            const icon = j === q.correct ? ' ✓' : (j === ua && ua !== q.correct ? ' ✗' : '');
-            return `<div class="review-option ${cls}"><span class="review-opt-letter">${LETTERS[j]}</span><span>${esc(opt)}${icon}</span></div>`;
-          }).join('')}
+
+      <div class="rd-body">
+
+        <div class="rd-options-grid">
+          ${optionsHTML}
         </div>
-        <div class="explanation"><strong>Explanation:</strong> ${esc(q.explanation)}</div>
+
+        <div class="rd-explanation">
+          <div class="rd-exp-label">
+            Explanation
+          </div>
+
+          <div class="rd-exp-text">
+            ${q.explanation}
+          </div>
+        </div>
+
       </div>
     `;
-    container.appendChild(card);
+
+    detail.appendChild(card);
+
   });
+
+  rs.scrollTop = 0;
 }
 
-function toggleReview(i) {
-  const body = document.getElementById('rcb-' + i);
-  const header = document.getElementById('rch-' + i);
-  const chev = document.getElementById('chev-' + i);
-  const isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  header.classList.toggle('open', !isOpen);
-  chev.classList.toggle('open', !isOpen);
+function restartTest(){
+  answers = new Array(TOTAL).fill(-1);
+  marked = new Array(TOTAL).fill(false);
+  current = 0;
+  timerSec = 45*60;
+  document.getElementById('timerTxt').textContent='45:00';
+  document.getElementById('timerPill').className='timer-pill';
+  document.getElementById('resultsScreen').style.display='none';
+  document.getElementById('testView').style.display='flex';
+  document.getElementById('navBar').style.display='flex';
+  buildGrid();
+  renderQuestion(0);
+clearInterval(timerInterval);
+startTimer();}
+
+function toggleOverview(){
+  const overlay = document.getElementById('overviewOverlay');
+  const btn = document.getElementById('btnOverview');
+  const isOpen = overlay.classList.contains('open');
+  if(isOpen){ closeOverview(); } else { overlay.classList.add('open'); btn.classList.add('active'); }
+}
+function closeOverview(){
+  document.getElementById('overviewOverlay').classList.remove('open');
+  document.getElementById('btnOverview').classList.remove('active');
 }
 
-/* ─── RETAKE ─── */
-function retakeTest() {
-  currentQ = 0;
-  answers = new Array(TOTAL).fill(null);
-  flags = new Array(TOTAL).fill(false);
-  highlights = new Array(TOTAL).fill('');
-  timeLeft = TOTAL_TIME;
-  hide('screen-results');
-  show('screen-start');
-}
-
-/* ─── HIGHLIGHT ─── */
-document.addEventListener('mouseup', () => {
-  const ptEl = document.getElementById('passage-text');
-  if (!ptEl) return;
-  const sel = window.getSelection();
-  if (!sel || sel.isCollapsed) return;
-  const range = sel.getRangeAt(0);
-  if (!ptEl.contains(range.commonAncestorContainer)) return;
-  const mark = document.createElement('mark');
-mark.className = 'hl';
-mark.style.background = currentHighlightColor;
-  try {
-    range.surroundContents(mark);
-    highlights[currentQ] = ptEl.innerHTML;
-    sel.removeAllRanges();
-  } catch(e) {}
-});
+init();
 </script>
 </body>
 </html>
