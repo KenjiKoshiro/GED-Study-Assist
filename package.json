@@ -2,9 +2,9 @@
   "name": "ged-study-assist",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "nodemon src/config/server.js",
+    "client": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

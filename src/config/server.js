@@ -2,11 +2,11 @@ require('dotenv').config()
 const express = require('express')
 const cors    = require('cors')
 
-const authRoutes      = require('./routes/authRoutes')
-const quizRoutes      = require('./routes/quizRoutes')
-const dashboardRoutes = require('./routes/dashboardRoutes')
-const flashcardRoutes = require('./routes/flashcardRoutes')
-const mocktestRoutes  = require('./routes/mocktestRoutes')
+const authRoutes      = require('../routes/authRoutes')
+const quizRoutes      = require('../routes/quizRoutes')
+const dashboardRoutes = require('../routes/dashboardRoutes')
+const flashcardRoutes = require('../routes/flashcardRoutes')
+const mocktestRoutes  = require('../routes/mocktestRoutes')
 
 const app  = express()
 const PORT = process.env.PORT || 3000
