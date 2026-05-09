@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — Math Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-engine.css">
+</head>
+<body>
+<script>
+const QUIZ_CONFIG = {
+  subject: 'Mathematical Reasoning',
+  subjectShort: 'Math',
+  icon: '📐',
+  accentColor: '#534AB7',
+  accentLight: '#EEEDFE',
+  accentDark: '#26215C',
+  accentBorder: '#C5C2F0',
+  backLink: 'subjects.html',
+  questions: [
+    {
+      type: 'multiple-choice',
+      topic: 'Algebra',
+      text: 'Solve for x: 3x + 12 = 33',
+      options: ['x = 5', 'x = 7', 'x = 9', 'x = 11'],
+      correct: 1,
+      explanation: 'Subtract 12 from both sides: 3x = 21. Divide by 3: x = 7.'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Arithmetic',
+      textBefore: 'The value of 15% of 200 is',
+      correctAnswer: '30',
+      textAfter: '.',
+      hint: 'Enter a number',
+      explanation: '15% of 200 = 0.15 × 200 = 30.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Geometry',
+      text: 'A rectangle has a length of 12 cm and a width of 5 cm. What is its area?',
+      options: ['34 cm²', '60 cm²', '72 cm²', '17 cm²'],
+      correct: 1,
+      explanation: 'Area of a rectangle = length × width = 12 × 5 = 60 cm².'
+    },
+    {
+      type: 'dropdown',
+      topic: 'Number Sense',
+      textBefore: 'The number −8 is',
+      blank: ['greater than 0', 'less than 0', 'equal to 0', 'a fraction'],
+      correctBlank: 'less than 0',
+      textAfter: 'on the number line.',
+      explanation: 'Negative numbers are always less than zero on the number line.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Data Analysis',
+      context: 'A student scored 80, 90, 70, 85, and 75 on five tests.',
+      text: 'What is the median score?',
+      options: ['75', '80', '85', '90'],
+      correct: 1,
+      explanation: 'Arrange in order: 70, 75, 80, 85, 90. The middle value (3rd of 5) is 80.'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Algebra',
+      textBefore: 'If y = 2x + 5 and x = 4, then y =',
+      correctAnswer: '13',
+      textAfter: '.',
+      hint: 'Enter a number',
+      explanation: 'Substitute x = 4: y = 2(4) + 5 = 8 + 5 = 13.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Geometry',
+      text: 'What is the perimeter of a square with a side length of 9 cm?',
+      options: ['18 cm', '27 cm', '36 cm', '81 cm'],
+      correct: 2,
+      explanation: 'Perimeter of a square = 4 × side = 4 × 9 = 36 cm.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Fractions',
+      text: 'Which of the following is equivalent to 3/4?',
+      options: ['0.25', '0.5', '0.75', '0.8'],
+      correct: 2,
+      explanation: '3 ÷ 4 = 0.75. So 3/4 is equivalent to 0.75.'
+    },
+    {
+      type: 'dropdown',
+      topic: 'Problem Solving',
+      textBefore: 'If a car travels 60 miles in 1 hour, its speed is',
+      blank: ['60 mph', '30 mph', '120 mph', '6 mph'],
+      correctBlank: '60 mph',
+      textAfter: '.',
+      explanation: 'Speed = Distance ÷ Time = 60 miles ÷ 1 hour = 60 mph.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Percentages',
+      context: 'A jacket originally costs $80. It is on sale for 25% off.',
+      text: 'What is the sale price of the jacket?',
+      options: ['$20', '$55', '$60', '$65'],
+      correct: 2,
+      explanation: '25% of $80 = $20 discount. $80 − $20 = $60 sale price.'
+    }
+  ]
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — Science Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-engine.css">
+</head>
+<body>
+<script>
+const QUIZ_CONFIG = {
+  subject: 'Science',
+  subjectShort: 'Science',
+  icon: '🔬',
+  accentColor: '#1D9E75',
+  accentLight: '#E1F5EE',
+  accentDark: '#04342C',
+  accentBorder: '#8FDEC4',
+  backLink: 'subjects.html',
+  questions: [
+    {
+      type: 'multiple-choice',
+      topic: 'Life Science',
+      context: '"Photosynthesis is the process by which plants use sunlight, water, and carbon dioxide to produce glucose and oxygen."',
+      text: 'Which gas is RELEASED as a byproduct of photosynthesis?',
+      options: ['Carbon dioxide', 'Nitrogen', 'Oxygen', 'Hydrogen'],
+      correct: 2,
+      explanation: 'Oxygen is released as a byproduct when plants convert CO₂ and water into glucose during photosynthesis.'
+    },
+    {
+      type: 'dropdown',
+      topic: 'Physical Science',
+      textBefore: 'When you push a book across a table and it slows down, the force responsible is called',
+      blank: ['gravity', 'friction', 'momentum', 'inertia'],
+      correctBlank: 'friction',
+      textAfter: '.',
+      explanation: 'Friction is the force that opposes motion between two surfaces in contact, causing the book to slow down.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Life Science',
+      text: 'Which organelle is known as the "powerhouse of the cell" because it produces energy?',
+      options: ['Nucleus', 'Ribosome', 'Mitochondria', 'Vacuole'],
+      correct: 2,
+      explanation: 'Mitochondria produce ATP (energy) through cellular respiration, earning the nickname "powerhouse of the cell."'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Earth Science',
+      textBefore: 'The layer of gases surrounding Earth is called the',
+      correctAnswer: 'atmosphere',
+      textAfter: '.',
+      hint: 'Type the word',
+      explanation: 'The atmosphere is the layer of gases surrounding Earth, protecting life and regulating temperature.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Physical Science',
+      context: 'Newton\'s Second Law states: Force = Mass × Acceleration.',
+      text: 'A 10 kg object accelerates at 3 m/s². What is the force applied?',
+      options: ['3 N', '10 N', '13 N', '30 N'],
+      correct: 3,
+      explanation: 'Force = Mass × Acceleration = 10 kg × 3 m/s² = 30 N (Newtons).'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Life Science',
+      text: 'What is the basic unit of life?',
+      options: ['Atom', 'Molecule', 'Cell', 'Organ'],
+      correct: 2,
+      explanation: 'The cell is the basic structural and functional unit of all living organisms.'
+    },
+    {
+      type: 'dropdown',
+      topic: 'Earth Science',
+      textBefore: 'The process by which water evaporates, condenses into clouds, and falls as rain is called the water',
+      blank: ['system', 'cycle', 'flow', 'chain'],
+      correctBlank: 'cycle',
+      textAfter: '.',
+      explanation: 'The water cycle describes the continuous movement of water through evaporation, condensation, and precipitation.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Physical Science',
+      text: 'Which of the following is an example of a chemical change?',
+      options: ['Ice melting', 'Wood burning', 'Glass breaking', 'Salt dissolving'],
+      correct: 1,
+      explanation: 'Burning wood is a chemical change because new substances (ash, CO₂, water vapor) are produced. The others are physical changes.'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Life Science',
+      textBefore: 'DNA stands for Deoxyribonucleic',
+      correctAnswer: 'Acid',
+      textAfter: ', the molecule that carries genetic information.',
+      hint: 'One word',
+      explanation: 'DNA stands for Deoxyribonucleic Acid, the molecule that stores and transmits genetic information.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Earth Science',
+      context: 'The Earth\'s structure consists of several layers from the outer surface to the core.',
+      text: 'Which is the outermost layer of the Earth?',
+      options: ['Mantle', 'Inner core', 'Outer core', 'Crust'],
+      correct: 3,
+      explanation: 'The crust is the outermost layer of the Earth — the thin, solid surface on which we live.'
+    }
+  ]
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — RLA Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-engine.css">
+</head>
+<body>
+<script>
+const QUIZ_CONFIG = {
+  subject: 'Reasoning Through Language Arts',
+  subjectShort: 'RLA',
+  icon: '📖',
+  accentColor: '#D85A30',
+  accentLight: '#FAECE7',
+  accentDark: '#4A1B0C',
+  accentBorder: '#F0A98A',
+  backLink: 'subjects.html',
+  questions: [
+    {
+      type: 'multiple-choice',
+      topic: 'Reading Comprehension',
+      context: '"The Amazon rainforest, often called the \'lungs of the Earth,\' produces about 20% of the world\'s oxygen. It is home to millions of species of plants, animals, and insects, many of which have not yet been discovered by scientists."',
+      text: 'What is the main idea of this passage?',
+      options: [
+        'Scientists have discovered all species in the Amazon.',
+        'The Amazon rainforest is vital to Earth and contains vast biodiversity.',
+        'The Amazon produces all of the world\'s oxygen.',
+        'Animals in the Amazon are dangerous.'
+      ],
+      correct: 1,
+      explanation: 'The passage highlights the Amazon\'s importance for oxygen production and its rich biodiversity — making option B the main idea.'
+    },
+    {
+      type: 'dropdown',
+      topic: 'Grammar',
+      textBefore: 'Each of the students',
+      blank: ['have', 'has', 'are', 'were'],
+      correctBlank: 'has',
+      textAfter: 'submitted their assignment on time.',
+      explanation: '"Each" is singular, so it takes the singular verb "has," even though "students" is plural.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Vocabulary',
+      context: '"The scientist\'s findings were met with skepticism by her colleagues, who demanded further evidence before accepting her conclusions."',
+      text: 'What does the word "skepticism" most likely mean in this context?',
+      options: ['Excitement', 'Agreement', 'Doubt', 'Curiosity'],
+      correct: 2,
+      explanation: 'Skepticism means doubt or disbelief. The colleagues demanded more evidence, showing they doubted the findings.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Grammar',
+      text: 'Which sentence is written correctly?',
+      options: [
+        'Me and him went to the store.',
+        'He and I went to the store.',
+        'Him and me went to the store.',
+        'I and him went to the store.'
+      ],
+      correct: 1,
+      explanation: '"He and I" is correct — use subject pronouns (I, he, she) when the pronoun is the subject of the sentence.'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Punctuation',
+      textBefore: 'A sentence that asks a question must end with a question',
+      correctAnswer: 'mark',
+      textAfter: '.',
+      hint: 'One word',
+      explanation: 'Questions end with a question mark (?), one of the basic punctuation rules in English writing.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Reading Comprehension',
+      context: '"Despite the heavy rain, the outdoor concert continued. The performers showed remarkable dedication, playing for two full hours while the crowd cheered enthusiastically."',
+      text: 'Which word best describes the performers based on the passage?',
+      options: ['Careless', 'Dedicated', 'Nervous', 'Inexperienced'],
+      correct: 1,
+      explanation: 'The passage says the performers showed "remarkable dedication" by continuing to play despite the rain — making "dedicated" the best answer.'
+    },
+    {
+      type: 'dropdown',
+      topic: 'Grammar',
+      textBefore: 'The book that I borrowed from the library',
+      blank: ['was', 'were', 'are', 'have been'],
+      correctBlank: 'was',
+      textAfter: 'very interesting.',
+      explanation: '"The book" is singular, so it takes the singular past-tense verb "was."'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Writing',
+      text: 'Which of the following is a complete sentence?',
+      options: [
+        'Running down the street.',
+        'Because the weather was cold.',
+        'She finished her homework before dinner.',
+        'After the long and tiring day.'
+      ],
+      correct: 2,
+      explanation: 'A complete sentence needs a subject and a predicate. Only option C has both: "She" (subject) + "finished her homework before dinner" (predicate).'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Vocabulary',
+      textBefore: 'A word that means the opposite of another word is called an',
+      correctAnswer: 'antonym',
+      textAfter: '.',
+      hint: 'e.g. hot/cold',
+      explanation: 'An antonym is a word that has the opposite meaning of another word, like hot and cold, or fast and slow.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Reading Comprehension',
+      context: '"Social media platforms have changed how people communicate. While they allow instant connection across distances, critics argue they also contribute to feelings of loneliness and anxiety among frequent users."',
+      text: 'What is the author\'s purpose in writing this passage?',
+      options: [
+        'To convince readers to stop using social media.',
+        'To present both benefits and drawbacks of social media.',
+        'To prove that social media causes anxiety.',
+        'To advertise a new social media platform.'
+      ],
+      correct: 1,
+      explanation: 'The passage presents both a benefit (instant connection) and a criticism (loneliness/anxiety), showing a balanced, informational purpose.'
+    }
+  ]
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>

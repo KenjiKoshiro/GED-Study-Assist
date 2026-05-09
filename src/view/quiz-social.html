@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEDReady — Social Studies Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="quiz-engine.css">
+</head>
+<body>
+<script>
+const QUIZ_CONFIG = {
+  subject: 'Social Studies',
+  subjectShort: 'Social Studies',
+  icon: '🌍',
+  accentColor: '#EF9F27',
+  accentLight: '#FAEEDA',
+  accentDark: '#412402',
+  accentBorder: '#F7C87A',
+  backLink: 'subjects.html',
+  questions: [
+    {
+      type: 'multiple-choice',
+      topic: 'US History',
+      text: 'Which document declared the American colonies independent from Britain in 1776?',
+      options: ['The Constitution', 'The Bill of Rights', 'The Declaration of Independence', 'The Emancipation Proclamation'],
+      correct: 2,
+      explanation: 'The Declaration of Independence, adopted on July 4, 1776, declared the thirteen American colonies independent from British rule.'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Civics',
+      textBefore: 'The United States has',
+      correctAnswer: '3',
+      textAfter: 'branches of government: legislative, executive, and judicial.',
+      hint: 'Enter a number',
+      explanation: 'The US government has 3 branches: the Legislative (Congress), Executive (President), and Judicial (courts).'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Civics',
+      text: 'Which branch of the US government is responsible for making laws?',
+      options: ['Executive', 'Judicial', 'Legislative', 'Presidential'],
+      correct: 2,
+      explanation: 'The Legislative branch (Congress — Senate and House of Representatives) is responsible for creating and passing laws.'
+    },
+    {
+      type: 'dropdown',
+      topic: 'US History',
+      textBefore: 'The Civil War in the United States was primarily fought over the issue of',
+      blank: ['taxation', 'slavery', 'immigration', 'trade'],
+      correctBlank: 'slavery',
+      textAfter: ', among other economic and political tensions.',
+      explanation: 'While multiple factors contributed to the Civil War, slavery was the central issue that divided the North and South.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Geography',
+      text: 'Which ocean borders the United States on its western coast?',
+      options: ['Atlantic Ocean', 'Indian Ocean', 'Arctic Ocean', 'Pacific Ocean'],
+      correct: 3,
+      explanation: 'The Pacific Ocean borders the western coast of the United States, while the Atlantic Ocean borders the eastern coast.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Economics',
+      context: 'Supply and demand is a fundamental concept in economics.',
+      text: 'If the supply of a product decreases while demand stays the same, what typically happens to the price?',
+      options: ['Price decreases', 'Price stays the same', 'Price increases', 'Demand increases'],
+      correct: 2,
+      explanation: 'When supply decreases and demand stays constant, the product becomes more scarce, so the price typically rises.'
+    },
+    {
+      type: 'fill-in-the-blank',
+      topic: 'Civics',
+      textBefore: 'The first ten amendments to the US Constitution are collectively known as the Bill of',
+      correctAnswer: 'Rights',
+      textAfter: '.',
+      hint: 'One word',
+      explanation: 'The Bill of Rights refers to the first ten amendments of the Constitution, protecting individual freedoms.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'US History',
+      text: 'Who was the first President of the United States?',
+      options: ['Thomas Jefferson', 'John Adams', 'Benjamin Franklin', 'George Washington'],
+      correct: 3,
+      explanation: 'George Washington served as the first President of the United States from 1789 to 1797.'
+    },
+    {
+      type: 'dropdown',
+      topic: 'Economics',
+      textBefore: 'When a government spends more money than it collects in taxes, it runs a budget',
+      blank: ['surplus', 'deficit', 'balance', 'profit'],
+      correctBlank: 'deficit',
+      textAfter: '.',
+      explanation: 'A budget deficit occurs when government spending exceeds its revenue from taxes and other sources.'
+    },
+    {
+      type: 'multiple-choice',
+      topic: 'Geography',
+      context: 'The United States is divided into 50 states across different geographic regions.',
+      text: 'Which of the following is the largest US state by land area?',
+      options: ['Texas', 'California', 'Alaska', 'Montana'],
+      correct: 2,
+      explanation: 'Alaska is the largest US state by land area, more than twice the size of Texas, the second largest.'
+    }
+  ]
+};
+</script>
+<script src="quiz-engine.js"></script>
+</body>
+</html>
