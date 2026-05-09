@@ -7,173 +7,87 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-
 :root{
-  --ink:#18182b;
-  --ink2:#44446a;
-  --muted:#8888aa;
-  --bg:#f2f1f8;
-  --surface:#ffffff;
-  --border:#e0dfed;
-  --primary:#4338ca;
-  --primary-light:#eef2ff;
-  --primary-glow:rgba(67,56,202,0.18);
-  --amber:#f59e0b;
-  --green:#16a34a;
-  --green-light:#f0fdf4;
-  --red:#dc2626;
-  --red-light:#fef2f2;
-  --radius:14px;
-  --shadow:0 2px 20px rgba(67,56,202,0.09);
+  --ink:#18182b; --ink2:#44446a; --muted:#8888aa;
+  --bg:#f2f1f8; --surface:#fff; --border:#e0dfed;
+  --primary:#4338ca; --primary-light:#eef2ff; --primary-glow:rgba(67,56,202,0.18);
+  --amber:#f59e0b; --green:#16a34a; --green-light:#f0fdf4;
+  --red:#dc2626; --red-light:#fef2f2;
+  --radius:14px; --shadow:0 2px 20px rgba(67,56,202,0.09);
 }
-
 body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-/* ── HEADER ── */
-header{
-  background:var(--surface);border-bottom:1px solid var(--border);
-  height:58px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(67,56,202,0.07);flex-shrink:0;
-}
+/* HEADER */
+header{background:var(--surface);border-bottom:1px solid var(--border);height:58px;padding:0 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(67,56,202,0.07);flex-shrink:0}
 .logo{font-family:'Lora',serif;font-size:1.15rem;color:var(--primary);font-weight:600;letter-spacing:-.02em}
 .test-label{font-size:.78rem;font-weight:500;color:var(--muted);border-left:1px solid var(--border);margin-left:14px;padding-left:14px}
 .h-left{display:flex;align-items:center}
 .h-right{display:flex;align-items:center;gap:10px}
-.timer-pill{
-  background:var(--primary);color:#fff;padding:7px 16px;border-radius:50px;
-  font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:6px;
-  transition:background .3s;
-}
+.timer-pill{background:var(--primary);color:#fff;padding:7px 16px;border-radius:50px;font-size:.88rem;font-weight:600;display:flex;align-items:center;gap:6px;transition:background .3s}
 .timer-pill.urgent{background:#dc2626}
 .btn-exit{background:none;border:1.5px solid var(--border);border-radius:50px;padding:6px 16px;font-size:.8rem;font-weight:500;color:var(--muted);cursor:pointer;transition:border-color .15s,color .15s}
 .btn-exit:hover{border-color:#dc2626;color:#dc2626}
+.btn-overview{background:none;border:1.5px solid var(--border);border-radius:50px;padding:6px 14px;font-size:.8rem;font-weight:600;color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:7px;transition:all .15s}
+.btn-overview:hover,.btn-overview.active{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
+.overview-badge{background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;min-width:17px;height:17px;border-radius:50px;padding:0 4px;display:flex;align-items:center;justify-content:center}
 
-/* ── TEST OVERVIEW BUTTON ── */
-.btn-overview{
-  background:none;border:1.5px solid var(--border);border-radius:50px;padding:6px 14px;
-  font-size:.8rem;font-weight:600;color:var(--ink);cursor:pointer;
-  display:flex;align-items:center;gap:7px;transition:all .15s;position:relative;
-}
-.btn-overview:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
-.btn-overview.active{border-color:var(--primary);color:var(--primary);background:var(--primary-light)}
-.overview-badge{
-  background:var(--primary);color:#fff;font-size:.65rem;font-weight:700;
-  min-width:17px;height:17px;border-radius:50px;padding:0 4px;
-  display:flex;align-items:center;justify-content:center;
-}
-
-/* ── OVERVIEW DROPDOWN PANEL ── */
-.overview-overlay{
-  position:fixed;inset:0;z-index:150;display:none;
-}
+/* OVERVIEW DROPDOWN */
+.overview-overlay{position:fixed;inset:0;z-index:150;display:none}
 .overview-overlay.open{display:block}
-.overview-panel{
-  position:fixed;top:66px;left:50%;transform:translateX(-50%);
-  background:var(--surface);border:1px solid var(--border);border-radius:16px;
-  box-shadow:0 8px 40px rgba(67,56,202,0.18);
-  width:420px;max-width:calc(100vw - 32px);
-  z-index:160;overflow:hidden;
-  animation:dropIn .2s cubic-bezier(.34,1.56,.64,1) forwards;
-}
+.overview-panel{position:fixed;top:66px;left:50%;transform:translateX(-50%);background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 8px 40px rgba(67,56,202,0.18);width:420px;max-width:calc(100vw - 32px);z-index:160;overflow:hidden;animation:dropIn .2s cubic-bezier(.34,1.56,.64,1) forwards}
 @keyframes dropIn{from{opacity:0;transform:translateX(-50%) translateY(-10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-.op-header{
-  padding:14px 18px 12px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  background:linear-gradient(135deg,#f5f3ff,#fff);
-}
+.op-header{padding:14px 18px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#f5f3ff,#fff)}
 .op-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.op-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;line-height:1;padding:2px 6px;border-radius:6px;transition:background .12s,color .12s}
+.op-close{background:none;border:none;cursor:pointer;color:var(--muted);font-size:1.1rem;padding:2px 6px;border-radius:6px;transition:background .12s}
 .op-close:hover{background:var(--bg);color:var(--ink)}
-.op-stats{display:flex;gap:0;border-bottom:1px solid var(--border)}
+.op-stats{display:flex;border-bottom:1px solid var(--border)}
 .op-stat{flex:1;padding:10px;text-align:center;border-right:1px solid var(--border)}
 .op-stat:last-child{border-right:none}
 .op-stat-num{font-size:1.1rem;font-weight:700;font-family:'Lora',serif}
 .op-stat-lbl{font-size:.67rem;color:var(--muted);margin-top:1px}
-.op-stat.os-done .op-stat-num{color:var(--primary)}
-.op-stat.os-blank .op-stat-num{color:var(--muted)}
-.op-stat.os-mark .op-stat-num{color:var(--amber)}
+.os-done .op-stat-num{color:var(--primary)}.os-blank .op-stat-num{color:var(--muted)}.os-mark .op-stat-num{color:var(--amber)}
 .q-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 16px}
-.qb{
-  aspect-ratio:1;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);
-  color:var(--muted);background:var(--bg);transition:all .15s;
-}
+.qb{aspect-ratio:1;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);color:var(--muted);background:var(--bg);transition:all .15s}
 .qb:hover{border-color:var(--primary);color:var(--primary)}
 .qb.current{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 2px 8px var(--primary-glow)}
 .qb.answered{background:var(--primary-light);color:var(--primary);border-color:var(--primary)}
 .qb.marked{background:#fff7ed;color:var(--amber);border-color:var(--amber)}
-.qb.marked.answered{background:#fff7ed;color:var(--amber);border-color:var(--amber)}
 .op-legend{display:flex;gap:14px;padding:10px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
 .leg{display:flex;align-items:center;gap:5px;font-size:.69rem;color:var(--muted)}
 .leg-dot{width:9px;height:9px;border-radius:3px;flex-shrink:0}
-.ld-current{background:var(--primary)}
-.ld-answered{background:var(--primary-light);border:1.5px solid var(--primary)}
-.ld-marked{background:#fff7ed;border:1.5px solid var(--amber)}
-.ld-unanswered{background:var(--bg);border:1.5px solid var(--border)}
+.ld-current{background:var(--primary)}.ld-answered{background:var(--primary-light);border:1.5px solid var(--primary)}.ld-marked{background:#fff7ed;border:1.5px solid var(--amber)}.ld-unanswered{background:var(--bg);border:1.5px solid var(--border)}
 .op-footer{padding:12px 16px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
 .btn-submit-early{padding:9px 20px;background:var(--primary);color:#fff;border:none;border-radius:50px;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .15s;font-family:'Outfit',sans-serif}
 .btn-submit-early:hover{background:#3730a3}
 
-/* ── BODY LAYOUT ── */
+/* LAYOUT */
 .app-body{display:flex;flex:1;height:calc(100vh - 58px);overflow:hidden}
-
-/* ── MAIN AREA ── */
 .main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.split{display:flex;flex:1;overflow:hidden;gap:0;padding:16px;gap:14px}
+.split{display:flex;flex:1;overflow:hidden;padding:16px;gap:14px}
 
-/* ── PASSAGE ── */
-.passage-panel{
-  flex:0 0 42%;background:var(--surface);border-radius:var(--radius);
-  border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
-}
-.passage-head{
-  padding:14px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0;
-  background:linear-gradient(135deg,#f5f3ff,#fff);
-}
+/* PASSAGE */
+.passage-panel{flex:0 0 42%;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.passage-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0;background:linear-gradient(135deg,#f5f3ff,#fff)}
 .p-tag{display:inline-block;background:var(--primary-light);color:var(--primary);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 9px;border-radius:50px;margin-bottom:6px}
 .passage-num{font-family:'Lora',serif;font-size:1rem;font-weight:600;color:var(--ink)}
 .passage-scroll{flex:1;overflow-y:auto;padding:18px 20px 22px;scroll-behavior:smooth}
 .passage-scroll::-webkit-scrollbar{width:5px}
-.passage-scroll::-webkit-scrollbar-track{background:transparent}
 .passage-scroll::-webkit-scrollbar-thumb{background:var(--primary-light);border-radius:8px}
-.passage-scroll::-webkit-scrollbar-thumb:hover{background:#a5b4fc}
-.passage-text{
-  font-family:'Lora',serif;font-size:.91rem;line-height:1.9;color:#2e2e50;
-}
+.passage-text{font-family:'Lora',serif;font-size:.91rem;line-height:1.9;color:#2e2e50}
 
-/* ── QUESTION ── */
-.question-panel{
-  flex:1;background:var(--surface);border-radius:var(--radius);
-  border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden;
-}
-.q-head{
-  padding:14px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0;
-  background:linear-gradient(135deg,#f5f3ff,#fff);
-  display:flex;justify-content:space-between;align-items:flex-start;
-}
+/* QUESTION */
+.question-panel{flex:1;background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.q-head{padding:14px 18px 12px;border-bottom:1px solid var(--border);flex-shrink:0;background:linear-gradient(135deg,#f5f3ff,#fff);display:flex;justify-content:space-between;align-items:flex-start}
 .q-meta{flex:1}
 .q-number-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:5px}
-.q-text{font-size:.93rem;line-height:1.55;color:var(--ink);font-weight:400}
-.btn-mark{
-  background:none;border:1.5px solid var(--border);border-radius:8px;padding:5px 11px;
-  font-size:.73rem;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;
-  margin-left:12px;flex-shrink:0;transition:all .15s;display:flex;align-items:center;gap:5px;
-}
+.q-text{font-size:.93rem;line-height:1.55;color:var(--ink)}
+.btn-mark{background:none;border:1.5px solid var(--border);border-radius:8px;padding:5px 11px;font-size:.73rem;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;margin-left:12px;flex-shrink:0;transition:all .15s;display:flex;align-items:center;gap:5px}
 .btn-mark:hover,.btn-mark.marked{border-color:var(--amber);color:var(--amber);background:#fff7ed}
 .options-area{padding:16px 18px;display:flex;flex-direction:column;gap:9px;overflow-y:auto;flex:1}
-.options-area::-webkit-scrollbar{width:4px}
-.options-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-.opt{
-  display:flex;align-items:center;gap:12px;padding:13px 16px;
-  border:1.5px solid var(--border);border-radius:11px;cursor:pointer;
-  transition:border-color .15s,background .15s,transform .1s;user-select:none;
-}
+.opt{display:flex;align-items:center;gap:12px;padding:13px 16px;border:1.5px solid var(--border);border-radius:11px;cursor:pointer;transition:border-color .15s,background .15s,transform .1s;user-select:none}
 .opt:hover{border-color:var(--primary);background:var(--primary-light);transform:translateX(2px)}
 .opt.selected{border-color:var(--primary);background:var(--primary-light)}
-.opt-radio{
-  width:19px;height:19px;border-radius:50%;border:2px solid var(--border);
-  flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s;
-}
+.opt-radio{width:19px;height:19px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .opt.selected .opt-radio{border-color:var(--primary);background:var(--primary)}
 .opt.selected .opt-radio::after{content:'';width:7px;height:7px;border-radius:50%;background:#fff}
 .opt-letter{font-size:.78rem;font-weight:700;color:var(--muted);width:18px;flex-shrink:0}
@@ -181,17 +95,12 @@ header{
 .opt-text{font-size:.88rem;color:var(--ink);line-height:1.4}
 .opt.selected .opt-text{color:var(--primary);font-weight:500}
 
-/* ── NAV BAR ── */
-.nav-bar{
-  background:var(--surface);border-top:1px solid var(--border);padding:11px 20px;
-  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
-}
+/* NAV BAR */
+.nav-bar{background:var(--surface);border-top:1px solid var(--border);padding:11px 20px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .nav-stats{display:flex;gap:18px}
 .ns{font-size:.77rem;color:var(--muted);display:flex;align-items:center;gap:5px}
 .ndot{width:8px;height:8px;border-radius:50%}
-.nd-done{background:var(--primary)}
-.nd-left{background:#c8c8e0}
-.nd-mark{background:var(--amber)}
+.nd-done{background:var(--primary)}.nd-left{background:#c8c8e0}.nd-mark{background:var(--amber)}
 .nav-btns{display:flex;gap:9px}
 .btn-prev{background:none;border:1.5px solid var(--border);border-radius:50px;padding:9px 20px;font-size:.85rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;font-family:'Outfit',sans-serif}
 .btn-prev:hover{border-color:var(--primary);color:var(--primary)}
@@ -200,120 +109,107 @@ header{
 .btn-next:hover{background:#3730a3;transform:translateY(-1px)}
 
 /* ── REVIEW SCREEN ── */
-.review-screen{display:none;flex:1;overflow-y:auto;padding:0;}
+.review-screen{display:none;position:fixed;inset:58px 0 0 0;overflow-y:auto;background:var(--bg);z-index:90}
 .review-screen::-webkit-scrollbar{width:6px}
-.review-screen::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px}
-.review-inner{max-width:860px;margin:0 auto;padding:28px 28px 40px;}
-.review-title{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px}
-.review-sub{font-size:.84rem;color:var(--muted);margin-bottom:22px}
-.review-stats-row{display:flex;gap:12px;margin-bottom:24px}
+.review-screen::-webkit-scrollbar-thumb{background:#c7c7e0;border-radius:6px}
+.review-wrap{max-width:900px;margin:0 auto;padding:28px 24px 50px}
+.review-title{font-family:'Lora',serif;font-size:1.45rem;font-weight:600;margin-bottom:4px}
+.review-sub{font-size:.83rem;color:var(--muted);margin-bottom:20px}
+.review-stats-row{display:flex;gap:12px;margin-bottom:22px}
 .stat-card{flex:1;background:var(--surface);border-radius:12px;border:1px solid var(--border);padding:14px 16px;text-align:center}
 .stat-num{font-size:1.5rem;font-weight:700;font-family:'Lora',serif}
-.stat-lbl{font-size:.73rem;color:var(--muted);margin-top:2px}
-.stat-card.sc-done .stat-num{color:var(--primary)}
-.stat-card.sc-blank .stat-num{color:var(--muted)}
-.stat-card.sc-mark .stat-num{color:var(--amber)}
-.review-list{display:flex;flex-direction:column;gap:12px}
-.review-item{
-  background:var(--surface);border:1.5px solid var(--border);border-radius:14px;
-  overflow:hidden;transition:border-color .15s,box-shadow .15s;
-}
-.review-item:hover{border-color:var(--primary);box-shadow:0 2px 14px var(--primary-glow)}
-.ri-top{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;cursor:pointer;}
-.ri-num{width:34px;height:34px;border-radius:50%;background:var(--primary);color:#fff;font-size:.8rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.ri-num.blank{background:var(--bg);color:var(--muted);border:1.5px solid var(--border)}
-.ri-num.marked-q{background:#fff7ed;color:var(--amber);border:1.5px solid var(--amber)}
-.ri-info{flex:1}
-.ri-passage{font-size:.7rem;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
-.ri-question{font-size:.88rem;color:var(--ink);line-height:1.45;font-weight:500;margin-bottom:5px}
-.ri-opts{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
-.ri-opt{
-  font-size:.76rem;padding:4px 10px;border-radius:50px;border:1.5px solid var(--border);
-  color:var(--muted);background:var(--bg);
-}
-.ri-opt.selected{border-color:var(--primary);color:var(--primary);background:var(--primary-light);font-weight:600}
-.ri-opt.unanswered-opt{border-color:#c8c8e0;color:var(--muted);font-style:italic}
-.ri-go{font-size:.75rem;color:var(--primary);font-weight:600;white-space:nowrap;padding-top:2px}
-.review-actions{margin-top:24px;display:flex;justify-content:flex-end;gap:10px;padding-top:4px}
-.btn-back-test{background:none;border:1.5px solid var(--border);border-radius:50px;padding:11px 24px;font-size:.88rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;font-family:'Outfit',sans-serif}
+.stat-lbl{font-size:.72rem;color:var(--muted);margin-top:2px}
+.sc-done .stat-num{color:var(--primary)}.sc-blank .stat-num{color:var(--muted)}.sc-mark .stat-num{color:var(--amber)}
+.review-list{display:flex;flex-direction:column;gap:14px;margin-bottom:24px}
+/* Each review question card */
+.rq-card{background:var(--surface);border:2px solid var(--border);border-radius:14px;overflow:hidden}
+.rq-card.is-unanswered{border-color:#c8c8e0}
+.rq-card.is-marked{border-color:var(--amber)}
+.rq-head{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f8f7ff,#fff)}
+.rq-num{width:32px;height:32px;border-radius:50%;background:var(--primary);color:#fff;font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.rq-num.unanswered{background:var(--bg);color:var(--muted);border:1.5px solid var(--border)}
+.rq-num.ismarked{background:#fff7ed;color:var(--amber);border:1.5px solid var(--amber)}
+.rq-meta{flex:1}
+.rq-passage-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px}
+.rq-question{font-size:.9rem;font-weight:500;color:var(--ink);line-height:1.45}
+.rq-badge{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:50px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.rq-badge.answered{background:var(--primary-light);color:var(--primary)}
+.rq-badge.unanswered{background:var(--bg);color:var(--muted);border:1px solid var(--border)}
+.rq-badge.marked{background:#fff7ed;color:var(--amber)}
+.rq-options{padding:14px 18px;display:flex;flex-direction:column;gap:7px}
+.rq-opt{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:9px;border:1.5px solid var(--border);font-size:.85rem;color:var(--ink2)}
+.rq-opt.sel{border-color:var(--primary);background:var(--primary-light)}
+.rq-opt-letter{font-weight:700;width:18px;flex-shrink:0;color:var(--muted)}
+.rq-opt.sel .rq-opt-letter{color:var(--primary)}
+.rq-opt-text{flex:1}
+.rq-opt.sel .rq-opt-text{color:var(--primary);font-weight:500}
+.rq-opt-dot{margin-left:auto;color:var(--primary);font-size:.9rem}
+.rq-edit-btn{display:block;margin:0 18px 14px;padding:7px 16px;background:none;border:1.5px solid var(--border);border-radius:8px;font-size:.78rem;font-weight:600;color:var(--primary);cursor:pointer;transition:all .15s;font-family:'Outfit',sans-serif}
+.rq-edit-btn:hover{background:var(--primary-light);border-color:var(--primary)}
+.review-actions{display:flex;justify-content:flex-end;gap:10px;padding-top:8px}
+.btn-back-test{background:none;border:1.5px solid var(--border);border-radius:50px;padding:11px 24px;font-size:.87rem;font-weight:500;color:var(--ink);cursor:pointer;transition:all .15s;font-family:'Outfit',sans-serif}
 .btn-back-test:hover{border-color:var(--primary);color:var(--primary)}
-.btn-confirm-submit{background:var(--green);border:none;border-radius:50px;padding:11px 28px;font-size:.88rem;font-weight:700;color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 3px 14px rgba(22,163,74,.22);font-family:'Outfit',sans-serif}
+.btn-confirm-submit{background:var(--green);border:none;border-radius:50px;padding:11px 28px;font-size:.87rem;font-weight:700;color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 3px 14px rgba(22,163,74,.22);font-family:'Outfit',sans-serif}
 .btn-confirm-submit:hover{background:#15803d;transform:translateY(-1px)}
 
 /* ── RESULTS SCREEN ── */
-.results-screen{display:none;flex:1;overflow-y:auto;padding:0;}
+.results-screen{display:none;position:fixed;inset:58px 0 0 0;overflow-y:auto;background:var(--bg);z-index:90}
 .results-screen::-webkit-scrollbar{width:6px}
-.results-screen::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px}
-.results-inner{max-width:860px;margin:0 auto;padding:32px 28px 50px;}
-/* Score header */
-.score-hero{display:flex;align-items:center;gap:28px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:28px 32px;margin-bottom:22px;box-shadow:var(--shadow)}
-.trophy{font-size:3.2rem;flex-shrink:0}
+.results-screen::-webkit-scrollbar-thumb{background:#c7c7e0;border-radius:6px}
+.results-wrap{max-width:900px;margin:0 auto;padding:28px 24px 60px}
+.score-hero{display:flex;align-items:center;gap:22px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px 28px;margin-bottom:18px;box-shadow:var(--shadow)}
+.trophy{font-size:3rem;flex-shrink:0}
 .score-hero-text{flex:1}
-.results-title{font-family:'Lora',serif;font-size:1.6rem;font-weight:600;margin-bottom:4px}
-.results-sub{font-size:.86rem;color:var(--muted);line-height:1.5}
-.score-circle{
-  width:100px;height:100px;border-radius:50%;border:5px solid var(--primary);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  box-shadow:0 0 0 10px var(--primary-light);flex-shrink:0;
-}
-.score-big{font-family:'Lora',serif;font-size:2rem;font-weight:700;color:var(--primary);line-height:1}
-.score-denom{font-size:.72rem;color:var(--muted);margin-top:2px}
-/* Breakdown row */
-.result-breakdown{display:flex;gap:12px;margin-bottom:28px}
-.rb-card{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:16px;text-align:center}
-.rb-num{font-size:1.4rem;font-weight:700;font-family:'Lora',serif}
-.rb-lbl{font-size:.72rem;color:var(--muted);margin-top:2px}
-.rb-card.rc{border-color:var(--green);background:var(--green-light)}
-.rb-card.rc .rb-num{color:var(--green)}
-.rb-card.rw{border-color:var(--red);background:var(--red-light)}
-.rb-card.rw .rb-num{color:var(--red)}
+.results-title{font-family:'Lora',serif;font-size:1.5rem;font-weight:600;margin-bottom:4px}
+.results-sub{font-size:.84rem;color:var(--muted);line-height:1.5}
+.score-circle{width:90px;height:90px;border-radius:50%;border:5px solid var(--primary);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 0 0 8px var(--primary-light);flex-shrink:0}
+.score-big{font-family:'Lora',serif;font-size:1.9rem;font-weight:700;color:var(--primary);line-height:1}
+.score-denom{font-size:.7rem;color:var(--muted);margin-top:1px}
+.result-breakdown{display:flex;gap:12px;margin-bottom:24px}
+.rb-card{flex:1;background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.rb-num{font-size:1.3rem;font-weight:700;font-family:'Lora',serif}
+.rb-lbl{font-size:.71rem;color:var(--muted);margin-top:2px}
+.rb-card.rc{border-color:var(--green);background:var(--green-light)}.rb-card.rc .rb-num{color:var(--green)}
+.rb-card.rw{border-color:var(--red);background:var(--red-light)}.rb-card.rw .rb-num{color:var(--red)}
 .rb-card.rs .rb-num{color:var(--muted)}
-/* Section heading */
 .section-heading{font-family:'Lora',serif;font-size:1.05rem;font-weight:600;margin-bottom:14px;color:var(--ink)}
-/* Result detail cards */
-.results-detail{display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
-.rd-item{background:var(--surface);border:2px solid var(--border);border-radius:14px;overflow:hidden;}
-.rd-item.correct{border-color:var(--green)}
-.rd-item.wrong{border-color:var(--red)}
-.rd-item.skipped{border-color:#c8c8e0}
-.rd-header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border)}
-.rd-badge{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
-.rd-item.correct .rd-badge{background:var(--green);color:#fff}
-.rd-item.wrong .rd-badge{background:var(--red);color:#fff}
-.rd-item.skipped .rd-badge{background:var(--bg);color:var(--muted);border:1.5px solid #c8c8e0}
-.rd-header-text{flex:1}
-.rd-passage-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px}
-.rd-q{font-size:.9rem;font-weight:600;color:var(--ink);line-height:1.4}
-.rd-status-badge{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:50px;white-space:nowrap;flex-shrink:0}
-.rd-item.correct .rd-status-badge{background:var(--green-light);color:var(--green)}
-.rd-item.wrong .rd-status-badge{background:var(--red-light);color:var(--red)}
-.rd-item.skipped .rd-status-badge{background:var(--bg);color:var(--muted)}
+.results-detail{display:flex;flex-direction:column;gap:16px;margin-bottom:28px}
+.rd-card{background:var(--surface);border:2px solid var(--border);border-radius:14px;overflow:hidden}
+.rd-card.correct{border-color:var(--green)}.rd-card.wrong{border-color:var(--red)}.rd-card.skipped{border-color:#c8c8e0}
+.rd-card-head{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,#f8f7ff,#fff)}
+.rd-badge{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;margin-top:2px}
+.rd-card.correct .rd-badge{background:var(--green);color:#fff}
+.rd-card.wrong .rd-badge{background:var(--red);color:#fff}
+.rd-card.skipped .rd-badge{background:var(--bg);color:var(--muted);border:1.5px solid #c8c8e0}
+.rd-head-meta{flex:1}
+.rd-passage-lbl{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-bottom:4px}
+.rd-question{font-size:.9rem;font-weight:600;color:var(--ink);line-height:1.4}
+.rd-status{font-size:.7rem;font-weight:700;padding:3px 10px;border-radius:50px;white-space:nowrap;flex-shrink:0;margin-top:2px}
+.rd-card.correct .rd-status{background:var(--green-light);color:var(--green)}
+.rd-card.wrong .rd-status{background:var(--red-light);color:var(--red)}
+.rd-card.skipped .rd-status{background:var(--bg);color:var(--muted)}
 .rd-body{padding:14px 18px;display:flex;flex-direction:column;gap:10px}
-.rd-options-grid{display:flex;flex-direction:column;gap:6px}
-.rd-opt-row{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:9px;border:1.5px solid var(--border);font-size:.83rem}
-.rd-opt-letter{font-weight:700;width:18px;flex-shrink:0;color:var(--muted)}
-.rd-opt-text{flex:1;color:var(--ink)}
-.rd-opt-row.user-ans{border-color:var(--red);background:var(--red-light)}
-.rd-opt-row.user-ans .rd-opt-letter{color:var(--red)}
-.rd-opt-row.correct-ans{border-color:var(--green);background:var(--green-light)}
-.rd-opt-row.correct-ans .rd-opt-letter{color:var(--green)}
-.rd-opt-row.user-correct{border-color:var(--green);background:var(--green-light)}
-.rd-opt-row.user-correct .rd-opt-letter{color:var(--green)}
-.rd-opt-icon{margin-left:auto;font-size:.85rem}
-.rd-explanation{background:linear-gradient(135deg,#f5f3ff,#eef2ff);border:1px solid #c7d2fe;border-radius:10px;padding:12px 14px}
+.rd-opts{display:flex;flex-direction:column;gap:6px}
+.rd-opt{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:9px;border:1.5px solid var(--border);font-size:.84rem;color:var(--ink2)}
+.rd-opt-letter{font-weight:700;width:18px;color:var(--muted);flex-shrink:0}
+.rd-opt-txt{flex:1}
+.rd-opt-tag{margin-left:auto;font-size:.69rem;font-weight:700;padding:2px 8px;border-radius:50px;white-space:nowrap}
+.rd-opt.user-wrong{border-color:var(--red);background:var(--red-light)}
+.rd-opt.user-wrong .rd-opt-letter{color:var(--red)}
+.rd-opt.user-wrong .rd-opt-tag{background:var(--red);color:#fff}
+.rd-opt.correct-ans{border-color:var(--green);background:var(--green-light)}
+.rd-opt.correct-ans .rd-opt-letter{color:var(--green)}
+.rd-opt.correct-ans .rd-opt-tag{background:var(--green);color:#fff}
+.rd-opt.user-correct{border-color:var(--green);background:var(--green-light)}
+.rd-opt.user-correct .rd-opt-letter{color:var(--green)}
+.rd-opt.user-correct .rd-opt-tag{background:var(--green);color:#fff}
+.rd-explanation{background:linear-gradient(135deg,#f5f3ff,#eef2ff);border:1px solid #c7d2fe;border-radius:10px;padding:12px 15px}
 .rd-exp-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--primary);margin-bottom:5px}
-.rd-exp-text{font-size:.83rem;color:#3730a3;line-height:1.55}
-.btn-restart{background:var(--primary);border:none;border-radius:50px;padding:12px 32px;font-size:.9rem;font-weight:700;color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 3px 14px var(--primary-glow);font-family:'Outfit',sans-serif}
+.rd-exp-text{font-size:.83rem;color:#3730a3;line-height:1.6}
+.results-footer{display:flex;justify-content:center;padding-top:4px}
+.btn-restart{background:var(--primary);border:none;border-radius:50px;padding:12px 32px;font-size:.88rem;font-weight:700;color:#fff;cursor:pointer;transition:all .15s;box-shadow:0 3px 14px var(--primary-glow);font-family:'Outfit',sans-serif}
 .btn-restart:hover{background:#3730a3;transform:translateY(-1px)}
-.results-footer{display:flex;justify-content:center;padding-top:8px}
 
-.qb.answered.marked{
-  background:#fff7ed;
-  border-color:var(--amber);
-  color:var(--amber);
-}
-
-/* animations */
 @keyframes fadeSlideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .anim{animation:fadeSlideIn .25s ease forwards}
 </style>
@@ -365,12 +261,10 @@ header{
 </div>
 
 <div class="app-body">
-  <!-- MAIN -->
   <div class="main-area">
 
     <!-- TEST VIEW -->
     <div class="split" id="testView">
-      <!-- Passage -->
       <div class="passage-panel">
         <div class="passage-head">
           <div class="p-tag">Reading Passage</div>
@@ -380,7 +274,6 @@ header{
           <div class="passage-text" id="passageText"></div>
         </div>
       </div>
-      <!-- Question -->
       <div class="question-panel">
         <div class="q-head">
           <div class="q-meta">
@@ -398,9 +291,9 @@ header{
 
     <!-- REVIEW SCREEN -->
     <div class="review-screen" id="reviewScreen">
-      <div class="review-inner">
+      <div class="review-wrap">
         <div class="review-title">Test Review</div>
-        <div class="review-sub">Review all 15 questions below. Click any question to go back and change your answer. When ready, submit the test.</div>
+        <div class="review-sub">All 15 questions are shown below. You can see your selected answers and edit any of them before submitting.</div>
         <div class="review-stats-row">
           <div class="stat-card sc-done"><div class="stat-num" id="rsDone">0</div><div class="stat-lbl">Answered</div></div>
           <div class="stat-card sc-blank"><div class="stat-num" id="rsBlank">0</div><div class="stat-lbl">Unanswered</div></div>
@@ -416,7 +309,7 @@ header{
 
     <!-- RESULTS SCREEN -->
     <div class="results-screen" id="resultsScreen">
-      <div class="results-inner">
+      <div class="results-wrap">
         <div class="score-hero">
           <div class="trophy" id="trophyEmoji">🏆</div>
           <div class="score-hero-text">
@@ -433,7 +326,7 @@ header{
           <div class="rb-card rw"><div class="rb-num" id="rbWrong">0</div><div class="rb-lbl">✗ Wrong</div></div>
           <div class="rb-card rs"><div class="rb-num" id="rbSkip">0</div><div class="rb-lbl">— Skipped</div></div>
         </div>
-        <div class="section-heading">All Questions &amp; Answers</div>
+        <div class="section-heading">All Questions, Answers &amp; Explanations</div>
         <div class="results-detail" id="resultsDetail"></div>
         <div class="results-footer">
           <button class="btn-restart" onclick="restartTest()">↺ Try Again</button>
@@ -454,516 +347,326 @@ header{
       </div>
     </div>
 
-  </div><!-- /main-area -->
-</div><!-- /app-body -->
+  </div>
+</div>
 
 <script>
-const QUESTIONS = [
-  {
-    passage: "Passage 1",
-    passageText: `"My fellow Americans, our economy faces serious challenges as families across the nation struggle with rising prices and job uncertainty. Small businesses are working hard to survive during this difficult period, while workers worry about supporting their families in an economy that continues to change rapidly. Although these problems are serious, I remain confident in the resilience and determination of the American people. Throughout history, Americans overcame economic crises through innovation, sacrifice, and unity. By investing in education, supporting workers, and strengthening local businesses, we can rebuild a stronger economy for future generations."`,
-    question: "What is the main purpose of the speech?",
-    options: ["To entertain citizens with historical stories","To encourage hope during economic difficulties","To announce military action","To criticize workers and businesses"],
-    correct: 1,
-    explanation: "The president discusses economic struggles but mainly focuses on hope, resilience, and rebuilding the economy together."
-  },
-  {
-    passage: "Passage 2",
-    passageText: `"Democracy depends on citizens who remain informed and actively participate in public life. Voting is not simply a right but also a responsibility that protects freedom and ensures every citizen has a voice in government. Throughout American history, many courageous individuals fought to expand voting rights and guarantee equal participation in elections. When citizens stop participating in democracy, the nation grows weaker. Our country remains strongest when people stay engaged and committed to the democratic process."`,
-    question: "According to the speech, why is voting important?",
-    options: ["It guarantees economic success","It protects participation in democracy","It eliminates political disagreement","It reduces government responsibility"],
-    correct: 1,
-    explanation: "The president explains that voting protects freedom and allows citizens to participate in democracy."
-  },
-  {
-    passage: "Passage 3",
-    passageText: `"Our schools carry the responsibility of preparing students for a rapidly changing world. Students today need more than memorization skills; they must develop creativity, critical thinking, and technological knowledge in order to compete successfully in modern industries. Teachers, schools, and communities all play important roles in helping students succeed. By investing in education and expanding opportunities for learning, we strengthen not only individual futures but also the future of our nation."`,
-    question: "Which issue is mainly discussed in the speech?",
-    options: ["Environmental protection","Military spending","Education and workforce preparation","International tourism"],
-    correct: 2,
-    explanation: "The speech focuses on education, student preparation, and workforce skills needed for the future."
-  },
-  {
-    passage: "Passage 4",
-    passageText: `"Climate change continues to threaten communities across our nation and around the world. Rising temperatures, stronger storms, and increasing droughts are already affecting agriculture, public health, and local economies. Scientists warn these environmental challenges may become even more severe if countries fail to take action soon. Although solving this issue will require international cooperation and scientific innovation, our nation must lead responsibly by investing in clean energy and protecting natural resources."`,
-    question: "Which detail supports the idea that climate change is dangerous?",
-    options: ["Scientists oppose environmental research","Stronger storms and droughts affect communities","Agriculture no longer matters to the economy","Clean energy increases pollution"],
-    correct: 1,
-    explanation: "The passage directly explains that storms and droughts are harming communities and economies."
-  },
-  {
-    passage: "Passage 5",
-    passageText: `"Throughout our history, immigrants have played an important role in strengthening this nation. They have contributed to economic growth by opening businesses, creating jobs, and introducing new ideas that support industries across the country. Immigrants have also enriched American society through cultural traditions and diverse perspectives that shaped communities for generations. At the same time, our nation must maintain fair immigration laws and secure borders while respecting human dignity."`,
-    question: "According to the speech, immigrants contribute by _____.",
-    options: ["weakening communities","reducing innovation","supporting economic and cultural growth","limiting industrial development"],
-    correct: 2,
-    explanation: "The speech explains that immigrants strengthen both the economy and culture."
-  },
-  {
-    passage: "Passage 6",
-    passageText: `"Our democracy functions best when citizens remain informed about national issues and participate responsibly in public life. Political disagreements are natural in a free society, but division and distrust should never weaken our shared commitment to democracy. Citizens must learn to debate respectfully, listen carefully to opposing viewpoints, and work together to solve national challenges."`,
-    question: "What idea is mainly emphasized in the speech?",
-    options: ["Democracy requires cooperation despite disagreements","Political disagreements should end completely","Citizens should ignore opposing opinions","National unity is impossible in democracy"],
-    correct: 0,
-    explanation: "The president explains that disagreements are normal, but cooperation is necessary for democracy to succeed."
-  },
-  {
-    passage: "Passage 7",
-    passageText: `"Our nation's infrastructure forms the foundation of economic growth and public safety. Roads, bridges, airports, and transportation systems allow businesses to operate efficiently and connect communities across the country. However, many of these systems are aging and require major repairs or modernization. Investing in infrastructure will create jobs, improve transportation, and strengthen economic development."`,
-    question: "What solution does the president support?",
-    options: ["Closing transportation systems","Reducing construction projects","Investing in infrastructure improvements","Limiting economic growth"],
-    correct: 2,
-    explanation: "The speech directly supports repairing and modernizing infrastructure systems."
-  },
-  {
-    passage: "Passage 8",
-    passageText: `"Technological innovation has transformed communication, business, and education more rapidly than ever before. Advances in technology allow people to access information instantly and connect with others around the world within seconds. At the same time, rapid technological growth has created concerns about privacy, misinformation, and employment in certain industries. Our responsibility is to encourage innovation while protecting citizens from the negative effects technology may create."`,
-    question: "What is the main idea of the speech?",
-    options: ["Technology creates only positive effects","Technological progress brings both benefits and challenges","Communication technology should be eliminated","Innovation weakens society completely"],
-    correct: 1,
-    explanation: "The speech discusses both the positive and negative effects of technology."
-  },
-  {
-    passage: "Passage 9",
-    passageText: `"Small businesses remain one of the most important parts of the American economy. Across the nation, local businesses create jobs, support families, and strengthen communities by providing opportunities for workers. During difficult economic periods, many small business owners face financial uncertainty and increasing competition. Our government must continue supporting entrepreneurship and creating conditions that allow small businesses to grow and succeed."`,
-    question: "According to the speech, why are small businesses important?",
-    options: ["They increase unemployment","They weaken local economies","They create jobs and support communities","They reduce economic competition"],
-    correct: 2,
-    explanation: "The passage directly explains that small businesses create jobs and strengthen communities."
-  },
-  {
-    passage: "Passage 10",
-    passageText: `"Future generations will judge our nation not only by the success we achieve today but also by the responsibilities we fulfill for tomorrow. The decisions we make regarding education, the environment, economic opportunity, and democratic values will shape the future of millions of people. Although progress may require sacrifice and patience, we must remain committed to building a society that is fairer and stronger for future generations."`,
-    question: "What can the reader infer from the speech?",
-    options: ["Progress requires long-term effort and responsibility","Future generations will ignore national decisions","Sacrifice weakens society completely","Current challenges are unimportant"],
-    correct: 0,
-    explanation: "The speech emphasizes patience, responsibility, and commitment, showing that meaningful progress takes time and effort."
-  },
-  {
-    passage: "Passage 11",
-    passageText: `"Our military members have sacrificed greatly to protect the freedoms and security of this nation. These brave individuals serve far from their families, often under dangerous conditions, to defend democratic values and maintain peace. As citizens, we must honor their service not only through words but also by ensuring veterans receive healthcare, education, and opportunities after returning home."`,
-    question: "What is the main purpose of the speech?",
-    options: ["To criticize military service","To honor military members and support veterans","To encourage foreign conflict","To reduce healthcare programs"],
-    correct: 1,
-    explanation: "The speech honors military service and emphasizes supporting veterans after service."
-  },
-  {
-    passage: "Passage 12",
-    passageText: `"Healthcare remains one of the most important issues facing our nation today. Millions of families struggle with rising medical costs and limited access to care, especially in rural communities. Every citizen deserves the opportunity to receive affordable and reliable healthcare. By improving hospitals, supporting medical professionals, and expanding healthcare access, we can create a healthier and stronger nation."`,
-    question: "According to the speech, what healthcare problem is mentioned?",
-    options: ["Excess hospitals in cities","Rising medical costs and limited access","Too many healthcare workers","Declining interest in medicine"],
-    correct: 1,
-    explanation: "The passage directly states that families struggle with rising medical costs and limited healthcare access."
-  },
-  {
-    passage: "Passage 13",
-    passageText: `"Our environment provides the natural resources that support agriculture, industry, and public health. Protecting forests, rivers, and wildlife is not only an environmental responsibility but also an economic necessity. Future generations depend on the decisions we make today regarding conservation and sustainability."`,
-    question: "What idea is emphasized in the speech?",
-    options: ["Environmental protection supports both nature and the economy","Conservation weakens industries","Wildlife protection is unimportant","Natural resources are unlimited"],
-    correct: 0,
-    explanation: "The speech explains that environmental protection benefits both the economy and future generations."
-  },
-  {
-    passage: "Passage 14",
-    passageText: `"International cooperation remains essential in an increasingly connected world. Nations must work together to address global challenges such as climate change, economic instability, and public health crises. Although countries may have political differences, cooperation and diplomacy remain necessary for maintaining peace and stability."`,
-    question: "According to the speech, why is international cooperation important?",
-    options: ["It increases political conflict","It helps nations solve global challenges","It removes the need for diplomacy","It weakens public health systems"],
-    correct: 1,
-    explanation: "The speech explains that cooperation helps nations address worldwide problems together."
-  },
-  {
-    passage: "Passage 15",
-    passageText: `"Our nation has always moved forward through the strength and determination of ordinary citizens. Teachers, workers, healthcare professionals, farmers, and business owners contribute daily to the progress of our society. Although challenges will continue to arise, I remain confident that unity, responsibility, and hard work will guide our nation toward a brighter future."`,
-    question: "Which value is mainly promoted in the speech?",
-    options: ["Isolation","Division","Unity and hard work","Political conflict"],
-    correct: 2,
-    explanation: "The president emphasizes unity, responsibility, and hard work as important national values."
-  }
+var QUESTIONS = [
+  { passage:"Passage 1", passageText:'"My fellow Americans, our economy faces serious challenges as families across the nation struggle with rising prices and job uncertainty. Small businesses are working hard to survive during this difficult period, while workers worry about supporting their families in an economy that continues to change rapidly. Although these problems are serious, I remain confident in the resilience and determination of the American people. Throughout history, Americans overcame economic crises through innovation, sacrifice, and unity. By investing in education, supporting workers, and strengthening local businesses, we can rebuild a stronger economy for future generations."', question:"What is the main purpose of the speech?", options:["To entertain citizens with historical stories","To encourage hope during economic difficulties","To announce military action","To criticize workers and businesses"], correct:1, explanation:"The president discusses economic struggles but mainly focuses on hope, resilience, and rebuilding the economy together." },
+  { passage:"Passage 2", passageText:'"Democracy depends on citizens who remain informed and actively participate in public life. Voting is not simply a right but also a responsibility that protects freedom and ensures every citizen has a voice in government. Throughout American history, many courageous individuals fought to expand voting rights and guarantee equal participation in elections. When citizens stop participating in democracy, the nation grows weaker. Our country remains strongest when people stay engaged and committed to the democratic process."', question:"According to the speech, why is voting important?", options:["It guarantees economic success","It protects participation in democracy","It eliminates political disagreement","It reduces government responsibility"], correct:1, explanation:"The president explains that voting protects freedom and allows citizens to participate in democracy." },
+  { passage:"Passage 3", passageText:'"Our schools carry the responsibility of preparing students for a rapidly changing world. Students today need more than memorization skills; they must develop creativity, critical thinking, and technological knowledge in order to compete successfully in modern industries. Teachers, schools, and communities all play important roles in helping students succeed. By investing in education and expanding opportunities for learning, we strengthen not only individual futures but also the future of our nation."', question:"Which issue is mainly discussed in the speech?", options:["Environmental protection","Military spending","Education and workforce preparation","International tourism"], correct:2, explanation:"The speech focuses on education, student preparation, and workforce skills needed for the future." },
+  { passage:"Passage 4", passageText:'"Climate change continues to threaten communities across our nation and around the world. Rising temperatures, stronger storms, and increasing droughts are already affecting agriculture, public health, and local economies. Scientists warn these environmental challenges may become even more severe if countries fail to take action soon. Although solving this issue will require international cooperation and scientific innovation, our nation must lead responsibly by investing in clean energy and protecting natural resources."', question:"Which detail supports the idea that climate change is dangerous?", options:["Scientists oppose environmental research","Stronger storms and droughts affect communities","Agriculture no longer matters to the economy","Clean energy increases pollution"], correct:1, explanation:"The passage directly explains that storms and droughts are harming communities and economies." },
+  { passage:"Passage 5", passageText:'"Throughout our history, immigrants have played an important role in strengthening this nation. They have contributed to economic growth by opening businesses, creating jobs, and introducing new ideas that support industries across the country. Immigrants have also enriched American society through cultural traditions and diverse perspectives that shaped communities for generations. At the same time, our nation must maintain fair immigration laws and secure borders while respecting human dignity."', question:"According to the speech, immigrants contribute by _____.", options:["weakening communities","reducing innovation","supporting economic and cultural growth","limiting industrial development"], correct:2, explanation:"The speech explains that immigrants strengthen both the economy and culture." },
+  { passage:"Passage 6", passageText:'"Our democracy functions best when citizens remain informed about national issues and participate responsibly in public life. Political disagreements are natural in a free society, but division and distrust should never weaken our shared commitment to democracy. Citizens must learn to debate respectfully, listen carefully to opposing viewpoints, and work together to solve national challenges."', question:"What idea is mainly emphasized in the speech?", options:["Democracy requires cooperation despite disagreements","Political disagreements should end completely","Citizens should ignore opposing opinions","National unity is impossible in democracy"], correct:0, explanation:"The president explains that disagreements are normal, but cooperation is necessary for democracy to succeed." },
+  { passage:"Passage 7", passageText:'"Our nation\'s infrastructure forms the foundation of economic growth and public safety. Roads, bridges, airports, and transportation systems allow businesses to operate efficiently and connect communities across the country. However, many of these systems are aging and require major repairs or modernization. Investing in infrastructure will create jobs, improve transportation, and strengthen economic development."', question:"What solution does the president support?", options:["Closing transportation systems","Reducing construction projects","Investing in infrastructure improvements","Limiting economic growth"], correct:2, explanation:"The speech directly supports repairing and modernizing infrastructure systems." },
+  { passage:"Passage 8", passageText:'"Technological innovation has transformed communication, business, and education more rapidly than ever before. Advances in technology allow people to access information instantly and connect with others around the world within seconds. At the same time, rapid technological growth has created concerns about privacy, misinformation, and employment in certain industries. Our responsibility is to encourage innovation while protecting citizens from the negative effects technology may create."', question:"What is the main idea of the speech?", options:["Technology creates only positive effects","Technological progress brings both benefits and challenges","Communication technology should be eliminated","Innovation weakens society completely"], correct:1, explanation:"The speech discusses both the positive and negative effects of technology." },
+  { passage:"Passage 9", passageText:'"Small businesses remain one of the most important parts of the American economy. Across the nation, local businesses create jobs, support families, and strengthen communities by providing opportunities for workers. During difficult economic periods, many small business owners face financial uncertainty and increasing competition. Our government must continue supporting entrepreneurship and creating conditions that allow small businesses to grow and succeed."', question:"According to the speech, why are small businesses important?", options:["They increase unemployment","They weaken local economies","They create jobs and support communities","They reduce economic competition"], correct:2, explanation:"The passage directly explains that small businesses create jobs and strengthen communities." },
+  { passage:"Passage 10", passageText:'"Future generations will judge our nation not only by the success we achieve today but also by the responsibilities we fulfill for tomorrow. The decisions we make regarding education, the environment, economic opportunity, and democratic values will shape the future of millions of people. Although progress may require sacrifice and patience, we must remain committed to building a society that is fairer and stronger for future generations."', question:"What can the reader infer from the speech?", options:["Progress requires long-term effort and responsibility","Future generations will ignore national decisions","Sacrifice weakens society completely","Current challenges are unimportant"], correct:0, explanation:"The speech emphasizes patience, responsibility, and commitment, showing that meaningful progress takes time and effort." },
+  { passage:"Passage 11", passageText:'"Our military members have sacrificed greatly to protect the freedoms and security of this nation. These brave individuals serve far from their families, often under dangerous conditions, to defend democratic values and maintain peace. As citizens, we must honor their service not only through words but also by ensuring veterans receive healthcare, education, and opportunities after returning home."', question:"What is the main purpose of the speech?", options:["To criticize military service","To honor military members and support veterans","To encourage foreign conflict","To reduce healthcare programs"], correct:1, explanation:"The speech honors military service and emphasizes supporting veterans after service." },
+  { passage:"Passage 12", passageText:'"Healthcare remains one of the most important issues facing our nation today. Millions of families struggle with rising medical costs and limited access to care, especially in rural communities. Every citizen deserves the opportunity to receive affordable and reliable healthcare. By improving hospitals, supporting medical professionals, and expanding healthcare access, we can create a healthier and stronger nation."', question:"According to the speech, what healthcare problem is mentioned?", options:["Excess hospitals in cities","Rising medical costs and limited access","Too many healthcare workers","Declining interest in medicine"], correct:1, explanation:"The passage directly states that families struggle with rising medical costs and limited healthcare access." },
+  { passage:"Passage 13", passageText:'"Our environment provides the natural resources that support agriculture, industry, and public health. Protecting forests, rivers, and wildlife is not only an environmental responsibility but also an economic necessity. Future generations depend on the decisions we make today regarding conservation and sustainability."', question:"What idea is emphasized in the speech?", options:["Environmental protection supports both nature and the economy","Conservation weakens industries","Wildlife protection is unimportant","Natural resources are unlimited"], correct:0, explanation:"The speech explains that environmental protection benefits both the economy and future generations." },
+  { passage:"Passage 14", passageText:'"International cooperation remains essential in an increasingly connected world. Nations must work together to address global challenges such as climate change, economic instability, and public health crises. Although countries may have political differences, cooperation and diplomacy remain necessary for maintaining peace and stability."', question:"According to the speech, why is international cooperation important?", options:["It increases political conflict","It helps nations solve global challenges","It removes the need for diplomacy","It weakens public health systems"], correct:1, explanation:"The speech explains that cooperation helps nations address worldwide problems together." },
+  { passage:"Passage 15", passageText:'"Our nation has always moved forward through the strength and determination of ordinary citizens. Teachers, workers, healthcare professionals, farmers, and business owners contribute daily to the progress of our society. Although challenges will continue to arise, I remain confident that unity, responsibility, and hard work will guide our nation toward a brighter future."', question:"Which value is mainly promoted in the speech?", options:["Isolation","Division","Unity and hard work","Political conflict"], correct:2, explanation:"The president emphasizes unity, responsibility, and hard work as important national values." }
 ];
 
-const LETTERS = ['A','B','C','D'];
-const TOTAL = QUESTIONS.length;
+var LETTERS = ['A','B','C','D'];
+var TOTAL = QUESTIONS.length;
+var current = 0;
+var answers = new Array(TOTAL).fill(-1);
+var marked = new Array(TOTAL).fill(false);
+var timerSec = 45 * 60;
+var timerInterval = null;
 
-let current = 0;
-let answers = new Array(TOTAL).fill(-1);
-let marked = new Array(TOTAL).fill(false);
-let timerSec = 45 * 60;
-let timerInterval;
-
-// ── INIT ──
-function init(){
+function init() {
   buildGrid();
   renderQuestion(0);
   startTimer();
 }
 
-function buildGrid(){
-  const g = document.getElementById('qGrid');
+function buildGrid() {
+  var g = document.getElementById('qGrid');
   g.innerHTML = '';
-  for(let i=0;i<TOTAL;i++){
-    const b = document.createElement('div');
-    b.className='qb';
-    b.textContent = i+1;
-    b.onclick = ()=>{ current=i; renderQuestion(i); closeOverview(); };
+  for (var i = 0; i < TOTAL; i++) {
+    var b = document.createElement('div');
+    b.className = 'qb';
+    b.textContent = i + 1;
+    (function(idx) {
+      b.onclick = function() { current = idx; renderQuestion(idx); closeOverview(); };
+    })(i);
     g.appendChild(b);
   }
 }
 
-function updateGrid(){
-  const btns = document.querySelectorAll('.qb');
-
-  btns.forEach((b,i)=>{
-
+function updateGrid() {
+  var btns = document.querySelectorAll('.qb');
+  btns.forEach(function(b, i) {
     b.className = 'qb';
-
-    // answered
-    if(answers[i] !== -1){
-      b.classList.add('answered');
-    }
-
-    // marked
-    if(marked[i]){
-      b.classList.add('marked');
-    }
-
-    // current question
-    if(i === current){
-      b.classList.add('current');
-    }
-
+    if (i === current) b.classList.add('current');
+    else if (marked[i]) b.classList.add('marked');
+    else if (answers[i] !== -1) b.classList.add('answered');
   });
 }
 
-function updateNavStats(){
-  const done = answers.filter(a=>a!==-1).length;
-  const markCount = marked.filter(Boolean).length;
+function updateNavStats() {
+  var done = answers.filter(function(a) { return a !== -1; }).length;
+  var markCount = marked.filter(Boolean).length;
   document.getElementById('nsDone').textContent = done;
   document.getElementById('nsLeft').textContent = TOTAL - done;
   document.getElementById('nsMark').textContent = markCount;
-  // update dropdown panel stats
   document.getElementById('opDone').textContent = done;
   document.getElementById('opBlank').textContent = TOTAL - done;
   document.getElementById('opMark').textContent = markCount;
-  // badge shows answered count
   document.getElementById('overviewBadge').textContent = done;
 }
 
-function renderQuestion(idx){
-  const q = QUESTIONS[idx];
+function renderQuestion(idx) {
+  var q = QUESTIONS[idx];
   document.getElementById('passageNum').textContent = q.passage;
-  document.getElementById('passageText').innerHTML = q.passageText.replace(/\n/g,'<br>');
-  document.getElementById('qNumLabel').textContent = `Question ${idx+1} of ${TOTAL}`;
+  document.getElementById('passageText').textContent = q.passageText;
+  document.getElementById('qNumLabel').textContent = 'Question ' + (idx + 1) + ' of ' + TOTAL;
   document.getElementById('qText').textContent = q.question;
 
-  const mark = document.getElementById('btnMark');
-  mark.className = 'btn-mark' + (marked[idx]?' marked':'');
-  mark.innerHTML = marked[idx]
-    ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Marked`
-    : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Mark`;
+  var mark = document.getElementById('btnMark');
+  if (marked[idx]) {
+    mark.className = 'btn-mark marked';
+    mark.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Marked';
+  } else {
+    mark.className = 'btn-mark';
+    mark.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Mark';
+  }
 
-  const area = document.getElementById('optionsArea');
+  var area = document.getElementById('optionsArea');
   area.innerHTML = '';
-  q.options.forEach((opt,i)=>{
-    const div = document.createElement('div');
-    div.className = 'opt anim' + (answers[idx]===i?' selected':'');
-    div.style.animationDelay = (i*0.04)+'s';
-    div.innerHTML = `
-      <div class="opt-radio"></div>
-      <span class="opt-letter">${LETTERS[i]}</span>
-      <span class="opt-text">${opt}</span>`;
-    div.onclick = ()=>{ selectAnswer(idx, i); };
+  q.options.forEach(function(opt, i) {
+    var div = document.createElement('div');
+    div.className = 'opt anim' + (answers[idx] === i ? ' selected' : '');
+    div.style.animationDelay = (i * 0.04) + 's';
+    div.innerHTML = '<div class="opt-radio"></div><span class="opt-letter">' + LETTERS[i] + '</span><span class="opt-text">' + opt + '</span>';
+    (function(oi) {
+      div.onclick = function() { selectAnswer(idx, oi); };
+    })(i);
     area.appendChild(div);
   });
 
-  document.getElementById('btnPrev').disabled = idx===0;
-  document.getElementById('btnNext').textContent = idx===TOTAL-1 ? 'Review & Submit →' : 'Next →';
-
+  document.getElementById('btnPrev').disabled = idx === 0;
+  document.getElementById('btnNext').textContent = idx === TOTAL - 1 ? 'Review & Submit →' : 'Next →';
   updateGrid();
   updateNavStats();
 }
 
-function selectAnswer(qIdx, optIdx){
+function selectAnswer(qIdx, optIdx) {
   answers[qIdx] = optIdx;
-  document.querySelectorAll('.opt').forEach((el,i)=>{
-    el.classList.toggle('selected', i===optIdx);
-  });
+  var opts = document.querySelectorAll('.opt');
+  opts.forEach(function(el, i) { el.classList.toggle('selected', i === optIdx); });
   updateGrid();
   updateNavStats();
 }
 
-function toggleMark(){
+function toggleMark() {
   marked[current] = !marked[current];
-  const mark = document.getElementById('btnMark');
-  mark.className = 'btn-mark' + (marked[current]?' marked':'');
-  mark.innerHTML = marked[current]
-    ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Marked`
-    : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Mark`;
+  var mark = document.getElementById('btnMark');
+  if (marked[current]) {
+    mark.className = 'btn-mark marked';
+    mark.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Marked';
+  } else {
+    mark.className = 'btn-mark';
+    mark.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Mark';
+  }
   updateGrid();
   updateNavStats();
 }
 
-function navigate(dir){
-  if(dir===1 && current===TOTAL-1){ goToReview(); return; }
-  current = Math.max(0, Math.min(TOTAL-1, current+dir));
+function navigate(dir) {
+  if (dir === 1 && current === TOTAL - 1) { goToReview(); return; }
+  current = Math.max(0, Math.min(TOTAL - 1, current + dir));
   renderQuestion(current);
 }
 
-// ── TIMER ──
-function startTimer(){
-  timerInterval = setInterval(()=>{
-    if(timerSec<=0){ clearInterval(timerInterval); goToReview(); return; }
+function startTimer() {
+  timerInterval = setInterval(function() {
+    if (timerSec <= 0) { clearInterval(timerInterval); goToReview(); return; }
     timerSec--;
-    const m = String(Math.floor(timerSec/60)).padStart(2,'0');
-    const s = String(timerSec%60).padStart(2,'0');
-    document.getElementById('timerTxt').textContent = `${m}:${s}`;
-    document.getElementById('timerPill').className = 'timer-pill'+(timerSec<300?' urgent':'');
-  },1000);
+    var m = String(Math.floor(timerSec / 60)).padStart(2, '0');
+    var s = String(timerSec % 60).padStart(2, '0');
+    document.getElementById('timerTxt').textContent = m + ':' + s;
+    document.getElementById('timerPill').className = timerSec < 300 ? 'timer-pill urgent' : 'timer-pill';
+  }, 1000);
 }
 
-// ── REVIEW ──
-function goToReview(){
-  document.getElementById('testView').style.display='none';
-  document.getElementById('navBar').style.display='none';
-  document.getElementById('reviewScreen').style.display='block';
-  document.getElementById('resultsScreen').style.display='none';
+function goToReview() {
+  document.getElementById('testView').style.display = 'none';
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('reviewScreen').style.display = 'block';
+  document.getElementById('resultsScreen').style.display = 'none';
   document.getElementById('reviewScreen').scrollTop = 0;
 
-  const done = answers.filter(a=>a!==-1).length;
-  const blank = TOTAL - done;
-  const markCount = marked.filter(Boolean).length;
+  var done = answers.filter(function(a) { return a !== -1; }).length;
   document.getElementById('rsDone').textContent = done;
-  document.getElementById('rsBlank').textContent = blank;
-  document.getElementById('rsMark').textContent = markCount;
+  document.getElementById('rsBlank').textContent = TOTAL - done;
+  document.getElementById('rsMark').textContent = marked.filter(Boolean).length;
 
-  const list = document.getElementById('reviewList');
+  var list = document.getElementById('reviewList');
   list.innerHTML = '';
-  QUESTIONS.forEach((q,i)=>{
-    const hasAns = answers[i]!==-1;
-    const isMark = marked[i];
-    let numClass = '';
 
-if(!hasAns){
-  numClass = 'blank';
-}
+  QUESTIONS.forEach(function(q, i) {
+    var hasAns = answers[i] !== -1;
+    var isMark = marked[i];
+    var numCls = hasAns ? '' : 'unanswered';
+    if (isMark) numCls = 'ismarked';
+    var badgeCls = hasAns ? 'answered' : 'unanswered';
+    if (isMark) badgeCls = 'marked';
+    var badgeTxt = hasAns ? 'Answered' : 'Not answered';
+    if (isMark) badgeTxt = '⚑ Marked';
 
-if(isMark){
-  numClass += ' marked-q';
-}
-
-    // Build option pills
-    const optPills = q.options.map((opt, oi)=>{
-      const isSel = answers[i]===oi;
-      return `<span class="ri-opt${isSel?' selected':''}">${LETTERS[oi]}. ${opt}</span>`;
+    var optRows = q.options.map(function(opt, oi) {
+      var isSel = answers[i] === oi;
+      return '<div class="rq-opt' + (isSel ? ' sel' : '') + '">' +
+        '<span class="rq-opt-letter">' + LETTERS[oi] + '.</span>' +
+        '<span class="rq-opt-text">' + opt + '</span>' +
+        (isSel ? '<span class="rq-opt-dot">●</span>' : '') +
+        '</div>';
     }).join('');
 
-    const item = document.createElement('div');
-    item.className = 'review-item anim';
-    item.style.animationDelay = (i*0.04)+'s';
-    item.innerHTML = `
-      <div class="ri-top">
-        <div class="ri-num ${numClass}">${i+1}</div>
-        <div class="ri-info">
-          <div class="ri-passage">${isMark?'⚑ Marked — ':''} ${q.passage}</div>
-          <div class="ri-question">${q.question}</div>
-          <div class="ri-opts">${optPills}</div>
-        </div>
-        <div class="ri-go">Edit →</div>
-      </div>`;
-    item.querySelector('.ri-top').onclick = ()=>{ backToTest(i); };
-    list.appendChild(item);
+    var card = document.createElement('div');
+    card.className = 'rq-card anim' + (isMark ? ' is-marked' : !hasAns ? ' is-unanswered' : '');
+    card.style.animationDelay = (i * 0.03) + 's';
+    card.innerHTML =
+      '<div class="rq-head">' +
+        '<div class="rq-num ' + numCls + '">' + (i + 1) + '</div>' +
+        '<div class="rq-meta">' +
+          '<div class="rq-passage-label">' + q.passage + '</div>' +
+          '<div class="rq-question">' + q.question + '</div>' +
+        '</div>' +
+        '<span class="rq-badge ' + badgeCls + '">' + badgeTxt + '</span>' +
+      '</div>' +
+      '<div class="rq-options">' + optRows + '</div>' +
+      '<button class="rq-edit-btn" data-idx="' + i + '">✎ Edit this answer</button>';
+
+    card.querySelector('.rq-edit-btn').addEventListener('click', function() {
+      backToTest(parseInt(this.getAttribute('data-idx')));
+    });
+    list.appendChild(card);
   });
 }
 
-function backToTest(idx){
-  if(typeof idx === 'number') current = idx;
-  document.getElementById('testView').style.display='flex';
-  document.getElementById('navBar').style.display='flex';
-  document.getElementById('reviewScreen').style.display='none';
-  document.getElementById('resultsScreen').style.display='none';
+function backToTest(idx) {
+  if (typeof idx === 'number') current = idx;
+  document.getElementById('testView').style.display = 'flex';
+  document.getElementById('navBar').style.display = 'flex';
+  document.getElementById('reviewScreen').style.display = 'none';
+  document.getElementById('resultsScreen').style.display = 'none';
   renderQuestion(current);
 }
 
-// ── SUBMIT ──
-function submitTest(){
+function submitTest() {
   clearInterval(timerInterval);
+  document.getElementById('reviewScreen').style.display = 'none';
+  document.getElementById('testView').style.display = 'none';
+  document.getElementById('navBar').style.display = 'none';
+  var rs = document.getElementById('resultsScreen');
+  rs.style.display = 'block';
+  rs.scrollTop = 0;
 
-  document.getElementById('reviewScreen').style.display='none';
-  document.getElementById('testView').style.display='none';
-  document.getElementById('navBar').style.display='none';
-
-  const rs = document.getElementById('resultsScreen');
-  rs.style.display='flex';
-
-  let correct = 0;
-  let wrong = 0;
-  let skip = 0;
-
-  QUESTIONS.forEach((q,i)=>{
-    if(answers[i] === -1){
-      skip++;
-    }else if(answers[i] === q.correct){
-      correct++;
-    }else{
-      wrong++;
-    }
+  var correct = 0, wrong = 0, skip = 0;
+  QUESTIONS.forEach(function(q, i) {
+    if (answers[i] === -1) skip++;
+    else if (answers[i] === q.correct) correct++;
+    else wrong++;
   });
 
-  const pct = Math.round((correct / TOTAL) * 100);
-
+  var pct = Math.round((correct / TOTAL) * 100);
   document.getElementById('scoreBig').textContent = correct;
-  document.getElementById('scoreDenom').textContent = `/ ${TOTAL}`;
-
+  document.getElementById('scoreDenom').textContent = '/ ' + TOTAL;
   document.getElementById('rbCorrect').textContent = correct;
   document.getElementById('rbWrong').textContent = wrong;
   document.getElementById('rbSkip').textContent = skip;
 
-  const emoji =
-    pct >= 80 ? '🏆' :
-    pct >= 60 ? '👍' :
-    '📚';
-
-  const title =
-    pct >= 80 ? 'Excellent Work!' :
-    pct >= 60 ? 'Good Effort!' :
-    'Keep Studying!';
-
-  const sub =
-    `You scored ${correct} out of ${TOTAL} (${pct}%).`;
-
+  var emoji = pct >= 80 ? '🏆' : pct >= 60 ? '👍' : '📚';
+  var title = pct >= 80 ? 'Excellent Work!' : pct >= 60 ? 'Good Effort!' : 'Keep Studying!';
+  var sub = 'You scored ' + correct + ' out of ' + TOTAL + ' (' + pct + '%). ';
+  sub += pct >= 80 ? 'Outstanding performance!' : pct >= 60 ? 'You are making great progress.' : 'Review the passages and try again.';
   document.getElementById('trophyEmoji').textContent = emoji;
   document.getElementById('resultsTitle').textContent = title;
   document.getElementById('resultsSub').textContent = sub;
 
-  const detail = document.getElementById('resultsDetail');
+  var detail = document.getElementById('resultsDetail');
   detail.innerHTML = '';
 
-  QUESTIONS.forEach((q,i)=>{
+  QUESTIONS.forEach(function(q, i) {
+    var userAns = answers[i];
+    var isSkip  = userAns === -1;
+    var isCorr  = !isSkip && userAns === q.correct;
+    var isWrong = !isSkip && !isCorr;
+    var cls     = isCorr ? 'correct' : isWrong ? 'wrong' : 'skipped';
+    var badge   = isCorr ? '✓' : isWrong ? '✗' : '–';
+    var status  = isCorr ? 'Correct' : isWrong ? 'Wrong' : 'Skipped';
 
-    const userAns = answers[i];
-
-    let cls = '';
-    let badge = '';
-    let status = '';
-
-    if(userAns === -1){
-      cls = 'skipped';
-      badge = '—';
-      status = 'Skipped';
-    }
-    else if(userAns === q.correct){
-      cls = 'correct';
-      badge = '✓';
-      status = 'Correct';
-    }
-    else{
-      cls = 'wrong';
-      badge = '✗';
-      status = 'Wrong';
-    }
-
-    const optionsHTML = q.options.map((opt,oi)=>{
-
-      let rowClass = '';
-
-      if(oi === q.correct && oi === userAns){
-        rowClass = 'user-correct';
+    var optRows = q.options.map(function(opt, oi) {
+      var isUser    = userAns === oi;
+      var isCorrOpt = q.correct === oi;
+      var rowCls = '', tag = '';
+      if (isSkip) {
+        if (isCorrOpt) { rowCls = 'correct-ans'; tag = 'Correct Answer'; }
+      } else if (isCorr && isUser) {
+        rowCls = 'user-correct'; tag = 'Your Answer ✓';
+      } else if (isWrong && isUser) {
+        rowCls = 'user-wrong'; tag = 'Your Answer ✗';
+      } else if (isWrong && isCorrOpt) {
+        rowCls = 'correct-ans'; tag = 'Correct Answer';
       }
-      else if(oi === q.correct){
-        rowClass = 'correct-ans';
-      }
-      else if(oi === userAns){
-        rowClass = 'user-ans';
-      }
-
-      let icon = '';
-
-      if(oi === q.correct){
-        icon = '✓';
-      }
-
-      if(oi === userAns && oi !== q.correct){
-        icon = '✗';
-      }
-
-      return `
-        <div class="rd-opt-row ${rowClass}">
-          <div class="rd-opt-letter">${LETTERS[oi]}</div>
-          <div class="rd-opt-text">${opt}</div>
-          <div class="rd-opt-icon">${icon}</div>
-        </div>
-      `;
-
+      return '<div class="rd-opt ' + rowCls + '">' +
+        '<span class="rd-opt-letter">' + LETTERS[oi] + '.</span>' +
+        '<span class="rd-opt-txt">' + opt + '</span>' +
+        (tag ? '<span class="rd-opt-tag">' + tag + '</span>' : '') +
+        '</div>';
     }).join('');
 
-    const card = document.createElement('div');
-
-    card.className = `rd-item ${cls} anim`;
-
-    card.innerHTML = `
-      <div class="rd-header">
-        <div class="rd-badge">${badge}</div>
-
-        <div class="rd-header-text">
-          <div class="rd-passage-lbl">${q.passage}</div>
-
-          <div class="rd-q">
-            Question ${i+1}: ${q.question}
-          </div>
-        </div>
-
-        <div class="rd-status-badge">
-          ${status}
-        </div>
-      </div>
-
-      <div class="rd-body">
-
-        <div class="rd-options-grid">
-          ${optionsHTML}
-        </div>
-
-        <div class="rd-explanation">
-          <div class="rd-exp-label">
-            Explanation
-          </div>
-
-          <div class="rd-exp-text">
-            ${q.explanation}
-          </div>
-        </div>
-
-      </div>
-    `;
-
+    var card = document.createElement('div');
+    card.className = 'rd-card ' + cls + ' anim';
+    card.style.animationDelay = (i * 0.04) + 's';
+    card.innerHTML =
+      '<div class="rd-card-head">' +
+        '<div class="rd-badge">' + badge + '</div>' +
+        '<div class="rd-head-meta">' +
+          '<div class="rd-passage-lbl">' + q.passage + '</div>' +
+          '<div class="rd-question">Q' + (i + 1) + '. ' + q.question + '</div>' +
+        '</div>' +
+        '<span class="rd-status">' + status + '</span>' +
+      '</div>' +
+      '<div class="rd-body">' +
+        '<div class="rd-opts">' + optRows + '</div>' +
+        '<div class="rd-explanation">' +
+          '<div class="rd-exp-label">💡 Explanation</div>' +
+          '<div class="rd-exp-text">' + q.explanation + '</div>' +
+        '</div>' +
+      '</div>';
     detail.appendChild(card);
-
   });
-
-  rs.scrollTop = 0;
 }
 
-function restartTest(){
+function restartTest() {
   answers = new Array(TOTAL).fill(-1);
-  marked = new Array(TOTAL).fill(false);
+  marked  = new Array(TOTAL).fill(false);
   current = 0;
-  timerSec = 45*60;
-  document.getElementById('timerTxt').textContent='45:00';
-  document.getElementById('timerPill').className='timer-pill';
-  document.getElementById('resultsScreen').style.display='none';
-  document.getElementById('testView').style.display='flex';
-  document.getElementById('navBar').style.display='flex';
+  timerSec = 45 * 60;
+  document.getElementById('timerTxt').textContent = '45:00';
+  document.getElementById('timerPill').className = 'timer-pill';
+  document.getElementById('resultsScreen').style.display = 'none';
+  document.getElementById('testView').style.display = 'flex';
+  document.getElementById('navBar').style.display = 'flex';
   buildGrid();
   renderQuestion(0);
-clearInterval(timerInterval);
-startTimer();}
-
-function toggleOverview(){
-  const overlay = document.getElementById('overviewOverlay');
-  const btn = document.getElementById('btnOverview');
-  const isOpen = overlay.classList.contains('open');
-  if(isOpen){ closeOverview(); } else { overlay.classList.add('open'); btn.classList.add('active'); }
+  startTimer();
 }
-function closeOverview(){
+
+function toggleOverview() {
+  var overlay = document.getElementById('overviewOverlay');
+  var btn = document.getElementById('btnOverview');
+  if (overlay.classList.contains('open')) { closeOverview(); }
+  else { overlay.classList.add('open'); btn.classList.add('active'); }
+}
+
+function closeOverview() {
   document.getElementById('overviewOverlay').classList.remove('open');
   document.getElementById('btnOverview').classList.remove('active');
 }
