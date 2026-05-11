@@ -1,4 +1,8 @@
+import { useState } from 'react'
 import './App.css'
+import QuizPage from './pages/QuizPage'
+import FlashcardPage from './pages/FlashcardPage'
+import MockTestPage from './pages/MockTestPage'
 
 interface Subject {
   id: string;
@@ -35,12 +39,33 @@ const subjects: Subject[] = [
 ];
 
 function App() {
+  const [currentView, setCurrentView] = useState<'home' | 'quiz' | 'flashcards' | 'mock-test'>('home');
+
+  if (currentView === 'quiz') {
+    return <QuizPage />;
+  }
+
+  if (currentView === 'flashcards') {
+    return <FlashcardPage />;
+  }
+
+  if (currentView === 'mock-test') {
+    return <MockTestPage />;
+  }
+
   return (
     <div className="app-container">
       <header className="header">
-        <a href="/" className="logo-text">GED Study Assist</a>
+        <button 
+          onClick={() => setCurrentView('home')} 
+          className="logo-text bg-transparent border-none p-0 text-inherit cursor-pointer hover:opacity-80"
+        >
+          GED Study Assist
+        </button>
         <nav className="nav-links">
-          <a href="#">Subjects</a>
+          <button onClick={() => setCurrentView('home')} className="nav-btn">Subjects</button>
+          <button onClick={() => setCurrentView('flashcards')} className="nav-btn">Flashcards</button>
+          <button onClick={() => setCurrentView('mock-test')} className="nav-btn font-bold text-ged-red">Mock Test</button>
           <a href="#">Resources</a>
           <a href="#">Profile</a>
         </nav>
@@ -58,7 +83,13 @@ function App() {
               <span className="subject-icon">{subject.icon}</span>
               <h3>{subject.title}</h3>
               <p>{subject.description}</p>
-              <button onClick={() => alert(`Starting ${subject.title}...`)}>
+              <button onClick={() => {
+                if (subject.id === 'social-studies') {
+                  setCurrentView('quiz');
+                } else {
+                  alert(`Starting ${subject.title}...`);
+                }
+              }}>
                 Start Learning
               </button>
             </div>

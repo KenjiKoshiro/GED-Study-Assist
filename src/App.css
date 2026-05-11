@@ -28,14 +28,20 @@
   gap: 2rem;
 }
 
-.nav-links a {
+.nav-links a, .nav-btn {
   text-decoration: none;
   color: var(--text-muted);
   font-weight: 500;
   transition: color 0.2s;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
 }
 
-.nav-links a:hover {
+.nav-links a:hover, .nav-btn:hover {
   color: var(--primary);
 }
 
