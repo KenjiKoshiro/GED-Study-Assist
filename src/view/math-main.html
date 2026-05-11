@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Math Practice Hub</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Lora:ital,wght@0,600;1,500&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+:root{
+  --purple:#534AB7;
+  --purple-light:#EEEDFE;
+  --purple-dark:#26215C;
+
+  --green-mid:#639922;
+  --green-dark:#27500A;
+  --green-light:#EAF3DE;
+
+  --text:#1a1a1a;
+  --text-muted:#666;
+  --white:#fff;
+  --bg:#FAFAF7;
+
+  --radius:20px;
+}
+
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* NAV */
+
+nav{
+  height:70px;
+  background:rgba(255,255,255,0.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid #e8e8e0;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 5%;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  display:flex;
+  align-items:center;
+  gap:10px;
+
+  text-decoration:none;
+  color:var(--green-dark);
+
+  font-size:1.4rem;
+  font-weight:900;
+}
+
+.logo-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  background:var(--green-mid);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.nav-btn{
+  text-decoration:none;
+  background:var(--green-mid);
+  color:white;
+  padding:10px 20px;
+  border-radius:50px;
+  font-weight:800;
+}
+
+/* HERO */
+
+.hero{
+  padding:80px 5% 50px;
+  text-align:center;
+}
+
+.badge{
+  display:inline-block;
+
+  background:var(--green-light);
+  color:var(--green-dark);
+
+  padding:6px 14px;
+  border-radius:50px;
+
+  font-size:0.8rem;
+  font-weight:800;
+
+  margin-bottom:18px;
+}
+
+.hero h1{
+  font-size:clamp(2.3rem,5vw,3.5rem);
+  font-weight:900;
+  margin-bottom:16px;
+}
+
+.hero h1 em{
+  color:var(--purple);
+  font-family:'Lora',serif;
+  font-style:italic;
+}
+
+.hero p{
+  max-width:650px;
+  margin:auto;
+
+  color:var(--text-muted);
+  font-size:1.05rem;
+  line-height:1.8;
+}
+
+/* CARDS */
+
+.practice-section{
+  padding:20px 5% 80px;
+}
+
+.practice-grid{
+  max-width:1100px;
+  margin:auto;
+
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px;
+}
+
+.practice-card{
+  background:var(--white);
+  border:2px solid #ddd;
+  border-radius:var(--radius);
+
+  padding:34px 28px;
+
+  text-decoration:none;
+  color:var(--text);
+
+  transition:0.25s;
+
+  position:relative;
+  overflow:hidden;
+}
+
+.practice-card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 14px 30px rgba(0,0,0,0.08);
+}
+
+.practice-card.simple{
+  background:var(--purple-light);
+  border-color:#BEB7F2;
+}
+
+.practice-card.flash{
+  background:var(--green-light);
+  border-color:#B7D58D;
+}
+
+.practice-card.mock{
+  background:#FAECE7;
+  border-color:#F0A98A;
+}
+
+.card-icon{
+  width:65px;
+  height:65px;
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:1.8rem;
+
+  margin-bottom:22px;
+}
+
+.simple .card-icon{
+  background:#BEB7F2;
+}
+
+.flash .card-icon{
+  background:#B7D58D;
+}
+
+.mock .card-icon{
+  background:#F0A98A;
+}
+
+.practice-card h2{
+  font-size:1.4rem;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.practice-card p{
+  color:var(--text-muted);
+  line-height:1.7;
+  margin-bottom:20px;
+}
+
+.card-pill{
+  display:inline-block;
+
+  padding:5px 12px;
+  border-radius:50px;
+
+  font-size:0.78rem;
+  font-weight:800;
+}
+
+.simple .card-pill{
+  background:#D7D3FA;
+  color:var(--purple-dark);
+}
+
+.flash .card-pill{
+  background:#DCEFC2;
+  color:var(--green-dark);
+}
+
+.mock .card-pill{
+  background:#F7CDC0;
+  color:#4A1B0C;
+}
+
+.start-btn{
+  margin-top:24px;
+
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+
+  font-weight:800;
+  color:var(--text);
+
+  text-decoration:none;
+}
+
+/* INFO */
+
+.info-box{
+  max-width:1100px;
+  margin:40px auto 0;
+
+  background:white;
+  border:1px solid #e8e8e0;
+  border-radius:20px;
+
+  padding:22px 28px;
+
+  display:flex;
+  justify-content:center;
+  gap:30px;
+  flex-wrap:wrap;
+}
+
+.info-item{
+  font-size:0.92rem;
+  font-weight:700;
+  color:var(--text-muted);
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .hero{
+    padding-top:60px;
+  }
+
+  .practice-card{
+    padding:28px 22px;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="landing.html" class="logo">
+    <div class="logo-icon">📚</div>
+    GEDReady
+  </a>
+
+  
+  <a href="auth.html" class="nav-btn">Log in</a>
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+  <div class="badge">
+    📐 Math Practice Hub
+  </div>
+
+  <h1>
+    Choose Your <em>Practice Mode</em>
+  </h1>
+
+  <p>
+    Build your GED Math skills with targeted practice modes.
+    Start with quick quizzes, review with flashcards, or challenge
+    yourself using a full mock test experience.
+  </p>
+
+</section>
+
+<!-- CARDS -->
+
+<section class="practice-section">
+
+  <div class="practice-grid">
+
+    <!-- SIMPLE TEST -->
+
+    <a href="math-simple.html" class="practice-card simple">
+
+      <div class="card-icon">📝</div>
+
+      <h2>Simple Test</h2>
+
+      <p>
+        Practice short GED-style quizzes with instant explanations
+        and score feedback after every question.
+      </p>
+
+      <span class="card-pill">
+        10 Questions
+      </span>
+
+      <div class="start-btn">
+        Start Practice →
+      </div>
+
+    </a>
+
+    <!-- FLASHCARD -->
+
+    <a href="math-flashcard.html" class="practice-card flash">
+
+      <div class="card-icon">🧠</div>
+
+      <h2>Flashcards</h2>
+
+      <p>
+        Review important formulas, concepts, vocabulary,
+        and quick problem-solving strategies.
+      </p>
+
+      <span class="card-pill">
+        Quick Review
+      </span>
+
+      <div class="start-btn">
+        Open Flashcards →
+      </div>
+
+    </a>
+
+    <!-- MOCK TEST -->
+
+    <a href="math-mocktest.html" class="practice-card mock">
+
+      <div class="card-icon">⏱</div>
+
+      <h2>Mock Test</h2>
+
+      <p>
+        Simulate the real GED exam environment with timed sections,
+        mixed question types, and performance tracking.
+      </p>
+
+      <span class="card-pill">
+        Full Exam Mode
+      </span>
+
+      <div class="start-btn">
+        Start Mock Test →
+      </div>
+
+    </a>
+
+  </div>
+
+  <!-- INFO -->
+
+  <div class="info-box">
+
+    <div class="info-item">
+      📋 Official GED-style questions
+    </div>
+
+    <div class="info-item">
+      ⚡ Instant feedback
+    </div>
+
+    <div class="info-item">
+      🎯 Skill-based practice
+    </div>
+
+    <div class="info-item">
+      🔒 Save progress with account
+    </div>
+
+  </div>
+
+</section>
+
+</body>
+</html>
