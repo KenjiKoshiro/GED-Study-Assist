@@ -2,11 +2,11 @@ require('dotenv').config()
 const express = require('express')
 const cors    = require('cors')
 
-const authRoutes      = require('../routes/authRoutes')
-const quizRoutes      = require('../routes/quizRoutes')
-const dashboardRoutes = require('../routes/dashboardRoutes')
-const flashcardRoutes = require('../routes/flashcardRoutes')
-const mocktestRoutes  = require('../routes/mocktestRoutes')
+const authRoutes      = require('./routes/authRoutes')
+const quizRoutes      = require('./routes/quizRoutes')
+const dashboardRoutes = require('./routes/dashboardRoutes')
+const flashcardRoutes = require('./routes/flashcardRoutes')
+const mocktestRoutes  = require('./routes/mocktestRoutes')
 
 const path    = require('path')
 const app     = express()
@@ -17,23 +17,23 @@ app.use(cors({ origin: process.env.CLIENT_URL }))
 app.use(express.json())
 
 // Serve static files from the 'view' directory
-app.use(express.static(path.join(__dirname, '../view')))
+app.use(express.static(path.join(__dirname, '../src/view')))
 
 // ── Frontend Routes ──
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../view/landing.html'))
+  res.sendFile(path.join(__dirname, '../src/view/landing.html'))
 })
 
 app.get('/auth', (req, res) => {
-  res.sendFile(path.join(__dirname, '../view/auth.html'))
+  res.sendFile(path.join(__dirname, '../src/view/auth.html'))
 })
 
 app.get('/dashboard', (req, res) => {
-  res.sendFile(path.join(__dirname, '../view/dashboard.html'))
+  res.sendFile(path.join(__dirname, '../src/view/dashboard.html'))
 })
 
 app.get('/subjects', (req, res) => {
-  res.sendFile(path.join(__dirname, '../view/subjects.html'))
+  res.sendFile(path.join(__dirname, '../src/view/subjects.html'))
 })
 
 // ── Routes ──
