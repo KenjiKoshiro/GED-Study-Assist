@@ -10,9 +10,9 @@ const getQuestionsBySubject = async (subject) => {
 
   const { data, error } = await supabase
     .from('questions')
-    .select('id, subject, topic, type, question_text, options, correct_answer, explanation')
+    .select('id, subject, topic, type:question_type, question_text:question, options, correct_answer, explanation')
     .eq('subject', subject)
-    .limit(10)
+    .limit(30)
 
   if (error) throw error
   return data
@@ -22,7 +22,7 @@ const getQuestionsBySubject = async (subject) => {
 const getAllQuestionsForMockTest = async () => {
   const { data, error } = await supabase
     .from('questions')
-    .select('id, subject, topic, type, question_text, options, correct_answer, explanation')
+    .select('id, subject, topic, type:question_type, question_text:question, options, correct_answer, explanation')
     .limit(40)
 
   if (error) throw error

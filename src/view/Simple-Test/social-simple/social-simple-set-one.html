@@ -1477,237 +1477,33 @@
     </div>
 
     <script>
-      var QUESTIONS = [
-        {
-          passage: "Passage 1",
-          passageText:
-            '"My fellow Americans, our economy faces serious challenges as families across the nation struggle with rising prices and job uncertainty. Small businesses are working hard to survive during this difficult period, while workers worry about supporting their families in an economy that continues to change rapidly. Although these problems are serious, I remain confident in the resilience and determination of the American people. Throughout history, Americans overcame economic crises through innovation, sacrifice, and unity. By investing in education, supporting workers, and strengthening local businesses, we can rebuild a stronger economy for future generations."',
-          question: "What is the main purpose of the speech?",
-          options: [
-            "To entertain citizens with historical stories",
-            "To encourage hope during economic difficulties",
-            "To announce military action",
-            "To criticize workers and businesses",
-          ],
-          correct: 1,
-          explanation:
-            "The president discusses economic struggles but mainly focuses on hope, resilience, and rebuilding the economy together.",
-        },
-        {
-          passage: "Passage 2",
-          passageText:
-            '"Democracy depends on citizens who remain informed and actively participate in public life. Voting is not simply a right but also a responsibility that protects freedom and ensures every citizen has a voice in government. Throughout American history, many courageous individuals fought to expand voting rights and guarantee equal participation in elections. When citizens stop participating in democracy, the nation grows weaker. Our country remains strongest when people stay engaged and committed to the democratic process."',
-          question: "According to the speech, why is voting important?",
-          options: [
-            "It guarantees economic success",
-            "It protects participation in democracy",
-            "It eliminates political disagreement",
-            "It reduces government responsibility",
-          ],
-          correct: 1,
-          explanation:
-            "The president explains that voting protects freedom and allows citizens to participate in democracy.",
-        },
-        {
-          passage: "Passage 3",
-          passageText:
-            '"Our schools carry the responsibility of preparing students for a rapidly changing world. Students today need more than memorization skills; they must develop creativity, critical thinking, and technological knowledge in order to compete successfully in modern industries. Teachers, schools, and communities all play important roles in helping students succeed. By investing in education and expanding opportunities for learning, we strengthen not only individual futures but also the future of our nation."',
-          question: "Which issue is mainly discussed in the speech?",
-          options: [
-            "Environmental protection",
-            "Military spending",
-            "Education and workforce preparation",
-            "International tourism",
-          ],
-          correct: 2,
-          explanation:
-            "The speech focuses on education, student preparation, and workforce skills needed for the future.",
-        },
-        {
-          passage: "Passage 4",
-          passageText:
-            '"Climate change continues to threaten communities across our nation and around the world. Rising temperatures, stronger storms, and increasing droughts are already affecting agriculture, public health, and local economies. Scientists warn these environmental challenges may become even more severe if countries fail to take action soon. Although solving this issue will require international cooperation and scientific innovation, our nation must lead responsibly by investing in clean energy and protecting natural resources."',
-          question:
-            "Which detail supports the idea that climate change is dangerous?",
-          options: [
-            "Scientists oppose environmental research",
-            "Stronger storms and droughts affect communities",
-            "Agriculture no longer matters to the economy",
-            "Clean energy increases pollution",
-          ],
-          correct: 1,
-          explanation:
-            "The passage directly explains that storms and droughts are harming communities and economies.",
-        },
-        {
-          passage: "Passage 5",
-          passageText:
-            '"Throughout our history, immigrants have played an important role in strengthening this nation. They have contributed to economic growth by opening businesses, creating jobs, and introducing new ideas that support industries across the country. Immigrants have also enriched American society through cultural traditions and diverse perspectives that shaped communities for generations. At the same time, our nation must maintain fair immigration laws and secure borders while respecting human dignity."',
-          question: "According to the speech, immigrants contribute by _____.",
-          options: [
-            "weakening communities",
-            "reducing innovation",
-            "supporting economic and cultural growth",
-            "limiting industrial development",
-          ],
-          correct: 2,
-          explanation:
-            "The speech explains that immigrants strengthen both the economy and culture.",
-        },
-        {
-          passage: "Passage 6",
-          passageText:
-            '"Our democracy functions best when citizens remain informed about national issues and participate responsibly in public life. Political disagreements are natural in a free society, but division and distrust should never weaken our shared commitment to democracy. Citizens must learn to debate respectfully, listen carefully to opposing viewpoints, and work together to solve national challenges."',
-          question: "What idea is mainly emphasized in the speech?",
-          options: [
-            "Democracy requires cooperation despite disagreements",
-            "Political disagreements should end completely",
-            "Citizens should ignore opposing opinions",
-            "National unity is impossible in democracy",
-          ],
-          correct: 0,
-          explanation:
-            "The president explains that disagreements are normal, but cooperation is necessary for democracy to succeed.",
-        },
-        {
-          passage: "Passage 7",
-          passageText:
-            '"Our nation\'s infrastructure forms the foundation of economic growth and public safety. Roads, bridges, airports, and transportation systems allow businesses to operate efficiently and connect communities across the country. However, many of these systems are aging and require major repairs or modernization. Investing in infrastructure will create jobs, improve transportation, and strengthen economic development."',
-          question: "What solution does the president support?",
-          options: [
-            "Closing transportation systems",
-            "Reducing construction projects",
-            "Investing in infrastructure improvements",
-            "Limiting economic growth",
-          ],
-          correct: 2,
-          explanation:
-            "The speech directly supports repairing and modernizing infrastructure systems.",
-        },
-        {
-          passage: "Passage 8",
-          passageText:
-            '"Technological innovation has transformed communication, business, and education more rapidly than ever before. Advances in technology allow people to access information instantly and connect with others around the world within seconds. At the same time, rapid technological growth has created concerns about privacy, misinformation, and employment in certain industries. Our responsibility is to encourage innovation while protecting citizens from the negative effects technology may create."',
-          question: "What is the main idea of the speech?",
-          options: [
-            "Technology creates only positive effects",
-            "Technological progress brings both benefits and challenges",
-            "Communication technology should be eliminated",
-            "Innovation weakens society completely",
-          ],
-          correct: 1,
-          explanation:
-            "The speech discusses both the positive and negative effects of technology.",
-        },
-        {
-          passage: "Passage 9",
-          passageText:
-            '"Small businesses remain one of the most important parts of the American economy. Across the nation, local businesses create jobs, support families, and strengthen communities by providing opportunities for workers. During difficult economic periods, many small business owners face financial uncertainty and increasing competition. Our government must continue supporting entrepreneurship and creating conditions that allow small businesses to grow and succeed."',
-          question:
-            "According to the speech, why are small businesses important?",
-          options: [
-            "They increase unemployment",
-            "They weaken local economies",
-            "They create jobs and support communities",
-            "They reduce economic competition",
-          ],
-          correct: 2,
-          explanation:
-            "The passage directly explains that small businesses create jobs and strengthen communities.",
-        },
-        {
-          passage: "Passage 10",
-          passageText:
-            '"Future generations will judge our nation not only by the success we achieve today but also by the responsibilities we fulfill for tomorrow. The decisions we make regarding education, the environment, economic opportunity, and democratic values will shape the future of millions of people. Although progress may require sacrifice and patience, we must remain committed to building a society that is fairer and stronger for future generations."',
-          question: "What can the reader infer from the speech?",
-          options: [
-            "Progress requires long-term effort and responsibility",
-            "Future generations will ignore national decisions",
-            "Sacrifice weakens society completely",
-            "Current challenges are unimportant",
-          ],
-          correct: 0,
-          explanation:
-            "The speech emphasizes patience, responsibility, and commitment, showing that meaningful progress takes time and effort.",
-        },
-        {
-          passage: "Passage 11",
-          passageText:
-            '"Our military members have sacrificed greatly to protect the freedoms and security of this nation. These brave individuals serve far from their families, often under dangerous conditions, to defend democratic values and maintain peace. As citizens, we must honor their service not only through words but also by ensuring veterans receive healthcare, education, and opportunities after returning home."',
-          question: "What is the main purpose of the speech?",
-          options: [
-            "To criticize military service",
-            "To honor military members and support veterans",
-            "To encourage foreign conflict",
-            "To reduce healthcare programs",
-          ],
-          correct: 1,
-          explanation:
-            "The speech honors military service and emphasizes supporting veterans after service.",
-        },
-        {
-          passage: "Passage 12",
-          passageText:
-            '"Healthcare remains one of the most important issues facing our nation today. Millions of families struggle with rising medical costs and limited access to care, especially in rural communities. Every citizen deserves the opportunity to receive affordable and reliable healthcare. By improving hospitals, supporting medical professionals, and expanding healthcare access, we can create a healthier and stronger nation."',
-          question:
-            "According to the speech, what healthcare problem is mentioned?",
-          options: [
-            "Excess hospitals in cities",
-            "Rising medical costs and limited access",
-            "Too many healthcare workers",
-            "Declining interest in medicine",
-          ],
-          correct: 1,
-          explanation:
-            "The passage directly states that families struggle with rising medical costs and limited healthcare access.",
-        },
-        {
-          passage: "Passage 13",
-          passageText:
-            '"Our environment provides the natural resources that support agriculture, industry, and public health. Protecting forests, rivers, and wildlife is not only an environmental responsibility but also an economic necessity. Future generations depend on the decisions we make today regarding conservation and sustainability."',
-          question: "What idea is emphasized in the speech?",
-          options: [
-            "Environmental protection supports both nature and the economy",
-            "Conservation weakens industries",
-            "Wildlife protection is unimportant",
-            "Natural resources are unlimited",
-          ],
-          correct: 0,
-          explanation:
-            "The speech explains that environmental protection benefits both the economy and future generations.",
-        },
-        {
-          passage: "Passage 14",
-          passageText:
-            '"International cooperation remains essential in an increasingly connected world. Nations must work together to address global challenges such as climate change, economic instability, and public health crises. Although countries may have political differences, cooperation and diplomacy remain necessary for maintaining peace and stability."',
-          question:
-            "According to the speech, why is international cooperation important?",
-          options: [
-            "It increases political conflict",
-            "It helps nations solve global challenges",
-            "It removes the need for diplomacy",
-            "It weakens public health systems",
-          ],
-          correct: 1,
-          explanation:
-            "The speech explains that cooperation helps nations address worldwide problems together.",
-        },
-        {
-          passage: "Passage 15",
-          passageText:
-            '"Our nation has always moved forward through the strength and determination of ordinary citizens. Teachers, workers, healthcare professionals, farmers, and business owners contribute daily to the progress of our society. Although challenges will continue to arise, I remain confident that unity, responsibility, and hard work will guide our nation toward a brighter future."',
-          question: "Which value is mainly promoted in the speech?",
-          options: [
-            "Isolation",
-            "Division",
-            "Unity and hard work",
-            "Political conflict",
-          ],
-          correct: 2,
-          explanation:
-            "The president emphasizes unity, responsibility, and hard work as important national values.",
-        },
-      ];
+      var QUESTIONS = [];
+
+      async function loadQuestions() {
+        try {
+          const response = await fetch("/api/quiz/social_studies");
+          const data = await response.json();
+          if (data.questions) {
+            QUESTIONS = data.questions.map((q) => {
+              // Map DB fields to what the HTML expects
+              return {
+                passage: q.topic || "Social Studies",
+                passageText: q.question_text || "",
+                question: q.question_text || "", // Use question_text if no separate question field
+                options: q.options || [],
+                correct: (q.options || []).indexOf(q.correct_answer),
+                explanation: q.explanation || "No explanation available.",
+              };
+            });
+            TOTAL = QUESTIONS.length;
+            answers = new Array(TOTAL).fill(-1);
+            marked = new Array(TOTAL).fill(false);
+          }
+        } catch (err) {
+          console.error("Failed to load questions:", err);
+          alert("Error loading questions. Please make sure the server is running.");
+        }
+      }
 
       var LETTERS = ["A", "B", "C", "D"];
       var TOTAL = QUESTIONS.length;
@@ -1717,10 +1513,19 @@
       var timerSec = 45 * 60;
       var timerInterval = null;
 
-      function init() {
-        buildGrid();
-        renderQuestion(0);
-        startTimer();
+      async function init() {
+        await loadQuestions();
+        if (QUESTIONS.length > 0) {
+          buildGrid();
+          renderQuestion(0);
+          startTimer();
+        } else {
+          document.body.innerHTML =
+            '<div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:20px;">' +
+            "<h1>No questions found</h1>" +
+            "<p>Please make sure your Supabase database is populated and the backend server is running.</p>" +
+            "</div>";
+        }
       }
 
       function buildGrid() {
