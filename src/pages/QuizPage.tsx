@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { getSupabase } from '../lib/supabase';
+import { subjectLabels } from '../lib/subjects';
+import type { SubjectId } from '../lib/subjects';
 
 interface Question {
-  id: number;
+  id: string;
   subject: string;
   topic: string;
   type: string;
@@ -12,7 +14,7 @@ interface Question {
   explanation: string;
 }
 
-const QuizPage: React.FC = () => {
+const QuizPage: React.FC<{ subject: SubjectId }> = ({ subject }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -23,26 +25,28 @@ const QuizPage: React.FC = () => {
   const [showResults, setShowResults] = useState(false);
 
   useEffect(() => {
-    fetchQuestions();
-  }, []);
-
-  const fetchQuestions = async () => {
+    let active = true;
+    const fetchQuestions = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      const { data, error } = await getSupabase()
         .from('questions')
         .select('id, subject, topic, type, question_text, options, correct_answer, explanation')
-        .eq('subject', 'social_studies')
+        .eq('subject', subject)
+        .eq('type', 'multiple-choice')
         .limit(10);
 
       if (error) throw error;
-      if (data) setQuestions(data);
-    } catch (err: any) {
-      setError(err.message);
+      if (active && data) setQuestions(data.filter(q => Array.isArray(q.options) && q.options.length > 1));
+    } catch (err: unknown) {
+      if (active) setError(err instanceof Error ? err.message : 'Unable to load questions.');
     } finally {
-      setLoading(false);
+      if (active) setLoading(false);
     }
-  };
+    };
+    fetchQuestions();
+    return () => { active = false; };
+  }, [subject]);
 
   const handleOptionSelect = (option: string) => {
     if (isAnswered) return;
@@ -93,7 +97,7 @@ const QuizPage: React.FC = () => {
   if (questions.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl font-bold text-ged-text-muted">No questions found for Social Studies.</p>
+        <p className="text-xl font-bold text-ged-text-muted">No questions found for {subjectLabels[subject]}. Choose another subject above.</p>
       </div>
     );
   }
@@ -105,7 +109,7 @@ const QuizPage: React.FC = () => {
         <div className="bg-white rounded-ged border border-ged-border p-8 md:p-12 shadow-xl w-full text-center animate-in zoom-in duration-300">
           <div className="text-6xl mb-6">🎉</div>
           <h2 className="text-3xl font-black text-ged-green-dark mb-2">Quiz Complete!</h2>
-          <p className="text-ged-text-muted font-bold mb-8 text-lg">Great job finishing the Social Studies section.</p>
+          <p className="text-ged-text-muted font-bold mb-8 text-lg">Great job finishing the {subjectLabels[subject]} section.</p>
           
           <div className="flex flex-col md:flex-row items-center justify-center gap-6 mb-10">
             <div className="w-40 h-40 rounded-full bg-ged-green-light border-4 border-ged-green-mid flex flex-col items-center justify-center">
@@ -157,7 +161,7 @@ const QuizPage: React.FC = () => {
         </h1>
         <div className="flex items-center gap-3">
           <span className="bg-ged-amber-light text-ged-amber font-bold px-3 py-1 rounded-full text-sm">
-            🌍 Social Studies
+            {subjectLabels[subject]}
           </span>
           <button 
             onClick={() => window.location.href = '/'}

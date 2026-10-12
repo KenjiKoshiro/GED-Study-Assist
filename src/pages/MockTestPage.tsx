@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { supabase } from '../lib/supabase';
+import React, { useState, useEffect } from 'react';
+import { getSupabase } from '../lib/supabase';
 
 interface Question {
-  id: number;
+  id: string;
   subject: string;
   topic: string;
   type: string;
@@ -27,32 +27,35 @@ const MockTestPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchQuestions = useCallback(async () => {
+  useEffect(() => {
+    let active = true;
+    const fetchQuestions = async () => {
     try {
-      setLoading(true);
-      const { data, error } = await supabase
+      const client = await Promise.resolve().then(getSupabase);
+      const { data, error } = await client
         .from('questions')
         .select('*')
+        .eq('type', 'multiple-choice')
         .limit(40);
 
       if (error) throw error;
-      if (data) {
-        setQuestions(data);
-        setAnswers(new Array(data.length).fill(null));
+      if (active && data) {
+        const usable = data.filter(q => Array.isArray(q.options) && q.options.length > 1);
+        setQuestions(usable);
+        setAnswers(new Array(usable.length).fill(null));
       }
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      if (active) setError(err instanceof Error ? err.message : 'Unable to load exam questions.');
     } finally {
-      setLoading(false);
+      if (active) setLoading(false);
     }
+    };
+    fetchQuestions();
+    return () => { active = false; };
   }, []);
 
   useEffect(() => {
-    fetchQuestions();
-  }, [fetchQuestions]);
-
-  useEffect(() => {
-    if (isFinished || timeLeft <= 0) return;
+    if (isFinished || loading || questions.length === 0 || error) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -66,7 +69,7 @@ const MockTestPage: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [isFinished, timeLeft]);
+  }, [isFinished, loading, questions.length, error]);
 
   const handleAnswer = (option: string) => {
     if (isFinished) return;
@@ -91,7 +94,7 @@ const MockTestPage: React.FC = () => {
     const subjects = ['math', 'science', 'social_studies', 'rla'];
     return subjects.map(sub => {
       const subQs = questions.filter(q => q.subject === sub);
-      const subCorrect = subQs.filter((q, i) => {
+      const subCorrect = subQs.filter((q) => {
         const qIndex = questions.findIndex(item => item.id === q.id);
         return answers[qIndex] === q.correct_answer;
       }).length;
@@ -105,6 +108,7 @@ const MockTestPage: React.FC = () => {
 
   if (loading) return <div className="flex items-center justify-center min-h-screen"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ged-green"></div></div>;
   if (error) return <div className="p-8 text-ged-red">Error: {error}</div>;
+  if (questions.length === 0) return <div className="p-8 text-ged-text-muted">No exam questions are available yet. Choose Subjects above to return home.</div>;
 
   if (isFinished) {
     const results = calculateResults();
