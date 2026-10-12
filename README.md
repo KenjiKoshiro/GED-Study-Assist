@@ -1,4 +1,26 @@
-# React + TypeScript + Vite
+# GED Study Assist
+
+## Run and deploy
+
+Use Node.js 22.12 or later. Run `npm ci`, then `npm run dev` for local development
+or `npm run build` for a production build. On Vercel select Vite and output `dist`.
+
+Copy `.env.example` to `.env.local` and configure your own Supabase project URL
+and public anonymous key. Apply the schema in `backend/config/supabase-schema.sql`
+to that project and populate questions and flashcards. Use subject IDs `math`,
+`science`, `social_studies`, and `rla`. The quiz screens currently support
+multiple-choice rows with an options array; other question types are excluded.
+
+All four subject buttons open their corresponding quiz. The header remains
+available for returning to Subjects, Flashcards, and Mock Test. Without database
+configuration, the home screen still loads and study screens show an unavailable
+message. An empty mock-test dataset shows an empty state and does not start a timer.
+
+The optional Express backend is a separate package: install and run it from
+`backend/`. Its `.env` file is not frontend configuration. Never place a service
+role key in a `VITE_*` variable; those values are included in the browser bundle.
+
+## Vite template reference
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

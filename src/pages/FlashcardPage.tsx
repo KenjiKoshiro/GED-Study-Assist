@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { getSupabase } from '../lib/supabase';
 
 interface Flashcard {
-  id: number;
+  id: string;
   subject: string;
   topic: string;
   front: string;
@@ -18,25 +18,29 @@ const FlashcardPage: React.FC = () => {
   const [subject, setSubject] = useState('social_studies');
 
   useEffect(() => {
-    fetchFlashcards();
-  }, [subject]);
-
-  const fetchFlashcards = async () => {
+    let active = true;
+    const fetchFlashcards = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      setError(null);
+      setCurrentIndex(0);
+      setIsFlipped(false);
+      const { data, error } = await getSupabase()
         .from('flashcards')
         .select('id, subject, topic, front, back')
         .eq('subject', subject);
 
       if (error) throw error;
-      if (data) setFlashcards(data);
-    } catch (err: any) {
-      setError(err.message);
+      if (active && data) setFlashcards(data);
+    } catch (err: unknown) {
+      if (active) setError(err instanceof Error ? err.message : 'Unable to load flashcards.');
     } finally {
-      setLoading(false);
+      if (active) setLoading(false);
     }
-  };
+    };
+    fetchFlashcards();
+    return () => { active = false; };
+  }, [subject]);
 
   const handleNext = () => {
     setIsFlipped(false);

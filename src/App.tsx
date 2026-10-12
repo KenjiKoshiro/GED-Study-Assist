@@ -3,9 +3,10 @@ import './App.css'
 import QuizPage from './pages/QuizPage'
 import FlashcardPage from './pages/FlashcardPage'
 import MockTestPage from './pages/MockTestPage'
+import type { SubjectId } from './lib/subjects'
 
 interface Subject {
-  id: string;
+  id: SubjectId;
   title: string;
   description: string;
   icon: string;
@@ -19,7 +20,7 @@ const subjects: Subject[] = [
     icon: '🧮'
   },
   {
-    id: 'language-arts',
+    id: 'rla',
     title: 'Reasoning Through Language Arts',
     description: 'Enhance your reading comprehension and writing skills.',
     icon: '📚'
@@ -31,7 +32,7 @@ const subjects: Subject[] = [
     icon: '🧪'
   },
   {
-    id: 'social-studies',
+    id: 'social_studies',
     title: 'Social Studies',
     description: 'Learn about civics, government, U.S. history, and economics.',
     icon: '🌍'
@@ -40,18 +41,7 @@ const subjects: Subject[] = [
 
 function App() {
   const [currentView, setCurrentView] = useState<'home' | 'quiz' | 'flashcards' | 'mock-test'>('home');
-
-  if (currentView === 'quiz') {
-    return <QuizPage />;
-  }
-
-  if (currentView === 'flashcards') {
-    return <FlashcardPage />;
-  }
-
-  if (currentView === 'mock-test') {
-    return <MockTestPage />;
-  }
+  const [subject, setSubject] = useState<SubjectId>('social_studies');
 
   return (
     <div className="app-container">
@@ -66,12 +56,13 @@ function App() {
           <button onClick={() => setCurrentView('home')} className="nav-btn">Subjects</button>
           <button onClick={() => setCurrentView('flashcards')} className="nav-btn">Flashcards</button>
           <button onClick={() => setCurrentView('mock-test')} className="nav-btn font-bold text-ged-red">Mock Test</button>
-          <a href="#">Resources</a>
-          <a href="#">Profile</a>
         </nav>
       </header>
 
       <main>
+        {currentView === 'quiz' ? <QuizPage key={subject} subject={subject} /> :
+         currentView === 'flashcards' ? <FlashcardPage /> :
+         currentView === 'mock-test' ? <MockTestPage /> : <>
         <section className="hero-section">
           <h1>Ready to pass your GED?</h1>
           <p>Select a subject below to start your study session and track your progress toward your diploma.</p>
@@ -84,17 +75,15 @@ function App() {
               <h3>{subject.title}</h3>
               <p>{subject.description}</p>
               <button onClick={() => {
-                if (subject.id === 'social-studies') {
-                  setCurrentView('quiz');
-                } else {
-                  alert(`Starting ${subject.title}...`);
-                }
+                setSubject(subject.id);
+                setCurrentView('quiz');
               }}>
                 Start Learning
               </button>
             </div>
           ))}
         </section>
+        </>}
       </main>
 
       <footer className="footer">
